@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us | My Appeal Coach</title>
+<meta name="description" content="Questions about My Appeal Coach? Send a message and we will get back to you.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap masthead-inner">
+    <a class="brand" href="index.html">
+      <img src="https://static.wixstatic.com/media/938cb4_dbca73936d9a49e9b0c918eb6eac5c4b~mv2.png" alt="My Appeal Coach" width="172">
+      <p class="brand-tag">Never meet a <span class="hot">hot</span> bench <span class="cold">cold.</span></p>
+    </a>
+    <button class="navtoggle" id="navtoggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="navwrap" id="primary-nav">
+      <nav aria-label="Primary">
+        <ul class="nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="write-your-brief.html">Tips for Briefs</a></li>
+          <li><a href="oral-argument.html">Tips for Argument</a></li>
+          <li><a href="faq.html#pricing">Pricing</a></li>
+          <li><a href="contact.html" aria-current="page">Contact Us</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="page-dark">
+  <div class="wrap-narrow">
+    <h1 class="page-title">Contact us</h1>
+
+    <div class="contact-card">
+      <p class="kicker">Write to us directly</p>
+      <a class="addr" href="mailto:MyAppealCoach@gmail.com">MyAppealCoach@gmail.com</a>
+    </div>
+
+    <p class="or-rule">Or send a note</p>
+
+    <!-- Set the action below to your own Formspree endpoint before launch. -->
+    <form class="form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <input type="hidden" name="_subject" value="MyAppealCoach — message from the website">
+      <div class="hp" aria-hidden="true">
+        <label for="company">Leave this field empty</label>
+        <input type="text" id="company" name="_gotcha" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="org">Firm or school</label>
+        <input type="text" id="org" name="firm_or_school" autocomplete="organization">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="comments">Comments</label>
+        <textarea id="comments" name="comments" required></textarea>
+      </div>
+
+      <button type="submit" class="btn-butter">Send message</button>
+
+      <p class="form-note">Submitting this form does not create an attorney-client relationship or a
+      contract. You can also write directly to
+      <a href="mailto:myappealcoach@gmail.com">myappealcoach@gmail.com</a>.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <ul class="foot-nav">
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="write-your-brief.html">Tips for Briefs</a></li>
+        <li><a href="oral-argument.html">Tips for Argument</a></li>
+        <li><a href="faq.html#pricing">Pricing</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="foot-mark">My Appeal Coach</div>
+    </div>
+    <p class="notice">
+      Available to licensed attorneys only. My Appeal Coach provides preparation tools and does not
+      provide legal advice, does not create an attorney-client relationship, and does not guarantee
+      any particular result in any court. No representation is made that the quality of legal
+      services to be performed is greater than the quality of legal services performed by other
+      lawyers. Justice portraits are used to identify the judicial philosophies simulated by the tool
+      and do not imply endorsement. [ADVERTISING NOTICE &mdash; confirm final wording against
+      Tex. Disciplinary R. Prof'l Conduct 7.05 before publishing.]
+    </p>
+  </div>
+</footer>
+
+<script src="nav.js"></script>
+</body>
+</html>
