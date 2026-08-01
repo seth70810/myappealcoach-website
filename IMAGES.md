@@ -1,31 +1,77 @@
-# Images currently loaded from the Wix CDN
+# Images
 
-These 23 files still live on Wix. They will keep working while your Wix account is active.
-If you cancel Wix, every one of them breaks. Save each to an `img/` folder in this project
-and update the `src` attributes before you close the Wix account.
+**The Wix CDN dependency is gone.** Every image is now a local file under `img/`, served from
+the same place as the site. Nothing breaks if the Wix account is cancelled.
 
-| # | URL | Used on |
-|---|-----|---------|
-| 1 | https://static.wixstatic.com/media/938cb4_01452aa66eb24381bd4c3ec7280069ac~mv2.jpg | index.html |
-| 2 | https://static.wixstatic.com/media/938cb4_15c2719bc37441d3bc28f89866788faf~mv2.jpg | index.html |
-| 3 | https://static.wixstatic.com/media/938cb4_219200582f65493399d32bc8a0c64ad5~mv2.jpg | index.html |
-| 4 | https://static.wixstatic.com/media/938cb4_28b34d5f6758494e9f977baf888227eb~mv2.jpg | index.html |
-| 5 | https://static.wixstatic.com/media/938cb4_32aa1c54afdc4373b3c60538dd99e2b0~mv2.jpg | index.html |
-| 6 | https://static.wixstatic.com/media/938cb4_35c750041a12479480493cdbfeb82ad4~mv2.jpg | index.html |
-| 7 | https://static.wixstatic.com/media/938cb4_398347419f84415b8b3fd06098a25790~mv2.jpg | index.html |
-| 8 | https://static.wixstatic.com/media/938cb4_4b4af74888f74216bfb451f5ceec9c22~mv2.jpg | index.html |
-| 9 | https://static.wixstatic.com/media/938cb4_4bbdcea3abac445bb561ae274eeb6907~mv2.jpg | index.html |
-| 10 | https://static.wixstatic.com/media/938cb4_592c10b8c2e4487b90750b5d4c6b43ff~mv2.jpg | index.html |
-| 11 | https://static.wixstatic.com/media/938cb4_59bc116036384478b5b71e75d042f0e2~mv2.png | local-rules.html, recordings.html |
-| 12 | https://static.wixstatic.com/media/938cb4_5bebbb63184245c89c9cdb8120914500~mv2.jpg | index.html |
-| 13 | https://static.wixstatic.com/media/938cb4_61085690fbaf4f078239ad83ab7f4c4e~mv2.jpg | index.html |
-| 14 | https://static.wixstatic.com/media/938cb4_642782da7d2b40dfb996a430663ae676~mv2.jpg | index.html |
-| 15 | https://static.wixstatic.com/media/938cb4_6e787e32b62d4da78d0b605c9948d772~mv2.jpg | index.html |
-| 16 | https://static.wixstatic.com/media/938cb4_7b5a10a871ad45d7840a2854186b452a~mv2.jpg | index.html |
-| 17 | https://static.wixstatic.com/media/938cb4_8816a81c5b524aec85b24be9a684e4a4~mv2.jpg | index.html |
-| 18 | https://static.wixstatic.com/media/938cb4_946d3011c0104503970261f2b7c5bc18~mv2.jpg | index.html |
-| 19 | https://static.wixstatic.com/media/938cb4_a10b8f36df174b0bbabdf9b57f6de1b5~mv2.jpg | index.html |
-| 20 | https://static.wixstatic.com/media/938cb4_a82aab2c51b344009db9dbd40bbf52c5~mv2.jpg | index.html |
-| 21 | https://static.wixstatic.com/media/938cb4_d7ab614c63934384af51067aa80d8e00~mv2.jpg | index.html |
-| 22 | https://static.wixstatic.com/media/938cb4_dbca73936d9a49e9b0c918eb6eac5c4b~mv2.png | contact.html, faq.html, index.html, local-rules.html, oral-argument.html, recordings.html, style-guides.html, write-your-brief.html |
-| 23 | https://static.wixstatic.com/media/938cb4_e04fe3c9d7004855af451dadd827e788~mv2.jpg | index.html |
+The repo root is the deploy root, so `img/site/logo.jpg` is served at `/img/site/logo.jpg`.
+There is no `.gitignore`, so anything committed here ships.
+
+## Layout
+
+```
+img/
+├── site/         logo, circuit map, homepage hero
+├── justices/     20 portraits for the homepage bench strip
+├── brown-court/  the 9 justices who decided Brown, shown on that card
+└── fantasy/      Fantasy Moot case photos — Brown only so far
+```
+
+## Files
+
+| Path | Used on | Notes |
+|------|---------|-------|
+| `img/site/logo.jpg` | all 9 pages | masthead, displayed at 172px wide |
+| `img/site/circuit-map.png` | local-rules, recordings | 916×594 |
+| `img/site/hero-courtroom.jpg` | index | homepage hero, 1600×1200, 354 KB |
+| `img/justices/*.jpg` | index | 20 files: alito, barrett, brennan, breyer, ginsburg, gorsuch, jackson, kagan, kavanaugh, kennedy, marshall, oconnor, rehnquist, roberts, scalia, sotomayor, souter, stevens, thomas, white |
+| `img/brown-court/*.jpg` | fantasy-moot | 9 files in seniority order: warren, black, reed, frankfurter, douglas, jackson, burton, clark, minton — 124 KB total |
+| `img/fantasy/brown-v-board.jpg` | fantasy-moot | Nettie Hunt and daughter, May 1954 |
+
+`img/brown-court/jackson.jpg` is **Robert H.** Jackson; `img/justices/jackson.jpg` is **Ketanji
+Brown** Jackson. Separate folders keep the two from colliding.
+
+### Headroom
+
+Both sets are cropped to circles, and without extra space at the top the faces rode the
+circle's upper arc and got clipped. Each file therefore has its canvas **extended at the top**:
+
+| Set | Added |
+|-----|-------|
+| `justices/` (19 of 20) | **5%** |
+| `justices/ginsburg.jpg` | **10%** — kept deliberately; she was well placed at that value |
+| `brown-court/` (all 9) | **10%** — full seated portraits, they need more |
+
+The added strip is a vertical stretch of the source's own top rows, so on studio backdrops and
+painted grounds it is invisible. The one place to look twice is `souter.jpg`, where the red
+curtain's folds streak slightly.
+
+Paired with `object-position:50% 15%` in the CSS, faces land a little under halfway down the
+circle. The two levers work together: **if you re-export any portrait from an original, add its
+headroom back** or that face will sit high again. Originals for both sets are in
+`D:\Documents\MyAppealCoach\Supreme Court images`, so any of these can be regenerated.
+
+`brown-court` originals live in `D:\Documents\MyAppealCoach\Supreme Court images` and were
+1.3 MB combined; resized to ≤400px and re-encoded they are ~130 KB.
+
+Filenames are lowercase with no spaces or apostrophes. That matters: the originals arrived in
+a folder called `Supreme Court Justices/` with a file named `O'Connor.jpg`, both of which need
+percent-encoding in a URL and are a common source of 404s on case-sensitive Linux hosts.
+
+## Notes
+
+**The hero was resized.** It arrived at 4000×3000 / 7.96 MB, rendering in a column at most
+~560 CSS pixels wide — roughly seven times more image than any visitor could see, in the
+largest element above the fold. Now 1600×1200 at quality 82, **354 KB, a 95.6% saving**. The
+4000px original is not in the repo; re-export from your own copy if you ever need it.
+
+**The logo is a JPEG.** It works — the design is a solid black plaque, so there is no
+transparency to lose, and it matches what Wix served. But JPEG compresses hard edges poorly,
+and this is type and hairline rules at small size. A PNG or SVG export would be crisper.
+Note the new logo also drops the "MAKE YOUR MOST IMPORTANT 20 MINUTES COUNT." tagline that
+the Wix version carried, which appears intentional.
+
+## Still to come
+
+Six Fantasy Moot case photos. Filenames, suggested subjects and rights guidance are in
+`img/fantasy/README.md`. Missing files degrade to alt text on a dark panel rather than a
+broken-image icon, so the page is presentable in the meantime.
