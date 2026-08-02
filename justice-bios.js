@@ -53,6 +53,16 @@
     'justices/white.jpg': { name: 'Justice Byron R. White', years: '1962 – 1993',
       bio: 'A former All-American running back and Deputy Attorney General, White was appointed by John F. Kennedy in 1962. He resisted ideological labels, supporting civil rights claims while frequently siding with the government in criminal procedure. He dissented in both Miranda v. Arizona and Roe v. Wade.' },
 
+    /* ---------- added for the Fantasy Moot benches (Gideon, Loving, Tinker) ---------- */
+    'justices/harlan.jpg': { name: 'Justice John Marshall Harlan II', years: '1955 – 1971',
+      bio: 'Appointed by Dwight Eisenhower in 1955, Harlan was the grandson of the first Justice Harlan, the lone dissenter in Plessy v. Ferguson. A distinguished Wall Street lawyer, he became the Warren Court’s most careful conservative, the steady voice for judicial restraint, federalism, and respect for precedent. He dissented, often at length, from many of the era’s rights-expanding decisions, insisting that the fix for bad policy lay with legislatures rather than judges.' },
+    'justices/stewart.jpg': { name: 'Justice Potter Stewart', years: '1958 – 1981',
+      bio: 'Appointed by Dwight Eisenhower in 1958 from the Sixth Circuit, Stewart was a pragmatic centrist who distrusted grand theories and decided cases on their particular facts. He frequently held the middle between the Court’s wings. He wrote Katz v. United States, tying the Fourth Amendment to a reasonable expectation of privacy, and is remembered for saying of hard-core obscenity, “I know it when I see it.”' },
+    'justices/goldberg.jpg': { name: 'Justice Arthur J. Goldberg', years: '1962 – 1965',
+      bio: 'A former labor lawyer and Secretary of Labor, Goldberg was appointed by John F. Kennedy in 1962 to replace Felix Frankfurter, and his arrival tilted the Court toward its liberal activist phase. He wrote an influential concurrence in Griswold v. Connecticut, reading the Ninth Amendment to help secure a right of privacy. He served only three years before Lyndon Johnson persuaded him to resign for the post of Ambassador to the United Nations, a trade he later regretted.' },
+    'justices/fortas.jpg': { name: 'Justice Abe Fortas', years: '1965 – 1969',
+      bio: 'One of Washington’s most powerful lawyers and a close adviser to Lyndon Johnson, Fortas had argued Gideon v. Wainwright at the Court’s appointment before Johnson named him to the bench in 1965. A forceful liberal, he wrote the Court’s opinion in Tinker v. Des Moines. Johnson’s effort to elevate him to Chief Justice collapsed in 1968, and he resigned in 1969 amid a financial-ethics controversy, the first justice to leave under that kind of pressure.' },
+
     /* ---------- the bench that decided Brown ---------- */
     'brown-court/warren.jpg': { name: 'Chief Justice Earl Warren', years: '1953 – 1969',
       bio: 'A three-term governor of California, Warren was appointed Chief Justice by Dwight Eisenhower in 1953, two months before Brown was reargued. He brought political skill rather than any doctrinal theory, and spent it building the unanimous opinion the case required. He was known for cutting through elaborate legal argument with a blunt question about whether a result was fair.' },
