@@ -10,6 +10,9 @@ Static site. No build step.
 - `contact.html` — contact page (email link, no form)
 - `style.css` — shared stylesheet for every page
 - `nav.js` — mobile nav toggle
+- `404.html` — served by Netlify for any unmatched URL; **all its paths are root-relative**
+  because it renders at arbitrary depths (`/old/deep/path`) where relative hrefs would break
+- `_redirects` — Netlify redirect rules; retired Wix slugs and extensionless friendly URLs
 - `case-video.js` — Fantasy Moot only: click a case photo to load its video
 - `justice-bios.js` — hover biographies for the justice portraits (homepage + Brown card)
 - `img/` — all images, served locally; no CDN dependency (see `IMAGES.md`)

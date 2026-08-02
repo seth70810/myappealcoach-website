@@ -1,0 +1,24 @@
+# Netlify redirect rules. Plain text, no build step — Netlify reads this file
+# from the publish root on every deploy.
+#
+# Format:  <from-path>  <to-path>  <status>
+# 301 = permanent, which is what you want for retired URLs: search engines
+# transfer ranking to the new page instead of treating it as a fresh one.
+
+# --- Wix page slugs -----------------------------------------------------
+# Wix named untitled pages /blank, /blank-1, and so on. Anyone with an old
+# link or a search result pointing at these lands on the right page instead
+# of a 404.
+/blank      /write-your-brief.html    301
+/blank-1    /oral-argument.html       301
+
+# --- friendlier paths ---------------------------------------------------
+# Extensionless URLs for the pages most likely to be typed or spoken aloud.
+/fantasy-moot    /fantasy-moot.html      301
+/contact         /contact.html           301
+/faq             /faq.html               301
+/rules           /local-rules.html       301
+/recordings      /recordings.html        301
+
+# Anything unmatched falls through to 404.html automatically — Netlify picks
+# that up by filename, so it needs no rule here.
