@@ -246,7 +246,7 @@ button.btn-butter{cursor:pointer;font-size:19px}
 }
 .fantasy-sec{padding:56px 0}
 .fantasy{background:var(--navy);border:2px solid var(--gold);color:var(--cream);padding:44px;display:grid;grid-template-columns:55% 35%;justify-content:space-between;align-items:center}
-.fantasy h2{font-size:clamp(28px,3.2vw,40px);font-weight:400;margin:0 0 16px;color:#fff;line-height:1.2}
+.fantasy h2{grid-column:1 / -1;font-size:clamp(28px,3.2vw,40px);font-weight:400;margin:0 0 4px;color:#fff;line-height:1.2}
 .fantasy-sub{display:block;margin-top:12px;font-size:.62em;color:var(--gold);line-height:1.35;text-wrap:balance;max-width:22em}
 .fantasy-sub em{font-style:italic}
 .fantasy p{margin:0;color:#cfc9bb;font-size:18px;max-width:none;text-wrap:pretty}
