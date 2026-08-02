@@ -52,9 +52,10 @@
 
   </div><!-- /.wrap — the cream column sets its own width, wider than .wrap allows -->
 
-  <!-- `is-solo`: temporary, while Brown is the only live case. Remove it (and the
-       `hidden` attributes on the other five <li>s) to bring the full grid back. -->
-  <div class="fm-column is-solo">
+  <!-- Live cases: Brown, Gideon, Miranda, Loving. Youngstown and Tinker stay
+       `hidden` until their narratives and images are ready; un-hide those two <li>s
+       (leaving this grid as-is) to bring them online. -->
+  <div class="fm-column">
     <ol class="case-list">
 
       <!-- ================= Brown v. Board of Education ================= -->
@@ -183,12 +184,26 @@
       </li>
 
       <!-- ================= Gideon v. Wainwright ================= -->
-      <li class="case-card" hidden>
-        <figure class="case-media" data-video="" data-title="Gideon v. Wainwright">
+      <li class="case-card">
+        <figure class="case-media" data-title="Gideon v. Wainwright">
           <img loading="lazy" src="img/fantasy/gideon-v-wainwright.jpg"
-               alt="Clarence Earl Gideon's handwritten petition to the Supreme Court">
+               alt="Clarence Earl Gideon's handwritten petition to the Supreme Court, penciled on Florida State Prison stationery">
         </figure>
         <div class="case-body">
+
+          <p class="case-bench-label meta">The bench that decided Gideon &middot; October Term 1962</p>
+          <ul class="case-bench" aria-label="The nine justices who decided Gideon v. Wainwright">
+            <li><img loading="lazy" src="img/brown-court/warren.jpg" alt="Chief Justice Earl Warren"></li>
+            <li><img loading="lazy" src="img/brown-court/black.jpg" alt="Justice Hugo Black"></li>
+            <li><img loading="lazy" src="img/brown-court/douglas.jpg" alt="Justice William O. Douglas"></li>
+            <li><img loading="lazy" src="img/brown-court/clark.jpg" alt="Justice Tom C. Clark"></li>
+            <li><img loading="lazy" src="img/justices/harlan.jpg" alt="Justice John Marshall Harlan II"></li>
+            <li><img loading="lazy" src="img/justices/brennan.jpg" alt="Justice William J. Brennan Jr."></li>
+            <li><img loading="lazy" src="img/justices/stewart.jpg" alt="Justice Potter Stewart"></li>
+            <li><img loading="lazy" src="img/justices/white.jpg" alt="Justice Byron White"></li>
+            <li><img loading="lazy" src="img/justices/goldberg.jpg" alt="Justice Arthur Goldberg"></li>
+          </ul>
+
           <p class="case-cite meta">372 U.S. 335 &middot; Decided March 18, 1963</p>
           <h2>Gideon v. Wainwright</h2>
           <p class="case-lede">Must a state provide a lawyer to a defendant too poor to hire one,
@@ -201,32 +216,77 @@
             <div><dt>Counsel</dt><dd>Abe Fortas for Gideon</dd></div>
           </dl>
 
-          <p class="just">Clarence Earl Gideon was charged with breaking into a Panama City,
-          Florida poolroom. He asked the trial court to appoint counsel; Florida appointed counsel
-          only in capital cases, so the judge refused. Gideon defended himself, lost, and drew five
-          years. From prison he sent the Supreme Court a petition written in pencil on lined prison
-          stationery. The Court took the case and appointed Abe Fortas&mdash;a future Justice&mdash;to
-          argue for him.</p>
+          <p class="just">Clarence Earl Gideon was charged with breaking into the Bay Harbor Poolroom
+          in Panama City, Florida, and making off with a little change and a few bottles. He asked the
+          trial court to appoint a lawyer; Florida furnished counsel only in capital cases, so the
+          judge refused. Gideon defended himself as best he could, lost, and drew five years. From a
+          cell in the Florida State Prison he printed a petition in pencil on lined prison stationery
+          and mailed it to the Supreme Court in forma pauperis. The Court had been waiting for a case
+          just like it: it granted review and&mdash;in a matter then styled <em>Gideon v.
+          Cochran</em>&mdash;appointed Abe Fortas, a future Justice, to argue for him.</p>
 
-          <p class="just">The obstacle was <em>Betts v. Brady</em>, decided twenty-one years
-          earlier, which held that counsel was required only where some special circumstance made
-          the trial unfair without it. Gideon's case had no special circumstance. That was the
-          point: the argument had to be that <em>Betts</em> was wrong the day it was decided. The
-          Court agreed unanimously, holding the Sixth Amendment right to counsel fundamental and
-          binding on the states through the Fourteenth. Gideon was retried with a lawyer and
-          acquitted.</p>
+          <h3 class="case-sub">Who argued it</h3>
+          <dl class="case-counsel">
+            <div>
+              <dt>For Gideon</dt>
+              <dd><strong>Abe Fortas</strong> of Arnold, Fortas &amp; Porter, appointed by the Court,
+              with Abe Krash and a Yale law student named John Hart Ely on the briefs</dd>
+            </div>
+            <div>
+              <dt>For Florida</dt>
+              <dd><strong>Bruce R. Jacob</strong>, Assistant Attorney General of Florida</dd>
+            </div>
+          </dl>
 
-          <a class="pill pill-red" href="https://app.myappealcoach.com/oral-arguments#moot" target="_blank" rel="noopener noreferrer">Argue the Case</a>
+          <p class="just">The wall in front of Fortas was <em>Betts v. Brady</em> (1942), which held
+          that a state had to appoint counsel only where some "special circumstance"&mdash;the
+          defendant's youth, illiteracy, or the complexity of the charge&mdash;made a fair trial
+          impossible without one. Gideon was a competent adult tried for an ordinary felony; he had no
+          special circumstance to point to. That was exactly the point. The case could not be won by
+          fitting Gideon into an exception to <em>Betts</em>; it had to be won by persuading the Court
+          that <em>Betts</em> was wrong the day it was decided. The Court had already required counsel
+          in capital cases in <em>Powell v. Alabama</em> (1932) and in every federal felony in
+          <em>Johnson v. Zerbst</em> (1938)&mdash;<em>Betts</em> was the outlier holding the line in
+          state court.</p>
+
+          <p class="just">Florida overplayed its hand. When it invited other states to join it as
+          amici, twenty-three states filed on Gideon's side instead, urging the Court to bury
+          <em>Betts</em>. The decision was unanimous. Justice Black&mdash;who had dissented in
+          <em>Betts</em> twenty-one years earlier&mdash;wrote that "any person haled into court, who is
+          too poor to hire a lawyer, cannot be assured a fair trial unless counsel is provided for
+          him." Gideon was retried in Panama City with a local lawyer, W. Fred Turner, beside him, and
+          the jury acquitted him.</p>
+
+          <p class="case-challenge">You can listen to the argument
+          <a href="https://www.oyez.org/cases/1962/155" target="_blank" rel="noopener noreferrer">here</a>,
+          or read the <a href="petitions/gideon-v-wainwright-brief-for-petitioner.pdf" target="_blank" rel="noopener noreferrer">Brief for the Petitioner (PDF)</a>.
+          Do you think you can do better? Let's find out!</p>
+
+          <a class="pill pill-red" href="https://app.myappealcoach.com/demo/brown-v-board" target="_blank" rel="noopener noreferrer">Argue the Case</a>
         </div>
       </li>
 
       <!-- ================= Miranda v. Arizona ================= -->
-      <li class="case-card" hidden>
-        <figure class="case-media" data-video="" data-title="Miranda v. Arizona">
+      <li class="case-card">
+        <figure class="case-media case-media--portrait" data-title="Miranda v. Arizona">
           <img loading="lazy" src="img/fantasy/miranda-v-arizona.jpg"
-               alt="The Supreme Court bench as composed under Chief Justice Earl Warren">
+               alt="Ernesto Miranda in a 1967 news photograph">
         </figure>
         <div class="case-body">
+
+          <p class="case-bench-label meta">The bench that decided Miranda &middot; October Term 1965</p>
+          <ul class="case-bench" aria-label="The nine justices who decided Miranda v. Arizona">
+            <li><img loading="lazy" src="img/brown-court/warren.jpg" alt="Chief Justice Earl Warren"></li>
+            <li><img loading="lazy" src="img/brown-court/black.jpg" alt="Justice Hugo Black"></li>
+            <li><img loading="lazy" src="img/brown-court/douglas.jpg" alt="Justice William O. Douglas"></li>
+            <li><img loading="lazy" src="img/brown-court/clark.jpg" alt="Justice Tom C. Clark"></li>
+            <li><img loading="lazy" src="img/justices/harlan.jpg" alt="Justice John Marshall Harlan II"></li>
+            <li><img loading="lazy" src="img/justices/brennan.jpg" alt="Justice William J. Brennan Jr."></li>
+            <li><img loading="lazy" src="img/justices/stewart.jpg" alt="Justice Potter Stewart"></li>
+            <li><img loading="lazy" src="img/justices/white.jpg" alt="Justice Byron White"></li>
+            <li><img loading="lazy" src="img/justices/fortas.jpg" alt="Justice Abe Fortas"></li>
+          </ul>
+
           <p class="case-cite meta">384 U.S. 436 &middot; Decided June 13, 1966</p>
           <h2>Miranda v. Arizona</h2>
           <p class="case-lede">What must police tell a suspect in custody before questioning him,
@@ -236,34 +296,83 @@
             <div><dt>Argued</dt><dd>Feb. 28 &ndash; Mar. 1, 1966</dd></div>
             <div><dt>Vote</dt><dd>5&ndash;4</dd></div>
             <div><dt>Opinion</dt><dd>Chief Justice Earl Warren</dd></div>
-            <div><dt>Dissent</dt><dd>Harlan, Stewart, White, Clark</dd></div>
+            <div><dt>Dissent</dt><dd>Clark; Harlan, joined by Stewart and White</dd></div>
           </dl>
 
-          <p class="just">Ernesto Miranda confessed after two hours of interrogation without being
-          told he could remain silent or have a lawyer present. His case was argued alongside three
-          others raising the same question. The Court held that custodial interrogation is inherently
-          coercive, and that the Fifth Amendment privilege against self-incrimination therefore
-          requires warnings before questioning begins&mdash;the right to silence, that anything said
-          may be used in court, the right to counsel, and appointed counsel for those who cannot
-          afford one.</p>
+          <p class="just">Phoenix police arrested Ernesto Miranda in 1963 and questioned him for two
+          hours until he signed a confession to kidnapping and rape. No one told him he could stay
+          silent or have a lawyer present; the typed form he signed carried a printed clause reciting
+          that the statement was made voluntarily and "with full knowledge of my legal rights." The
+          Court heard his case with three companions&mdash;<em>Vignera v. New York</em>, <em>Westover
+          v. United States</em>, and <em>California v. Stewart</em>&mdash;all turning on what happens
+          in the interrogation room once the door closes.</p>
 
-          <p class="just">This is the hardest bench on the list. The Court split five to four, four
-          Justices wrote separately in dissent, and the questioning went hard at the practical
-          consequences: whether the Constitution really compels a script, and what a rule like this
-          would do to law enforcement. Miranda himself was retried without the confession and
-          convicted on other evidence.</p>
+          <h3 class="case-sub">Who argued it</h3>
+          <dl class="case-counsel">
+            <div>
+              <dt>For Miranda</dt>
+              <dd><strong>John J. Flynn</strong> of Lewis &amp; Roca, Phoenix, serving without fee
+              alongside his partner John P. Frank</dd>
+            </div>
+            <div>
+              <dt>For Arizona</dt>
+              <dd><strong>Gary K. Nelson</strong>, Assistant Attorney General of Arizona</dd>
+            </div>
+            <div>
+              <dt>For the United States</dt>
+              <dd>Solicitor General <strong>Thurgood Marshall</strong>, as amicus, in the companion
+              <em>Westover</em> case</dd>
+            </div>
+          </dl>
 
-          <a class="pill pill-red" href="https://app.myappealcoach.com/oral-arguments#moot" target="_blank" rel="noopener noreferrer">Argue the Case</a>
+          <p class="just">For thirty years the admissibility of a confession had turned on
+          "voluntariness"&mdash;a case-by-case look at the totality of the circumstances that ran from
+          <em>Brown v. Mississippi</em> (1936) through <em>Spano v. New York</em> (1959). Two recent
+          decisions had shifted the ground beneath it: <em>Malloy v. Hogan</em> (1964) applied the
+          Fifth Amendment privilege against self-incrimination to the states, and <em>Escobedo v.
+          Illinois</em> (1964) found a right to counsel during interrogation. Flynn's task was to turn
+          that momentum into a rule the police could actually follow&mdash;to trade the murky
+          voluntariness inquiry for a bright line drawn before questioning ever begins.</p>
+
+          <p class="just">This is the hardest bench on the list. The Court divided five to four, and
+          the questioning bore down on the cost: whether the Constitution really compels a spoken
+          script, and what such a rule would do to ordinary police work. Chief Justice Warren, himself
+          a former district attorney, wrote for the majority that custodial interrogation is
+          inherently coercive and that a suspect must therefore be warned&mdash;of the right to
+          silence, that anything said can be used against him, and of the right to counsel, appointed
+          if he cannot afford one. Justices Clark, Harlan, Stewart, and White dissented, warning that
+          the Court was legislating. Miranda himself was retried without the confession and convicted
+          on other evidence.</p>
+
+          <p class="case-challenge">You can listen to the argument
+          <a href="https://www.oyez.org/cases/1965/759" target="_blank" rel="noopener noreferrer">here</a>.
+          Do you think you can do better? Let's find out!</p>
+
+          <a class="pill pill-red" href="https://app.myappealcoach.com/demo/brown-v-board" target="_blank" rel="noopener noreferrer">Argue the Case</a>
         </div>
       </li>
 
       <!-- ================= Loving v. Virginia ================= -->
-      <li class="case-card" hidden>
-        <figure class="case-media" data-video="" data-title="Loving v. Virginia">
+      <li class="case-card">
+        <figure class="case-media case-media--portrait" data-title="Loving v. Virginia">
           <img loading="lazy" src="img/fantasy/loving-v-virginia.jpg"
-               alt="Richard and Mildred Loving photographed at home in Virginia">
+               alt="Richard and Mildred Loving">
         </figure>
         <div class="case-body">
+
+          <p class="case-bench-label meta">The bench that decided Loving &middot; October Term 1966</p>
+          <ul class="case-bench" aria-label="The nine justices who decided Loving v. Virginia">
+            <li><img loading="lazy" src="img/brown-court/warren.jpg" alt="Chief Justice Earl Warren"></li>
+            <li><img loading="lazy" src="img/brown-court/black.jpg" alt="Justice Hugo Black"></li>
+            <li><img loading="lazy" src="img/brown-court/douglas.jpg" alt="Justice William O. Douglas"></li>
+            <li><img loading="lazy" src="img/brown-court/clark.jpg" alt="Justice Tom C. Clark"></li>
+            <li><img loading="lazy" src="img/justices/harlan.jpg" alt="Justice John Marshall Harlan II"></li>
+            <li><img loading="lazy" src="img/justices/brennan.jpg" alt="Justice William J. Brennan Jr."></li>
+            <li><img loading="lazy" src="img/justices/stewart.jpg" alt="Justice Potter Stewart"></li>
+            <li><img loading="lazy" src="img/justices/white.jpg" alt="Justice Byron White"></li>
+            <li><img loading="lazy" src="img/justices/fortas.jpg" alt="Justice Abe Fortas"></li>
+          </ul>
+
           <p class="case-cite meta">388 U.S. 1 &middot; Decided June 12, 1967</p>
           <h2>Loving v. Virginia</h2>
           <p class="case-lede">May a state make it a crime for two of its residents to marry
@@ -276,20 +385,56 @@
             <div><dt>Counsel</dt><dd>Bernard Cohen &amp; Philip Hirschkop</dd></div>
           </dl>
 
-          <p class="just">Richard Loving and Mildred Jeter married in Washington, D.C. in 1958 and
-          returned home to Caroline County, Virginia, where the Racial Integrity Act of 1924 made
-          their marriage a felony. Sheriff's deputies entered their bedroom at night and arrested
-          them. The trial judge suspended a one-year sentence on the condition that they leave
-          Virginia and not return together for twenty-five years.</p>
+          <p class="just">Richard Loving, a white bricklayer, and Mildred Jeter, a woman of Black and
+          Native American descent, married in Washington, D.C. in June 1958 and came home to Central
+          Point, Caroline County, Virginia. Weeks later, sheriff's deputies acting on a tip walked
+          into their bedroom in the middle of the night and arrested them&mdash;Virginia's Racial
+          Integrity Act of 1924 made their marriage a felony. They pleaded guilty, and Judge Leon
+          Bazile suspended a one-year sentence on the condition that they leave Virginia and not
+          return together for twenty-five years. In 1963 Mildred wrote to Attorney General Robert
+          Kennedy, who referred her to the ACLU.</p>
 
-          <p class="just">Virginia's defense was symmetry: the statute punished the white and the
-          non-white spouse identically, so it discriminated against no one. That argument had
-          persuaded courts before, and it has to be answered head-on. The Court rejected it
-          unanimously, striking the law under both the Equal Protection and Due Process Clauses of
-          the Fourteenth Amendment and describing marriage as one of the basic civil rights of
-          man.</p>
+          <h3 class="case-sub">Who argued it</h3>
+          <dl class="case-counsel">
+            <div>
+              <dt>For the Lovings</dt>
+              <dd><strong>Bernard S. Cohen</strong> and <strong>Philip J. Hirschkop</strong>, ACLU
+              volunteer cooperating attorneys, who divided the argument between them</dd>
+            </div>
+            <div>
+              <dt>For Virginia</dt>
+              <dd><strong>Robert D. McIlwaine III</strong>, Assistant Attorney General of Virginia</dd>
+            </div>
+            <div>
+              <dt>Amicus</dt>
+              <dd>William M. Marutani for the Japanese American Citizens League, supporting the
+              Lovings</dd>
+            </div>
+          </dl>
 
-          <a class="pill pill-red" href="https://app.myappealcoach.com/oral-arguments#moot" target="_blank" rel="noopener noreferrer">Argue the Case</a>
+          <p class="just">Virginia's defense was symmetry. Because the statute punished the white and
+          the non-white spouse with identical penalties, the State argued, it discriminated against no
+          one&mdash;the very theory the Court had blessed in <em>Pace v. Alabama</em> (1883). That
+          "equal application" argument had real force and had to be met head-on. Nor was recent
+          history encouraging: a decade earlier, in <em>Naim v. Naim</em> (1955), the Court had ducked
+          an identical challenge to avoid inflaming resistance to <em>Brown</em>, and as recently as
+          <em>McLaughlin v. Florida</em> (1964) it had struck down an interracial-cohabitation law
+          while pointedly declining to reach the marriage ban itself.</p>
+
+          <p class="just">Cohen and Hirschkop asked the Court to finish what <em>McLaughlin</em> had
+          started, and it did&mdash;unanimously. Chief Justice Warren rejected the equal-application
+          theory outright, holding that classifications drawn by race demand "the most rigid scrutiny"
+          and that Virginia's law served no purpose "independent of invidious racial discrimination."
+          The Court struck the statute under both the Equal Protection and Due Process Clauses,
+          calling the freedom to marry "one of the vital personal rights essential to the orderly
+          pursuit of happiness by free men."</p>
+
+          <p class="case-challenge">You can listen to the argument
+          <a href="https://www.oyez.org/cases/1966/395" target="_blank" rel="noopener noreferrer">here</a>,
+          or read the <a href="petitions/loving-v-virginia-brief-for-appellant.pdf" target="_blank" rel="noopener noreferrer">Brief for the Appellant (PDF)</a>.
+          Do you think you can do better? Let's find out!</p>
+
+          <a class="pill pill-red" href="https://app.myappealcoach.com/demo/brown-v-board" target="_blank" rel="noopener noreferrer">Argue the Case</a>
         </div>
       </li>
 

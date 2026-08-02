@@ -430,6 +430,9 @@ button.btn-butter{cursor:pointer;font-size:19px}
 .case-media{position:relative;margin:0;aspect-ratio:16/9;width:100%;flex:none;
             background:var(--navy-dp);overflow:hidden;
             border-bottom:1px solid var(--rule)}
+/* Portrait source photos (a tall head-shot, a vertical news photo) get over-cropped
+   in the 16:9 frame, zooming past the faces. A taller 4:5 frame lets them breathe. */
+.case-media--portrait{aspect-ratio:4/5}
 /* Colour/size here only ever shows if the file is missing: the browser then paints
    the alt text on the dark panel instead of a broken-image icon. */
 .case-media img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;
