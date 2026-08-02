@@ -52,9 +52,9 @@
 
   </div><!-- /.wrap — the cream column sets its own width, wider than .wrap allows -->
 
-  <!-- Live cases: Brown, Gideon, Miranda, Loving. Youngstown and Tinker stay
-       `hidden` until their narratives and images are ready; un-hide those two <li>s
-       (leaving this grid as-is) to bring them online. -->
+  <!-- Live cases: Brown, Gideon, Loving, Tinker. Miranda and Youngstown stay
+       `hidden` (Miranda has no freely available PDF of its filing yet; Youngstown's
+       narrative isn't built); un-hide those <li>s to bring them online. -->
   <div class="fm-column">
     <ol class="case-list">
 
@@ -266,8 +266,9 @@
         </div>
       </li>
 
-      <!-- ================= Miranda v. Arizona ================= -->
-      <li class="case-card">
+      <!-- ================= Miranda v. Arizona (held back: no free PDF of the
+           petitioner's filing; card kept intact for later) ================= -->
+      <li class="case-card" hidden>
         <figure class="case-media case-media--portrait" data-title="Miranda v. Arizona">
           <img loading="lazy" src="img/fantasy/miranda-v-arizona.jpg"
                alt="Ernesto Miranda in a 1967 news photograph">
@@ -475,12 +476,26 @@
       </li>
 
       <!-- ================= Tinker v. Des Moines ================= -->
-      <li class="case-card" hidden>
-        <figure class="case-media" data-video="" data-title="Tinker v. Des Moines">
-          <img loading="lazy" src="img/fantasy/tinker-v-des-moines.jpg"
-               alt="Mary Beth and John Tinker wearing black armbands">
+      <li class="case-card">
+        <figure class="case-media" data-title="Tinker v. Des Moines">
+          <img loading="lazy" src="img/fantasy/tinker-v-des-moines.webp"
+               alt="John and Mary Beth Tinker displaying the black armbands that got them suspended, 1968">
         </figure>
         <div class="case-body">
+
+          <p class="case-bench-label meta">The bench that decided Tinker &middot; October Term 1968</p>
+          <ul class="case-bench" aria-label="The nine justices who decided Tinker v. Des Moines">
+            <li><img loading="lazy" src="img/brown-court/warren.jpg" alt="Chief Justice Earl Warren"></li>
+            <li><img loading="lazy" src="img/brown-court/black.jpg" alt="Justice Hugo Black"></li>
+            <li><img loading="lazy" src="img/brown-court/douglas.jpg" alt="Justice William O. Douglas"></li>
+            <li><img loading="lazy" src="img/justices/harlan.jpg" alt="Justice John Marshall Harlan II"></li>
+            <li><img loading="lazy" src="img/justices/brennan.jpg" alt="Justice William J. Brennan Jr."></li>
+            <li><img loading="lazy" src="img/justices/stewart.jpg" alt="Justice Potter Stewart"></li>
+            <li><img loading="lazy" src="img/justices/white.jpg" alt="Justice Byron White"></li>
+            <li><img loading="lazy" src="img/justices/fortas.jpg" alt="Justice Abe Fortas"></li>
+            <li><img loading="lazy" src="img/justices/marshall.jpg" alt="Justice Thurgood Marshall"></li>
+          </ul>
+
           <p class="case-cite meta">393 U.S. 503 &middot; Decided February 24, 1969</p>
           <h2>Tinker v. Des Moines Independent Community School District</h2>
           <p class="case-lede">Do public school students keep their First Amendment rights once they
@@ -493,19 +508,50 @@
             <div><dt>Dissent</dt><dd>Justices Black and Harlan</dd></div>
           </dl>
 
-          <p class="just">In December 1965, John and Mary Beth Tinker and Christopher Eckhardt wore
-          black armbands to school to mourn the dead in Vietnam and support a truce. Hearing of the
-          plan, Des Moines principals adopted a rule banning armbands specifically. The students wore
-          them anyway and were suspended.</p>
+          <p class="just">In December 1965 a handful of Des Moines students agreed to wear black
+          armbands to school through the holidays&mdash;to mourn the dead on both sides in Vietnam and
+          to back Robert Kennedy's call for a Christmas truce. Word reached the principals, who met and
+          adopted a rule two days ahead: any student who wore an armband and refused to take it off
+          would be suspended. John Tinker, fifteen, his sister Mary Beth, thirteen, and Christopher
+          Eckhardt, sixteen, wore them anyway and were sent home. Their families sued.</p>
 
-          <p class="just">The Court held that students do not "shed their constitutional rights to
-          freedom of speech or expression at the schoolhouse gate," and that school officials may
-          restrict student expression only where it would materially and substantially disrupt the
-          work of the school. The pressure in this argument runs the other way from the rest of the
-          list: you must give the Court a rule that protects the armband without stripping principals
-          of authority they plainly need.</p>
+          <h3 class="case-sub">Who argued it</h3>
+          <dl class="case-counsel">
+            <div>
+              <dt>For the students</dt>
+              <dd><strong>Dan L. Johnston</strong> of Des Moines, backed by the Iowa Civil Liberties
+              Union and the ACLU</dd>
+            </div>
+            <div>
+              <dt>For the school district</dt>
+              <dd><strong>Allan A. Herrick</strong> of Des Moines</dd>
+            </div>
+          </dl>
 
-          <a class="pill pill-red" href="https://app.myappealcoach.com/oral-arguments#moot" target="_blank" rel="noopener noreferrer">Argue the Case</a>
+          <p class="just">The pressure in this case runs the opposite way from the others on the list.
+          Everywhere else the advocate presses an individual right against the state; here the Court's
+          instinct was deference&mdash;schools had long stood <em>in loco parentis</em>, and the
+          district warned that in a town that had already lost a former student in Vietnam, an armband
+          could touch off a disturbance. Johnston's best precedent was <em>West Virginia State Board
+          of Education v. Barnette</em> (1943), which had spared Jehovah's Witness children a compelled
+          flag salute; but the hard part was never proving that students have rights&mdash;it was
+          handing the Court a rule that would protect the armband without stripping principals of the
+          authority they plainly need.</p>
+
+          <p class="just">He got it. Justice Fortas wrote that students do not "shed their
+          constitutional rights to freedom of speech or expression at the schoolhouse gate," and that
+          officials may silence student expression only when it would "materially and substantially
+          interfere with the requirements of appropriate discipline"&mdash;not on an undifferentiated
+          fear of disturbance. Justices Black and Harlan dissented, Black warning of "a new
+          revolutionary era of permissiveness." The "substantial disruption" test the Court announced
+          that day still governs student speech.</p>
+
+          <p class="case-challenge">You can listen to the argument
+          <a href="https://www.oyez.org/cases/1968/21" target="_blank" rel="noopener noreferrer">here</a>,
+          or read the <a href="petitions/tinker-v-des-moines-petitioners-brief.pdf" target="_blank" rel="noopener noreferrer">Petitioner's Brief (PDF)</a>.
+          Do you think you can do better? Let's find out!</p>
+
+          <a class="pill pill-red" href="https://app.myappealcoach.com/demo/brown-v-board" target="_blank" rel="noopener noreferrer">Argue the Case</a>
         </div>
       </li>
 
