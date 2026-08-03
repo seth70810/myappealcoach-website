@@ -1857,5 +1857,50 @@ fitStage();
 requestAnimationFrame(fitStage);
 setTimeout(fitStage, 250);
 </script>
+<!-- Click-to-stop (added for the website): once the demonstration is playing,
+     a click anywhere halts the narration, timers, and animation and offers a
+     replay. Self-contained; does not modify the demo's own script above. -->
+<style>
+#demo-stop-overlay{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;
+  background:rgba(10,22,40,.86);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#demo-stop-overlay .dso-inner{text-align:center;font-family:'Century Schoolbook',Georgia,'Times New Roman',serif;color:#ebe8de;padding:24px}
+#demo-stop-overlay .dso-title{font-size:2rem;font-weight:500;margin:0 0 22px;letter-spacing:.01em}
+#demo-stop-overlay .dso-replay{font-family:'Century Schoolbook',Georgia,serif;font-style:italic;font-size:1.15rem;
+  background:#c9a84c;color:#0a1628;border:0;padding:14px 36px;border-radius:4px;cursor:pointer;transition:background .2s}
+#demo-stop-overlay .dso-replay:hover,#demo-stop-overlay .dso-replay:focus-visible{background:#e2c47a;outline:none}
+</style>
+<script>
+(function(){
+  var started=false, stopped=false;
+  var playBtn=document.getElementById('play-btn');
+  if(playBtn) playBtn.addEventListener('click',function(){ started=true; });
+
+  function stopDemo(){
+    if(stopped||!started) return;
+    stopped=true;
+    try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+    document.querySelectorAll('audio,video').forEach(function(m){ try{ m.pause(); m.currentTime=0; }catch(e){} });
+    var maxT=setTimeout(function(){},0);
+    for(var i=maxT;i>=0;i--){ clearTimeout(i); clearInterval(i); }
+    var maxR=requestAnimationFrame(function(){});
+    for(var j=maxR;j>=0;j--) cancelAnimationFrame(j);
+    var s=document.createElement('style');
+    s.textContent='*{animation-play-state:paused !important}';
+    document.head.appendChild(s);
+    var ov=document.createElement('div');
+    ov.id='demo-stop-overlay';
+    ov.innerHTML='<div class="dso-inner"><p class="dso-title">Demonstration stopped</p>'+
+                 '<button type="button" class="dso-replay">Replay from the start</button></div>';
+    document.body.appendChild(ov);
+    ov.querySelector('.dso-replay').addEventListener('click',function(ev){ ev.stopPropagation(); location.reload(); });
+  }
+
+  document.addEventListener('click',function(ev){
+    if(!started||stopped) return;
+    if(playBtn && (ev.target===playBtn || playBtn.contains(ev.target))) return;
+    stopDemo();
+  },true);
+})();
+</script>
 </body>
 </html>
