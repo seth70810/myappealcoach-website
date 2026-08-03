@@ -1875,10 +1875,33 @@ setTimeout(fitStage, 250);
   var playBtn=document.getElementById('play-btn');
   if(playBtn) playBtn.addEventListener('click',function(){ started=true; });
 
+  // Register audio so a stop reaches Web Audio source nodes and detached Audio()
+  // objects, not just <audio>/<video> in the DOM. Prototype patches, so it works
+  // regardless of when the demo creates its AudioContext.
+  var srcNodes=[], mediaEls=[], audioCtxs=[];
+  try{
+    if(window.AudioBufferSourceNode){
+      var _start=AudioBufferSourceNode.prototype.start;
+      AudioBufferSourceNode.prototype.start=function(){ srcNodes.push(this); return _start.apply(this,arguments); };
+    }
+    if(window.HTMLMediaElement){
+      var _play=HTMLMediaElement.prototype.play;
+      HTMLMediaElement.prototype.play=function(){ if(mediaEls.indexOf(this)<0) mediaEls.push(this); return _play.apply(this,arguments); };
+    }
+    ['AudioContext','webkitAudioContext'].forEach(function(n){
+      var C=window[n]; if(!C) return;
+      function W(){ var c=Reflect.construct(C,arguments,W); audioCtxs.push(c); return c; }
+      W.prototype=C.prototype; window[n]=W;
+    });
+  }catch(e){}
+
   function stopDemo(){
     if(stopped||!started) return;
     stopped=true;
     try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+    srcNodes.forEach(function(n){ try{ n.stop(0); }catch(e){} });
+    mediaEls.forEach(function(m){ try{ m.pause(); m.currentTime=0; m.src=''; }catch(e){} });
+    audioCtxs.forEach(function(c){ try{ c.suspend(); }catch(e){} try{ c.close(); }catch(e){} });
     document.querySelectorAll('audio,video').forEach(function(m){ try{ m.pause(); m.currentTime=0; }catch(e){} });
     var maxT=setTimeout(function(){},0);
     for(var i=maxT;i>=0;i--){ clearTimeout(i); clearInterval(i); }
