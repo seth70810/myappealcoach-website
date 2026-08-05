@@ -1,0 +1,1135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Texas Appellate Navigator — Texas Rules of Appellate Procedure Guide</title>
+<style>
+:root{
+  --navy:#0f2740; --navy2:#1b3a5c; --accent:#b3892f; --accent2:#c99a3a;
+  --ink:#1a2330; --muted:#5b6675; --line:#dfe4ea; --bg:#f4f6f9; --card:#ffffff;
+  --ok:#1f7a4d; --warn:#8a5a00; --warnbg:#fff6e2; --flag:#8a2b2b; --flagbg:#fbecec;
+  --chip:#eef1f5;
+  --shadow:0 1px 3px rgba(16,32,64,.08),0 6px 20px rgba(16,32,64,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Georgia,"Times New Roman",serif;color:var(--navy);line-height:1.25}
+a{color:var(--navy2)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.top{background:linear-gradient(180deg,var(--navy),var(--navy2));color:#fff;padding:22px 0 20px}
+header.top h1{color:#fff;margin:0 0 4px;font-size:26px;letter-spacing:.2px}
+header.top .sub{color:#cdd8e6;font-size:14px;margin:0}
+header.top .badge{display:inline-block;margin-top:10px;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);color:#eaf0f7;font-size:12px;padding:4px 10px;border-radius:999px}
+.disclaimer{background:var(--warnbg);border-bottom:1px solid #ecd9a8;color:var(--warn);
+  font-size:12.5px;padding:9px 0}
+.disclaimer .wrap{display:flex;gap:8px;align-items:flex-start}
+.crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;color:var(--muted);
+  padding:14px 0 2px}
+.crumbs .cb{cursor:pointer;color:var(--navy2);text-decoration:none;padding:2px 8px;border-radius:6px;background:var(--chip)}
+.crumbs .cb:hover{background:#e2e8f0}
+.crumbs .sep{color:#aab3c0}
+.crumbs .cur{color:var(--ink);font-weight:600}
+main{padding:8px 0 60px}
+.screen{display:none;animation:fade .25s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.step-eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:11.5px;color:var(--accent);
+  font-weight:700;margin:18px 0 2px}
+.step-title{font-size:23px;margin:0 0 4px}
+.step-help{color:var(--muted);font-size:14.5px;margin:0 0 16px;max-width:70ch}
+.map-wrap{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);padding:10px 10px 6px;overflow:hidden}
+#us-map{width:100%;height:auto;display:block}
+#us-map .state{stroke:#ffffff;stroke-width:1;cursor:pointer;transition:opacity .12s,filter .12s}
+#us-map .state:hover{opacity:.82}
+#us-map .state.dim{opacity:.35}
+#us-map .state.on{stroke:#0f2740;stroke-width:2.2}
+#us-map .badge circle{fill:#12233b;stroke:#fff;stroke-width:1.5;pointer-events:none}
+#us-map .badge text{fill:#fff;font:700 15px/1 -apple-system,Segoe UI,Arial,sans-serif;pointer-events:none}
+#us-map .scotus-star{fill:#c0202a;stroke:#fff;stroke-width:1.6;cursor:pointer;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.45));transition:fill .12s}
+#us-map .scotus-star:hover{fill:#e02531}
+#us-map .scotus-star.on{stroke:#111;stroke-width:2.4}
+/* entry gate / disclaimer modal */
+.gate{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
+  background:rgba(11,23,40,.78);padding:20px;overflow:auto}
+.gate.hidden{display:none}
+.gate-card{background:#fff;max-width:540px;width:100%;border-radius:14px;
+  box-shadow:0 24px 70px rgba(0,0,0,.4);padding:30px 32px;margin:auto}
+.gate-eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:11.5px;color:var(--accent);font-weight:700;margin-bottom:6px}
+.gate-card h2{margin:0 0 14px;font-size:23px;color:var(--navy)}
+.gate-text{font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 20px}
+.gate-field{display:block;font-size:12.5px;font-weight:600;color:var(--navy);margin-bottom:6px}
+#gate-email,#gate-name{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:9px;font-size:15px;font-family:inherit;color:var(--ink)}
+#gate-email:focus,#gate-name:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:var(--navy)}
+.gate-check{display:flex;align-items:flex-start;gap:9px;font-size:14.5px;color:var(--ink);margin:16px 0 4px;cursor:pointer;user-select:none}
+.gate-check input{margin-top:3px;width:17px;height:17px;flex:0 0 auto;cursor:pointer}
+.gate-err{color:var(--flag);font-size:12.5px;margin:10px 0 0}
+#gate-continue{width:100%;padding:13px;font-size:15px;margin-top:18px}
+#gate-continue:disabled{opacity:.45;cursor:not-allowed}
+body.gate-open{overflow:hidden}
+</style>
+</head>
+<body>
+<div id="gate" class="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-card">
+    <div class="gate-eyebrow">Texas Appellate Navigator</div>
+    <h2 id="gate-title">Before you continue</h2>
+    <p class="gate-text">This site assists licensed attorneys identify topics to research and helps them create Texas appellate checklists. This site does not provide legal advice or create an attorney-client relationship, and you should not rely on it for making legal decisions. By continuing, you certify that you are a licensed attorney and understand the limitations of this tool.</p>
+    <label class="gate-field" for="gate-name">Name</label> <input type="text" id="gate-name" autocomplete="name" placeholder="Jane Q. Attorney" required> <label class="gate-field" for="gate-email" style="margin-top:14px">Email address</label>
+    <input type="email" id="gate-email" autocomplete="email" placeholder="you@firm.com" required>
+    <label class="gate-check"><input type="checkbox" id="gate-understand"><span>I understand.</span></label>
+    <p class="gate-err" id="gate-err" hidden>Please enter your name and a valid email address, and check &ldquo;I understand.&rdquo;</p>
+    <button id="gate-continue" class="btn btn-navy" disabled>Continue</button>
+  </div>
+</div>
+<header class="top">
+  <div class="wrap">
+    <h1>Texas Appellate Navigator</h1>
+    <p class="sub">An interactive guide to the Texas Rules of Appellate Procedure for practicing appellate counsel.</p>
+    <span class="badge" id="verStamp">Based on the current Texas Rules of Appellate Procedure &middot; verify against the official rules before filing</span>
+  </div>
+</header>
+<div class="disclaimer"><div class="wrap">
+  <span>&#9888;&#65039;</span>
+  <span><strong>Not legal advice.</strong> This tool is a research aid. Rules, deadlines, and local requirements change &mdash; confirm every citation against the current official Texas Rules of Appellate Procedure and the court&rsquo;s local rules before relying on it. Case citations are provided for reference only.</span>
+</div></div>
+
+<div class="wrap">
+  <nav class="crumbs" id="crumbs"></nav>
+</div>
+
+<main class="wrap">
+
+  <!-- STEP 1: COURT / CIRCUIT MAP -->
+  <section class="screen active" id="screen-court">
+    <div class="step-eyebrow">Step 1</div>
+    <h2 class="step-title">Which Texas appellate court are you in?</h2>
+    <p class="step-help">Choose your court below &mdash; one of the 14 geographic Courts of Appeals, the statewide Fifteenth Court of Appeals, or a court of last resort: the Supreme Court of Texas (civil cases) or the Court of Criminal Appeals (criminal cases).</p>
+
+    <div id="circuit-chips" class="chips"></div>
+    <div id="court-selected" class="selbar" hidden></div>
+  </section>
+
+  <!-- DYNAMIC STAGE for all steps after circuit selection -->
+  <section class="screen" id="screen-stage">
+    <div id="stage"></div>
+  </section>
+
+</main>
+
+<footer class="foot"><div class="wrap">
+  <span>Appellate Navigator &middot; prototype</span>
+  <span class="dot">&bull;</span>
+  <span>Content verified against Cornell LII &amp; official court sources; always re-verify before filing.</span>
+</div></footer>
+
+<style>
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px}
+.chip{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:7px 12px 7px 8px;cursor:pointer;font-size:13.5px;box-shadow:var(--shadow);
+  transition:transform .08s,border-color .12s}
+.chip:hover{transform:translateY(-1px);border-color:#c4ccd6}
+.chip .num{width:24px;height:24px;border-radius:50%;color:#fff;font-weight:700;font-size:12.5px;
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.chip .cn{font-weight:600;color:var(--navy)}
+.chip .cs{color:var(--muted);font-size:12px}
+.chip.on{outline:2px solid var(--navy);outline-offset:1px}
+.selbar{margin-top:14px;background:var(--navy);color:#fff;border-radius:12px;padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:var(--shadow)}
+.selbar .txt{font-size:15px}
+.selbar .txt b{font-size:16px}
+.btn{border:0;border-radius:9px;padding:11px 18px;font-size:14.5px;font-weight:600;cursor:pointer;
+  font-family:inherit;transition:filter .12s,transform .08s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:translateY(1px)}
+.btn-gold{background:var(--accent);color:#fff}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-ghost{background:var(--chip);color:var(--navy)}
+.foot{border-top:1px solid var(--line);color:var(--muted);font-size:12.5px;padding:18px 0;margin-top:20px}
+.foot .dot{margin:0 8px;color:#c4ccd6}
+
+/* option cards */
+.opts{display:grid;grid-template-columns:1fr;gap:12px;margin-top:6px}
+@media(min-width:640px){.opts{grid-template-columns:1fr 1fr}}
+.opt{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+  cursor:pointer;box-shadow:var(--shadow);transition:transform .08s,border-color .12s;display:flex;gap:14px;align-items:flex-start}
+.opt:hover{transform:translateY(-2px);border-color:#c4ccd6}
+.opt .k{width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:15px}
+.opt h4{margin:0 0 3px;font-size:16px}
+.opt p{margin:0;color:var(--muted);font-size:13px}
+
+/* guide */
+.guide h2.gtitle{font-size:24px;margin:6px 0 2px}
+.guide .gsub{color:var(--muted);font-size:14.5px;margin:0 0 18px;max-width:75ch}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+  padding:18px 20px;margin:0 0 16px}
+.sec > h3{margin:0 0 12px;font-size:17.5px;display:flex;align-items:center;gap:9px}
+.sec > h3 .ic{font-size:18px}
+.sec.flag{background:var(--flagbg);border-color:#e7c3c3}
+.sec.flag h3{color:var(--flag)}
+.sec.note{background:#eef4fb;border-color:#cfe0f2}
+.sec.circuit{border-left:4px solid var(--accent)}
+.sec.circuit h3 .ic{color:var(--accent)}
+ul.ck{list-style:none;margin:0;padding:0}
+ul.ck li{position:relative;padding:7px 0 7px 30px;border-bottom:1px dashed var(--line)}
+ul.ck li:last-child{border-bottom:0}
+ul.ck li:before{content:"";position:absolute;left:2px;top:10px;width:16px;height:16px;border:2px solid #b9c2cd;border-radius:4px}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:st}
+ol.steps li{position:relative;padding:8px 0 10px 40px;border-bottom:1px dashed var(--line)}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li:before{counter-increment:st;content:counter(st);position:absolute;left:0;top:8px;
+  width:26px;height:26px;background:var(--navy);color:#fff;border-radius:50%;font-weight:700;font-size:13px;
+  display:flex;align-items:center;justify-content:center}
+.itxt{font-size:14.5px}
+.idetail{color:var(--muted);font-size:13px;margin-top:3px}
+.cites{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px}
+.cite{font-size:11.5px;background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:2px 8px;
+  color:var(--navy2);text-decoration:none;white-space:nowrap}
+a.cite:hover{background:#e2e8f0}
+.cite.rule{background:#e8eef7;border-color:#cdd9e8}
+.cite.case{background:#f0ecf6;border-color:#ddd0ee;font-style:italic}
+.cite.local{background:#fff2dc;border-color:#ecd9a8;color:#7a5600}
+.sec.circuit .sec{border:0;box-shadow:none;padding:0;margin:0 0 16px;background:transparent}
+.sec.circuit .sec.note,.sec.circuit .sec.flag{padding:12px 14px;margin:0 0 14px}
+.sec.circuit .sec > h3{font-size:15px;margin:0 0 9px}
+.sec.circuit > h3{margin-bottom:14px}
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+table.tbl th,table.tbl td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+table.tbl th{background:#f2f5f9;color:var(--navy);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+table.tbl td.when{font-weight:600;color:var(--navy2);white-space:nowrap}
+.tpl{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.tpl:last-child{border-bottom:0}
+.tpl .tinfo h4{margin:0 0 2px;font-size:14.5px}
+.tpl .tinfo p{margin:0;color:var(--muted);font-size:12.5px}
+.tpl .btn{white-space:nowrap;font-size:13px;padding:8px 14px}
+.pending{color:var(--muted);font-style:italic;font-size:13.5px}
+.exwrap{border-bottom:1px dashed var(--line);padding:12px 0}
+.exwrap:last-child{border-bottom:0}
+.exbtns{display:flex;gap:8px;flex:0 0 auto}
+.exdoc{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:26px 30px;
+  max-height:540px;overflow:auto;font-family:Georgia,'Times New Roman',serif;font-size:13.5px;line-height:1.55;color:#1a2330}
+.exdoc .exd-title{font-weight:700;text-align:center;font-size:15px;margin:16px 0}
+.exdoc .exd-h1{font-weight:700;margin:15px 0 6px}
+.exdoc .exd-p{margin:0 0 9px}
+.exbanner{background:var(--warnbg);border:1px solid #ecd9a8;color:var(--warn);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:11.5px;
+  border-radius:6px;padding:7px 11px;margin-bottom:18px}
+.verifyflag{font-size:11.5px;color:var(--flag);background:var(--flagbg);border:1px solid #e7c3c3;
+  border-radius:6px;padding:2px 8px;display:inline-block;margin-top:6px}
+.backrow{margin:18px 0 0}
+</style>
+
+<script>
+/* ============================================================
+   APPELLATE NAVIGATOR — engine + verified content
+   ============================================================ */
+
+/* ---------- Circuit metadata ---------- */
+const CIRCUITS = {
+  '1': {label:'1st',  name:'First Court of Appeals', color:'#4E79A7', states:'Houston'},
+  '2': {label:'2d',   name:'Second Court of Appeals', color:'#F28E2B', states:'Fort Worth'},
+  '3': {label:'3d',   name:'Third Court of Appeals', color:'#59A14F', states:'Austin'},
+  '4': {label:'4th',  name:'Fourth Court of Appeals', color:'#B07AA1', states:'San Antonio'},
+  '5': {label:'5th',  name:'Fifth Court of Appeals', color:'#E15759', states:'Dallas'},
+  '6': {label:'6th',  name:'Sixth Court of Appeals', color:'#76B7B2', states:'Texarkana'},
+  '7': {label:'7th',  name:'Seventh Court of Appeals', color:'#B6992D', states:'Amarillo'},
+  '8': {label:'8th',  name:'Eighth Court of Appeals', color:'#9C755F', states:'El Paso'},
+  '9': {label:'9th',  name:'Ninth Court of Appeals', color:'#6C8EAD', states:'Beaumont'},
+  '10':{label:'10th', name:'Tenth Court of Appeals', color:'#FF9DA7', states:'Waco'},
+  '11':{label:'11th', name:'Eleventh Court of Appeals', color:'#499894', states:'Eastland'},
+  '12':{label:'12th', name:'Twelfth Court of Appeals', color:'#8CD17D', states:'Tyler'},
+  '13':{label:'13th', name:'Thirteenth Court of Appeals', color:'#B279A2', states:'Corpus Christi & Edinburg'},
+  '14':{label:'14th', name:'Fourteenth Court of Appeals', color:'#5B8FB0', states:'Houston'},
+  '15':{label:'15th', name:'Fifteenth Court of Appeals', color:'#8B95A1', states:'Austin — statewide civil (state/agency & Business Court)'},
+  'SCOTX':{label:'SCOTX', name:'Supreme Court of Texas', color:'#7d0a0a', states:'Civil & juvenile — court of last resort'},
+  'CCA':{label:'CCA', name:'Court of Criminal Appeals', color:'#0a2a5e', states:'Criminal — court of last resort'}
+};
+const STATE_CIRCUIT = {
+  ME:'1',MA:'1',NH:'1',RI:'1', NY:'2',CT:'2',VT:'2', PA:'3',NJ:'3',DE:'3',
+  MD:'4',VA:'4',WV:'4',NC:'4',SC:'4', TX:'5',LA:'5',MS:'5',
+  OH:'6',MI:'6',KY:'6',TN:'6', IL:'7',IN:'7',WI:'7',
+  MN:'8',ND:'8',SD:'8',NE:'8',IA:'8',MO:'8',AR:'8',
+  CA:'9',OR:'9',WA:'9',NV:'9',AZ:'9',ID:'9',MT:'9',AK:'9',HI:'9',
+  CO:'10',KS:'10',NM:'10',OK:'10',UT:'10',WY:'10',
+  AL:'11',GA:'11',FL:'11', DC:'DC'
+};
+
+/* ---------- App state ---------- */
+const state = {circuit:null};
+const $ = s => document.querySelector(s);
+const el = (t,c,h)=>{const e=document.createElement(t); if(c)e.className=c; if(h!=null)e.innerHTML=h; return e;};
+
+/* ---------- Map wiring ---------- */
+function initMap(){
+  const svg = document.getElementById('us-map');
+  if(!svg){ buildChips(); return; }
+  svg.querySelectorAll('.state').forEach(p=>{
+    const st = p.getAttribute('data-st');
+    const cid = STATE_CIRCUIT[st];
+    if(cid){ p.style.fill = CIRCUITS[cid].color; p.setAttribute('data-cid',cid);
+      p.addEventListener('click',()=>selectCircuit(cid));
+      p.addEventListener('mouseenter',()=>hoverCircuit(cid,true));
+      p.addEventListener('mouseleave',()=>hoverCircuit(cid,false));
+    } else { p.style.fill = '#d9dee6'; }
+  });
+  // numbered badges at circuit centroids
+  const NS='http://www.w3.org/2000/svg';
+  Object.keys(CIRCUITS).forEach(cid=>{
+    if(cid==='FED') return;
+    const paths=[...svg.querySelectorAll('.state[data-cid="'+cid+'"]')];
+    if(!paths.length) return;
+    let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+    paths.forEach(p=>{try{const b=p.getBBox();x0=Math.min(x0,b.x);y0=Math.min(y0,b.y);x1=Math.max(x1,b.x+b.width);y1=Math.max(y1,b.y+b.height);}catch(e){}});
+    if(x0>x1) return;
+    const cx=(x0+x1)/2, cy=(y0+y1)/2;
+    const g=document.createElementNS(NS,'g'); g.setAttribute('class','badge');
+    const c=document.createElementNS(NS,'circle'); c.setAttribute('cx',cx); c.setAttribute('cy',cy); c.setAttribute('r',13);
+    const t=document.createElementNS(NS,'text'); t.setAttribute('x',cx); t.setAttribute('y',cy+5); t.setAttribute('text-anchor','middle');
+    t.textContent = cid==='DC'?'DC':cid;
+    g.appendChild(c); g.appendChild(t); svg.appendChild(g);
+  });
+  // Supreme Court — red star over Washington, D.C.
+  (function(){
+    const cx=975.3, cy=349;
+    const star=document.createElementNS(NS,'polygon');
+    star.setAttribute('points', starPoints(cx,cy,16,6.6,5));
+    star.setAttribute('class','scotus-star');
+    const ttl=document.createElementNS(NS,'title'); ttl.textContent='Supreme Court of the United States';
+    star.appendChild(ttl);
+    star.addEventListener('click',()=>selectCircuit('SCOTUS'));
+    svg.appendChild(star);
+  })();
+  buildChips();
+}
+function starPoints(cx,cy,rO,rI,n){
+  const pts=[];
+  for(let i=0;i<n*2;i++){ const r=i%2?rI:rO; const a=(Math.PI/n)*i - Math.PI/2;
+    pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1)); }
+  return pts.join(' ');
+}
+function hoverCircuit(cid,on){
+  document.querySelectorAll('#us-map .state[data-cid="'+cid+'"]').forEach(p=>{
+    p.style.filter = on?'brightness(1.12)':''; });
+}
+function buildChips(){
+  const box=$('#circuit-chips'); box.innerHTML='';
+  Object.keys(CIRCUITS).forEach(cid=>{
+    const c=CIRCUITS[cid];
+    const chip=el('button','chip');
+    let numTxt = cid==='SCOTX' ? 'SC' : (cid==='CCA' ? 'CC' : c.label.replace(/(st|d|th|\.)/g,''));
+    chip.innerHTML='<span class="num" style="background:'+c.color+'">'+numTxt+'</span>'+
+      '<span><span class="cn">'+c.name+'</span><br><span class="cs">'+c.states+'</span></span>';
+    chip.setAttribute('data-cid',cid);
+    chip.addEventListener('click',()=>selectCircuit(cid));
+    box.appendChild(chip);
+  });
+}
+function selectCircuit(cid){
+  state.circuit=cid;
+  const c=CIRCUITS[cid];
+  document.querySelectorAll('#us-map .state').forEach(p=>{
+    p.classList.toggle('on', p.getAttribute('data-cid')===cid);
+    p.classList.toggle('dim', p.getAttribute('data-cid')!==cid && !!p.getAttribute('data-cid'));
+  });
+  document.querySelectorAll('.chip').forEach(ch=>ch.classList.toggle('on',ch.getAttribute('data-cid')===cid));
+  const star=document.querySelector('#us-map .scotus-star'); if(star) star.classList.toggle('on', cid==='SCOTUS');
+  const bar=$('#court-selected'); bar.hidden=false;
+  bar.innerHTML='<span class="txt">Selected court: <b>'+c.name+'</b> &mdash; '+c.states+'</span>'+
+    '<button class="btn btn-gold" id="goActions">Continue &rarr;</button>';
+  $('#goActions').addEventListener('click',startFlow);
+  bar.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* ---------- Navigation stack ---------- */
+let navStack=[];
+function actionsFn(){ return state.circuit==='SCOTX' ? renderScotxActions : (state.circuit==='CCA' ? renderCcaActions : renderActions); }
+function startFlow(){
+  if(typeof JURISDICTION!=='undefined' && JURISDICTION[state.circuit]){
+    navStack=[{label:'Confirm jurisdiction', fn:renderJurisdictionScreen}]; showStage(); paint(); return;
+  }
+  navStack=[{label:'What would you like to do?', fn:actionsFn()}]; showStage(); paint();
+}
+function proceedToActions(){ pushFrame('What would you like to do?', actionsFn()); }
+function showStage(){ $('#screen-court').classList.remove('active'); $('#screen-stage').classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+function backToMap(){ navStack=[]; $('#screen-stage').classList.remove('active'); $('#screen-court').classList.add('active'); renderCrumbs(); window.scrollTo({top:0,behavior:'smooth'}); }
+function pushFrame(label,fn){ navStack.push({label,fn}); paint(); }
+function popTo(i){ navStack=navStack.slice(0,i+1); paint(); }
+function paint(){ renderCrumbs(); $('#stage').innerHTML=''; navStack[navStack.length-1].fn($('#stage')); window.scrollTo({top:0,behavior:'smooth'}); }
+function renderCrumbs(){
+  const nav=$('#crumbs'); nav.innerHTML='';
+  if(!state.circuit){ return; }
+  const home=el('a','cb',CIRCUITS[state.circuit].name); home.addEventListener('click',backToMap); nav.appendChild(home);
+  navStack.forEach((f,i)=>{
+    nav.appendChild(el('span','sep','›'));
+    if(i===navStack.length-1){ nav.appendChild(el('span','cur',f.label)); }
+    else { const a=el('a','cb',f.label); a.addEventListener('click',()=>popTo(i)); nav.appendChild(a); }
+  });
+}
+
+/* ---------- Step 2: action menu ---------- */
+function renderActions(root){
+  root.appendChild(el('div','step-eyebrow','Step 2 · '+CIRCUITS[state.circuit].name));
+  root.appendChild(el('h2','step-title','What would you like to do?'));
+  root.appendChild(el('p','step-help','Select the posture that fits your matter. Each path walks through the governing rules, deadlines, checklists, and templates.'));
+  const opts=el('div','opts');
+  const A=[
+    ['1','Appeal a civil judgment','A final civil judgment from a district or county court — perfect the appeal, get the record, and brief it. (TRAP 25.1, 26.1)',()=>pushFrame('Civil appeal',()=>renderGuide('civilAppeal'))],
+    ['2','Appeal a criminal conviction or sentence','Notice of appeal plus the trial court’s certification of your right to appeal. (TRAP 25.2, 26.2)',()=>pushFrame('Criminal appeal',()=>renderGuide('criminalAppeal'))],
+    ['3','File an interlocutory or accelerated appeal','Appeal an order a statute makes immediately appealable — accelerated, 20-day deadline. (CPRC § 51.014, TRAP 28.1)',()=>pushFrame('Interlocutory appeal',()=>renderGuide('interlocutory'))],
+    ['4','File a petition for mandamus','Correct a clear abuse of discretion for which there is no adequate remedy by appeal. (TRAP 52)',()=>pushFrame('Mandamus',()=>renderGuide('mandamus'))],
+    ['5','Seek rehearing or higher review','Motion for rehearing / en banc, then a petition for review (civil) or PDR (criminal). (TRAP 49, 53, 68)',()=>pushFrame('Rehearing / higher review',renderRehearingMenu)],
+    ['6','Something else','The appellate record, briefs, restricted appeals, extensions, and motions.',()=>pushFrame('Something else',renderOtherMenu)]
+  ];
+  A.forEach(o=>{
+    const b=el('button','opt');
+    b.innerHTML='<span class="k">'+o[0]+'</span><span><h4>'+o[1]+'</h4><p>'+o[2]+'</p></span>';
+    b.addEventListener('click',o[3]); opts.appendChild(b);
+  });
+  root.appendChild(opts);
+}
+function renderJurisdictionScreen(root){
+  const j=JURISDICTION[state.circuit];
+  root.appendChild(el('div','step-eyebrow','Confirm jurisdiction · '+CIRCUITS[state.circuit].name));
+  root.appendChild(el('h2','step-title',j.title));
+  root.appendChild(el('p','step-help',j.intro));
+  const opts=el('div','opts');
+  j.categories.forEach(cat=>{
+    const b=el('button','opt');
+    b.innerHTML='<span class="k">&#10003;</span><span><h4>'+cat.label+'</h4><p>'+cat.desc+'</p>'+(cat.cite?citesHTML([cat.cite]):'')+'</span>';
+    b.addEventListener('click',()=>{ state.caseType=cat.label; proceedToActions(); });
+    opts.appendChild(b);
+  });
+  const nb=el('button','opt');
+  nb.innerHTML='<span class="k" style="background:#8a2b2b">&#10007;</span><span><h4>'+j.noneLabel+'</h4><p>'+j.noneDesc+'</p></span>';
+  nb.addEventListener('click',()=>pushFrame('Jurisdiction check',renderJurisdictionMismatch));
+  opts.appendChild(nb);
+  root.appendChild(opts);
+  if(j.note){ const n=el('div','sec note'); n.style.marginTop='16px';
+    n.innerHTML='<h3><span class="ic">&#8505;</span>Jurisdiction</h3><div class="itxt">'+j.note+'</div>'+(j.cites?citesHTML(j.cites):'');
+    root.appendChild(n); }
+}
+function renderJurisdictionMismatch(root){
+  const j=JURISDICTION[state.circuit];
+  root.appendChild(el('div','step-eyebrow',CIRCUITS[state.circuit].name));
+  root.appendChild(el('h2','step-title','This may not be the right court'));
+  const box=el('div','sec flag');
+  box.innerHTML='<h3><span class="ic">&#9873;</span>Check jurisdiction before you file</h3><div class="itxt">'+j.mismatch+'</div>';
+  root.appendChild(box);
+  const row=el('div','opts');
+  const a=el('button','opt');
+  a.innerHTML='<span class="k">&#8592;</span><span><h4>Choose a different court</h4><p>Return to the map and pick the court with jurisdiction.</p></span>';
+  a.addEventListener('click',backToMap);
+  const b=el('button','opt');
+  b.innerHTML='<span class="k">&#8594;</span><span><h4>Continue anyway</h4><p>Proceed to the '+CIRCUITS[state.circuit].name+' options.</p></span>';
+  b.addEventListener('click',proceedToActions);
+  row.appendChild(a); row.appendChild(b);
+  root.appendChild(row);
+}
+function _hcMenu(root, title, help, A){
+  root.appendChild(el('div','step-eyebrow','Step 2 · '+title));
+  root.appendChild(el('h2','step-title','What would you like to do?'));
+  root.appendChild(el('p','step-help',help));
+  const opts=el('div','opts');
+  A.forEach(o=>{ const b=el('button','opt');
+    b.innerHTML='<span class="k">'+o[0]+'</span><span><h4>'+o[1]+'</h4><p>'+o[2]+'</p></span>';
+    b.addEventListener('click',o[3]); opts.appendChild(b); });
+  root.appendChild(opts);
+}
+function renderScotxActions(root){
+  _hcMenu(root,'Supreme Court of Texas','The Supreme Court of Texas is the court of last resort for civil and juvenile cases; review is discretionary.',[
+    ['1','Petition for review','Seek discretionary review of a court of appeals judgment — 45-day deadline. (TRAP 53)',()=>pushFrame('Petition for review',()=>renderGuide('petitionForReview'))],
+    ['2','File a petition for mandamus','Original proceeding for extraordinary relief. (TRAP 52)',()=>pushFrame('Mandamus',()=>renderGuide('mandamus'))],
+    ['3','Something else','Briefs on the merits, motions, and more.',()=>pushFrame('Something else',renderOtherMenu)]
+  ]);
+}
+function renderCcaActions(root){
+  _hcMenu(root,'Court of Criminal Appeals','The Court of Criminal Appeals is the court of last resort for criminal cases; discretionary review is by petition for discretionary review (PDR).',[
+    ['1','Petition for discretionary review (PDR)','Seek review of a court of appeals decision — 30-day deadline. (TRAP 68)',()=>pushFrame('PDR',()=>renderGuide('pdr'))],
+    ['2','File a petition for mandamus','Original proceeding for extraordinary relief. (TRAP 52)',()=>pushFrame('Mandamus',()=>renderGuide('mandamus'))],
+    ['3','Something else','Briefs on the merits, motions, and more.',()=>pushFrame('Something else',renderOtherMenu)]
+  ]);
+}
+function renderInterlocutoryMenu(root){
+  question(root,'Interlocutory appeal','On what basis are you seeking review before final judgment?',[
+    ['a','Injunction, receiver, or admiralty order','Appealable as of right under 28 U.S.C. § 1292(a).',()=>pushFrame('§ 1292(a) as-of-right',()=>renderGuide('interlocutoryA'))],
+    ['b','Controlling question of law (certified)','Discretionary appeal under 28 U.S.C. § 1292(b) — requires district-court certification + court of appeals permission (FRAP 5).',()=>pushFrame('§ 1292(b) certified',()=>renderGuide('interlocutoryB'))],
+    ['c','Collateral order doctrine','A small class of orders that are conclusive, separate from the merits, and effectively unreviewable later.',()=>pushFrame('Collateral order',()=>renderGuide('collateral'))],
+    ['d','Not sure / other basis','Review the finality and interlocutory options side by side.',()=>pushFrame('Finality overview',()=>renderGuide('finalityOverview'))]
+  ]);
+}
+function renderRehearingMenu(root){
+  question(root,'Rehearing or higher review','What are you seeking after the court of appeals’ decision?',[
+    ['a','Motion for rehearing / en banc','Ask the same court of appeals to reconsider — 15-day deadline. (TRAP 49)',()=>pushFrame('Rehearing',()=>renderGuide('rehearing'))],
+    ['b','Petition for review (civil) — Supreme Court of Texas','Discretionary review of a civil judgment — 45 days. (TRAP 53)',()=>pushFrame('Petition for review',()=>renderGuide('petitionForReview'))],
+    ['c','Petition for discretionary review (criminal) — CCA','Discretionary review of a criminal decision — 30 days. (TRAP 68)',()=>pushFrame('PDR',()=>renderGuide('pdr'))]
+  ]);
+}
+function renderCriminalMenu(root){
+  question(root,'Criminal or habeas appeal','What kind of matter is this?',[
+    ['a','Direct criminal appeal (defendant)','Appeal a conviction or sentence — 14-day deadline, transcripts, Anders posture. (FRAP 4(b))',()=>pushFrame('Criminal appeal',()=>renderGuide('criminalAppeal'))],
+    ['b','Release / bail pending appeal','Seek release while the appeal is pending. (FRAP 9; 18 U.S.C. § 3143)',()=>pushFrame('Release pending appeal',()=>renderGuide('bailPendingAppeal'))],
+    ['c','Habeas / § 2255 appeal (needs a COA)','Post-conviction appeal requiring a certificate of appealability. (28 U.S.C. § 2253; FRAP 22)',()=>pushFrame('Habeas / COA',()=>renderGuide('habeasCOA'))],
+    ['d','Government appeal','When the United States may appeal in a criminal case. (18 U.S.C. § 3731)',()=>pushFrame('Government appeal',()=>renderGuide('govtCriminalAppeal'))]
+  ]);
+}
+function renderOtherMenu(root){
+  question(root,'Something else','Choose a topic.',[
+    ['a','The appellate record','Clerk’s record + reporter’s record: how to request, pay, and the deadlines. (TRAP 34, 35)',()=>pushFrame('The record',()=>renderGuide('record'))],
+    ['b','Briefs — contents, deadlines, length','Required sections, the 15,000-word limit, and format. (TRAP 38, 9.4)',()=>pushFrame('Briefs',()=>renderGuide('briefs'))],
+    ['c','Restricted appeal','For a party who did not participate at trial — 6-month deadline. (TRAP 30)',()=>pushFrame('Restricted appeal',()=>renderGuide('restricted'))],
+    ['d','Extend a deadline','Extend the time to file the notice of appeal or a brief. (TRAP 26.3, 10.5(b))',()=>pushFrame('Extensions',()=>renderGuide('extensions'))],
+    ['e','Motions practice','Form and content of motions in the appellate court. (TRAP 10)',()=>pushFrame('Motions',()=>renderGuide('motions'))]
+  ]);
+}
+function question(root,eyebrow,title,items){
+  root.appendChild(el('div','step-eyebrow',eyebrow));
+  root.appendChild(el('h2','step-title',title));
+  const opts=el('div','opts');
+  items.forEach(o=>{
+    const b=el('button','opt');
+    b.innerHTML='<span class="k">'+o[0].toUpperCase()+'</span><span><h4>'+o[1]+'</h4><p>'+o[2]+'</p></span>';
+    b.addEventListener('click',o[3]); opts.appendChild(b);
+  });
+  root.appendChild(opts);
+}
+
+/* ============================================================
+   CITATION + SECTION RENDERING
+   ============================================================ */
+function citeHTML(c){
+  const cls='cite '+(c.type||'rule');
+  if(c.url) return '<a class="'+cls+'" href="'+c.url+'" target="_blank" rel="noopener">'+c.label+'</a>';
+  return '<span class="'+cls+'">'+c.label+'</span>';
+}
+function citesHTML(arr){ if(!arr||!arr.length) return ''; return '<div class="cites">'+arr.map(citeHTML).join('')+'</div>'; }
+
+function blocksToHTML(blocks){
+  return (blocks||[]).map(function(b){
+    const cls=b.style==='title'?'exd-title':(b.style==='h1'?'exd-h1':'exd-p');
+    let t=(b.t==null?'':b.t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if(b.bold) t='<b>'+t+'</b>'; if(b.italic) t='<i>'+t+'</i>';
+    const st=b.align?' style="text-align:'+b.align+'"':'';
+    return '<p class="'+cls+'"'+st+'>'+(t||'&nbsp;')+'</p>';
+  }).join('');
+}
+function renderSections(container, sections){
+  (sections||[]).forEach(s=>container.appendChild(renderSection(s)));
+}
+function renderSection(s){
+  if(s.type==='flag'){ const d=el('div','sec flag'); d.innerHTML='<h3><span class="ic">&#9873;</span>'+s.title+'</h3><div class="itxt">'+s.body+'</div>'; return d; }
+  if(s.type==='note'){ const d=el('div','sec note'); d.innerHTML='<h3><span class="ic">&#8505;</span>'+s.title+'</h3><div class="itxt">'+s.body+'</div>'+(s.cites?citesHTML(s.cites):''); return d; }
+  if(s.type==='circuit'){ return renderCircuitSection(s); }
+  const d=el('div','sec');
+  const icon=s.icon||'&#9776;';
+  d.appendChild(el('h3',null,'<span class="ic">'+icon+'</span>'+s.title));
+  if(s.intro) d.appendChild(el('p','itxt',s.intro));
+  if(s.type==='checklist'){
+    const ul=el('ul','ck');
+    s.items.forEach(it=>{ const li=el('li'); li.innerHTML='<div class="itxt">'+it.t+'</div>'+(it.detail?'<div class="idetail">'+it.detail+'</div>':'')+citesHTML(it.cites); ul.appendChild(li); });
+    d.appendChild(ul);
+  } else if(s.type==='steps'){
+    const ol=el('ol','steps');
+    s.items.forEach(it=>{ const li=el('li'); li.innerHTML='<div class="itxt">'+it.t+'</div>'+(it.detail?'<div class="idetail">'+it.detail+'</div>':'')+citesHTML(it.cites); ol.appendChild(li); });
+    d.appendChild(ol);
+  } else if(s.type==='deadlines'){
+    let h='<table class="tbl"><thead><tr><th>Event</th><th>Deadline</th><th>Authority</th></tr></thead><tbody>';
+    s.rows.forEach(r=>{ h+='<tr><td>'+r.event+'</td><td class="when">'+r.when+'</td><td>'+(r.cite?citeHTML(r.cite):'')+'</td></tr>'; });
+    h+='</tbody></table>'; d.appendChild(el('div',null,h));
+  } else if(s.type==='wordlimits'){
+    let h='<table class="tbl"><thead><tr><th>Document</th><th>Word limit</th><th>Page alt.</th><th>Authority</th></tr></thead><tbody>';
+    s.rows.forEach(r=>{ h+='<tr><td>'+r.doc+'</td><td class="when">'+r.words+'</td><td>'+(r.pages||'&mdash;')+'</td><td>'+(r.cite?citeHTML(r.cite):'')+'</td></tr>'; });
+    h+='</tbody></table>'; d.appendChild(el('div',null,h));
+  } else if(s.type==='cases'){
+    const ul=el('ul','ck');
+    s.items.forEach(it=>{ const li=el('li');
+      li.innerHTML='<div class="itxt"><em>'+it.name+'</em>'+(it.url?' <a class="cite case" href="'+it.url+'" target="_blank" rel="noopener">'+it.cite+'</a>':' <span class="cite case">'+it.cite+'</span>')+'</div><div class="idetail">'+it.holding+'</div>';
+      ul.appendChild(li); });
+    d.appendChild(ul);
+  } else if(s.type==='tips'){
+    const ul=el('ul','ck');
+    s.items.forEach(it=>{ const li=el('li'); li.innerHTML='<div class="itxt">'+(typeof it==='string'?it:it.t)+'</div>'+(it.cites?citesHTML(it.cites):''); ul.appendChild(li); });
+    d.appendChild(ul);
+  } else if(s.type==='brief-parts'){
+    const ol=el('ol','steps');
+    s.items.forEach(it=>{ const li=el('li'); li.innerHTML='<div class="itxt">'+it.t+'</div>'+(it.detail?'<div class="idetail">'+it.detail+'</div>':'')+citesHTML(it.cites); ol.appendChild(li); });
+    d.appendChild(ol);
+  } else if(s.type==='templates'){
+    s.items.forEach(id=>{ const t=TEMPLATES[id]; if(!t)return;
+      const row=el('div','tpl');
+      row.innerHTML='<div class="tinfo"><h4>'+t.name+'</h4><p>'+t.desc+'</p>'+(t.cites?citesHTML(t.cites):'')+'</div>';
+      const b=el('button','btn btn-navy','&#8681; Word'); b.addEventListener('click',()=>downloadDocx(id)); row.appendChild(b);
+      d.appendChild(row);
+    });
+  } else if(s.type==='examples'){
+    s.items.forEach(id=>{ const t=TEMPLATES[id]; if(!t)return;
+      const wrap=el('div','exwrap');
+      const head=el('div','tpl');
+      head.innerHTML='<div class="tinfo"><h4>'+t.name+'</h4><p>'+t.desc+'</p>'+(t.cites?citesHTML(t.cites):'')+'</div>';
+      const btns=el('div','exbtns');
+      const view=el('button','btn btn-ghost','&#128065; View sample');
+      const dl=el('button','btn btn-navy','&#8681; Word');
+      btns.appendChild(view); btns.appendChild(dl); head.appendChild(btns);
+      const prev=el('div','exdoc'); prev.style.display='none';
+      prev.innerHTML='<div class="exbanner">Illustrative sample — fictional parties and facts. Verify every rule, citation, and authority before use.</div>'+blocksToHTML(t.blocks(CIRCUITS[state.circuit]||{}));
+      view.addEventListener('click',()=>{ const openIt=prev.style.display==='none'; prev.style.display=openIt?'block':'none'; view.innerHTML=openIt?'&#128065; Hide sample':'&#128065; View sample'; });
+      dl.addEventListener('click',()=>downloadDocx(id));
+      wrap.appendChild(head); wrap.appendChild(prev);
+      d.appendChild(wrap);
+    });
+  }
+  return d;
+}
+function renderCircuitSection(s){
+  const d=el('div','sec circuit');
+  d.appendChild(el('h3',null,'<span class="ic">&#9878;</span>'+s.title+' &mdash; '+CIRCUITS[state.circuit].name));
+  const data = (CIRCUIT_DATA[state.circuit]||{})[s.topic];
+  if(!data){
+    d.appendChild(el('p','pending','Circuit-specific content for the '+CIRCUITS[state.circuit].name+' is being verified for this release. The national FRAP requirements above govern in the meantime. (This prototype ships with the Fifth Circuit fully sourced.)'));
+    return d;
+  }
+  const inner=el('div'); renderSections(inner, data);
+  // unwrap: the circuit sub-sections are rendered as their own .sec; place directly
+  [...inner.children].forEach(ch=>d.appendChild(ch));
+  return d;
+}
+
+/* ---------- Guide renderer ---------- */
+function renderGuide(key){
+  const g=GUIDES[key];
+  const root=$('#stage');
+  const wrap=el('div','guide');
+  wrap.appendChild(el('h2','gtitle',g.title));
+  if(g.subtitle) wrap.appendChild(el('p','gsub',g.subtitle));
+  renderSections(wrap, typeof g.sections==='function'?g.sections():g.sections);
+  const back=el('div','backrow'); const b=el('button','btn btn-ghost','&larr; Back'); b.addEventListener('click',()=>popTo(navStack.length-2)); back.appendChild(b);
+  wrap.appendChild(back);
+  root.appendChild(wrap);
+}
+</script>
+
+<script>
+/* ============================================================
+   TEXAS APPELLATE NAVIGATOR — content (verified against TRAP)
+   ============================================================ */
+const TRAP_URL='https://www.txcourts.gov/rules-forms/rules-standards/';
+const CPRC_51='https://statutes.capitol.texas.gov/Docs/CP/htm/CP.51.htm';
+function T(n){ return {type:'rule', label:'TRAP '+n, url:TRAP_URL}; }
+function CPRC(n){ return {type:'rule', label:'Tex. Civ. Prac. & Rem. Code '+n, url:CPRC_51}; }
+const CITE={
+  prudential:{type:'case', label:'In re Prudential Ins. Co., 148 S.W.3d 124 (Tex. 2004)'},
+  walker:{type:'case', label:'Walker v. Packer, 827 S.W.2d 833 (Tex. 1992)'}
+};
+
+/* Texas courts have statewide uniform rules; no per-court circuit sections in v1. */
+const JURISDICTION = {};
+const CIRCUIT_DATA = {};
+
+/* Shared section builders */
+function txRecord(){ return [
+  {type:'steps', icon:'&#128220;', title:'Get the appellate record', items:[
+    {t:'The record has two parts: the <b>clerk’s record</b> (the trial-court file) and the <b>reporter’s record</b> (the transcription of proceedings and exhibits).', cites:[T('34.5'),T('34.6')]},
+    {t:'<b>Request the reporter’s record in writing</b> from the court reporter at or before the deadline to perfect the appeal, designating the exhibits and portions of the proceedings, and file a copy of the request with the trial-court clerk; pay or arrange to pay.', cites:[T('34.6(b)')]},
+    {t:'A <b>partial</b> reporter’s record must include a statement of the points or issues to be presented — the appeal is then limited to those points.', cites:[T('34.6(c)')]},
+    {t:'The clerk’s record is prepared by the trial-court clerk; the appellant pays unless indigent.', cites:[T('34.5')]}
+  ]},
+  {type:'deadlines', icon:'&#9203;', title:'When the record is due', rows:[
+    {event:'Record filed in the court of appeals', when:'60 days after the judgment is signed', cite:T('35.1')},
+    {event:'If a motion for new trial / to modify / to reinstate / request for findings was timely filed', when:'120 days after the judgment is signed', cite:T('35.1')},
+    {event:'Accelerated appeals', when:'10 days after the notice of appeal is filed', cite:T('35.1(b)')}
+  ]}
+]; }
+function txBriefs(){ return [
+  {type:'brief-parts', icon:'&#9998;', title:'Required parts of the appellant’s brief (in order)', items:[
+    {t:'Identity of parties and counsel.', cites:[T('38.1(a)')]},
+    {t:'Table of contents.', cites:[T('38.1(b)')]},
+    {t:'Index of authorities.', cites:[T('38.1(c)')]},
+    {t:'Statement of the case.', cites:[T('38.1(d)')]},
+    {t:'Statement regarding oral argument.', cites:[T('38.1(e)')]},
+    {t:'Issues presented.', cites:[T('38.1(f)')]},
+    {t:'Statement of facts, with record references.', cites:[T('38.1(g)')]},
+    {t:'Summary of the argument.', cites:[T('38.1(h)')]},
+    {t:'Argument.', cites:[T('38.1(i)')]},
+    {t:'Prayer.', cites:[T('38.1(j)')]},
+    {t:'Appendix; plus a certificate of compliance and certificate of service.', cites:[T('38.1(k)'),T('9.4(i)(3)'),T('9.5')]}
+  ]},
+  {type:'note', title:'Appellee’s and reply briefs',
+    body:'The appellee’s brief follows the same form but need not repeat the statement of the case, issues, or facts unless dissatisfied with the appellant’s version; it may raise cross-points. A reply brief may respond to the appellee’s brief.',
+    cites:[T('38.2'),T('38.3')]},
+  {type:'deadlines', icon:'&#9203;', title:'Briefing schedule', rows:[
+    {event:'Appellant’s brief', when:'30 days after the record is filed', cite:T('38.6(a)')},
+    {event:'Appellee’s brief', when:'30 days after the appellant’s brief is filed', cite:T('38.6(b)')},
+    {event:'Reply brief', when:'20 days after the appellee’s brief is filed', cite:T('38.6(c)')}
+  ]},
+  {type:'wordlimits', icon:'&#128207;', title:'Length limits — computer-generated (TRAP 9.4(i))', rows:[
+    {doc:'Court of appeals brief / response', words:'15,000 words', pages:'50 pages', cite:T('9.4(i)(2)')},
+    {doc:'Court of appeals reply brief', words:'7,500 words', pages:'25 pages', cite:T('9.4(i)(2)')},
+    {doc:'Aggregate per party (civil case)', words:'27,000 words', pages:'90 pages', cite:T('9.4(i)(2)')},
+    {doc:'Petition for review / PDR (or response)', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)')},
+    {doc:'Brief on the merits (SCOTX/CCA)', words:'15,000 words', pages:'&mdash;', cite:T('9.4(i)(2)')},
+    {doc:'Motion or response', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)')}
+  ]},
+  {type:'checklist', icon:'&#128196;', title:'Form of the brief (TRAP 9.4)', items:[
+    {t:'Letter-size (8½ × 11) paper; margins about one inch.', cites:[T('9.4')]},
+    {t:'Body text no smaller than <b>14-point</b>; footnotes no smaller than 12-point; a conventional typeface.', cites:[T('9.4(e)')]},
+    {t:'Include a signed <b>certificate of compliance</b> stating the word count for any word-limited computer-generated document.', cites:[T('9.4(i)(3)')]}
+  ]}
+]; }
+
+/* ============================================================
+   GUIDES
+   ============================================================ */
+const GUIDES = {
+  civilAppeal:{ title:'Appealing a Civil Judgment',
+    subtitle:'The standard civil appeal to a Texas Court of Appeals — perfecting the appeal, deadlines, the record, and briefing under the TRAP.',
+    sections:()=>[
+      {type:'steps', icon:'&#128221;', title:'Step 1 — Perfect the appeal (file the notice of appeal)', items:[
+        {t:'File a written <b>notice of appeal with the trial-court clerk</b> — this invokes the court of appeals’ jurisdiction and perfects the appeal. (If mistakenly filed first in the appellate court, it is deemed filed that day with the trial-court clerk.)', cites:[T('25.1(a)')]},
+        {t:'The notice must identify the trial court and case number/style, state the date of the judgment or order appealed, state that the party desires to appeal, name the court to which the appeal is taken (if more than one has jurisdiction), and name each appealing party.', cites:[T('25.1(d)')]},
+        {t:'Serve the notice on all parties and pay the court of appeals’ filing fee unless excused (e.g., indigence). A defect in the notice does not defeat the appellate court’s jurisdiction.', cites:[T('25.1(e)')]}
+      ]},
+      {type:'deadlines', icon:'&#9203;', title:'Step 2 — Calendar the deadline to file the notice of appeal', rows:[
+        {event:'Standard civil appeal', when:'30 days after the judgment is signed', cite:T('26.1')},
+        {event:'If a motion for new trial, motion to modify, motion to reinstate, or request for findings was timely filed', when:'90 days after the judgment is signed', cite:T('26.1(a)')},
+        {event:'Accelerated appeal', when:'20 days after the judgment/order is signed (no 90-day extension)', cite:T('26.1(b)')},
+        {event:'Restricted appeal', when:'6 months after the judgment is signed', cite:T('26.1(c)')},
+        {event:'Extension of time', when:'within 15 days after the deadline, file the notice + a motion in the appellate court', cite:T('26.3')}
+      ]},
+      {type:'note', title:'Watch the post-judgment motions',
+        body:'A timely <b>motion for new trial, motion to modify the judgment, motion to reinstate</b>, or (where it can be considered) a <b>request for findings of fact and conclusions of law</b> extends the deadline to 90 days and also extends the trial court’s plenary power. Diary both the 30-day and 90-day dates.',
+        cites:[T('26.1(a)')]},
+      ...txRecord(),
+      ...txBriefs(),
+      {type:'tips', icon:'&#128161;', title:'Practical tips', items:[
+        'Docket the 30-day and 90-day deadlines the moment the judgment is signed — the trigger is the signing date, not receipt.',
+        'Request the reporter’s record when (or before) you file the notice of appeal; reporter delay is the most common cause of a stalled record.',
+        'If you need to suspend enforcement of a money judgment during appeal, arrange a supersedeas bond or other security (TRAP 24).',
+        'Confirm whether the appeal is accelerated (20-day, non-extendable) before assuming the 30/90-day timeline.'
+      ]},
+      {type:'templates', icon:'&#128190;', title:'Templates (download as Word)', items:['noticeCivil','docketingStatement','reporterRecordRequest','certCompliance']},
+      {type:'examples', icon:'&#128196;', title:'Complete sample brief', items:['exampleAppellantBrief']}
+    ]},
+
+  criminalAppeal:{ title:'Appealing a Criminal Conviction or Sentence',
+    subtitle:'The defendant’s appeal to a Texas Court of Appeals — the notice of appeal and the trial court’s certification of the right to appeal.',
+    sections:()=>[
+      {type:'flag', title:'The certification of the right of appeal is mandatory',
+        body:'Each time the trial court enters a judgment of guilt or other appealable order, it must enter a <b>certification of the defendant’s right of appeal</b>, and that certification must be in the record. <b>The appeal must be dismissed if a certification showing the defendant has the right of appeal is not in the record.</b> In a plea-bargain case, the defendant may appeal only matters raised by written pretrial motion ruled on before trial, or after obtaining the trial court’s permission, or as a statute allows.'},
+      {type:'steps', icon:'&#128221;', title:'Perfect the appeal', items:[
+        {t:'Appeal is perfected by timely filing a sufficient <b>notice of appeal</b> (no notice is required in a death-penalty case — that appeal is automatic and goes directly to the Court of Criminal Appeals).', cites:[T('25.2(b)')]},
+        {t:'Ensure the trial court’s <b>certification of the right of appeal</b> is completed and made part of the record.', cites:[T('25.2(a)(2)'),T('25.2(d)')]}
+      ]},
+      {type:'deadlines', icon:'&#9203;', title:'Deadlines', rows:[
+        {event:'Defendant’s notice of appeal', when:'30 days after sentence is imposed/suspended in open court, or the appealable order is entered', cite:T('26.2(a)')},
+        {event:'If the defendant timely files a motion for new trial', when:'90 days', cite:T('26.2(a)')},
+        {event:'State’s notice of appeal (when authorized)', when:'20 days after the order/ruling/sentence appealed', cite:T('26.2(b)')},
+        {event:'Extension of time', when:'within 15 days after the deadline, file the notice + a motion', cite:T('26.3')}
+      ]},
+      ...txRecord(),
+      ...txBriefs(),
+      {type:'templates', icon:'&#128190;', title:'Templates', items:['noticeCriminal','docketingStatement','reporterRecordRequest','certCompliance']}
+    ]},
+
+  interlocutory:{ title:'Interlocutory & Accelerated Appeals',
+    subtitle:'Appealing an order before final judgment, where a statute authorizes it — these are accelerated appeals.',
+    sections:()=>[
+      {type:'flag', title:'20 days — accelerated and non-extendable by post-trial motions',
+        body:'An interlocutory appeal authorized by statute is an <b>accelerated appeal</b>: the notice of appeal is due within <b>20 days</b> after the order is signed, and a motion for new trial does not extend that time.'},
+      {type:'checklist', icon:'&#9989;', title:'Common appealable interlocutory orders (§ 51.014(a))', items:[
+        {t:'Appointing or refusing to vacate a receiver; refusing to wind up a receivership.', cites:[CPRC('§ 51.014(a)')]},
+        {t:'Certifying or refusing to certify a class action (Tex. R. Civ. P. 42).', cites:[CPRC('§ 51.014(a)')]},
+        {t:'Granting or refusing a temporary injunction (or overruling a motion to dissolve one).', cites:[CPRC('§ 51.014(a)')]},
+        {t:'Denying a motion for summary judgment based on an official’s or employee’s assertion of immunity; and certain media defendants’ free-speech summary judgments.', cites:[CPRC('§ 51.014(a)')]},
+        {t:'Granting or denying a plea to the jurisdiction by a governmental unit; and rulings on a special appearance (Tex. R. Civ. P. 120a).', cites:[CPRC('§ 51.014(a)')]},
+        {t:'Denying a motion to dismiss under the Texas Citizens Participation Act (TCPA).', cites:[CPRC('§ 27.003')]}
+      ]},
+      {type:'note', title:'Permissive interlocutory appeals',
+        body:'A trial court may permit an appeal of a controlling question of law as to which there is a substantial ground for difference of opinion if an immediate appeal may materially advance the termination of the litigation (§ 51.014(d)–(f)); the court of appeals must also accept it (procedure in TRAP 28.3).',
+        cites:[CPRC('§ 51.014(d)'),T('28.3')]},
+      {type:'deadlines', icon:'&#9203;', title:'Deadline & procedure', rows:[
+        {event:'Notice of appeal (accelerated)', when:'20 days after the order is signed', cite:T('26.1(b)')},
+        {event:'Governed by', when:'the accelerated-appeal rules', cite:T('28.1')}
+      ]},
+      {type:'templates', icon:'&#128190;', title:'Templates', items:['noticeCivil','certCompliance']}
+    ]},
+
+  mandamus:{ title:'Petition for Writ of Mandamus',
+    subtitle:'An original proceeding to correct a clear abuse of discretion for which there is no adequate remedy by appeal.',
+    sections:()=>[
+      {type:'checklist', icon:'&#9989;', title:'The standard', items:[
+        {t:'The trial court committed a <b>clear abuse of discretion</b>, <b>and</b>', cites:[CITE.walker]},
+        {t:'the relator has <b>no adequate remedy by appeal</b>.', cites:[CITE.prudential]}
+      ]},
+      {type:'cases', icon:'&#9878;', title:'Governing authority', items:[
+        {name:'In re Prudential Ins. Co. of America,', cite:'148 S.W.3d 124 (Tex. 2004)', holding:'Refined the “no adequate remedy by appeal” prong — a balancing of the benefits and detriments of mandamus review.'},
+        {name:'Walker v. Packer,', cite:'827 S.W.2d 833 (Tex. 1992)', holding:'Sets the two-part mandamus standard: clear abuse of discretion and no adequate remedy by appeal.'}
+      ]},
+      {type:'steps', icon:'&#128221;', title:'How to file (TRAP 52)', items:[
+        {t:'File a petition captioned <b>“In re [relator]”</b> in the court of appeals (or a high court). With concurrent jurisdiction, file first in the court of appeals absent a compelling reason.', cites:[T('52.1'),T('52.3(f)')]},
+        {t:'The petition must contain the identity of parties/counsel, table of contents, index of authorities, statement of the case, statement of jurisdiction, issues presented, statement of facts, argument, and prayer.', cites:[T('52.3')]},
+        {t:'Include the required <b>certification</b> that every factual statement is supported by competent evidence in the appendix or record.', cites:[T('52.3(j)')]},
+        {t:'File a <b>sworn or certified record/appendix</b> — a copy of every material document from the underlying proceeding plus relevant testimony (or a statement that none was adduced).', cites:[T('52.7'),T('52.3(k)')]}
+      ]},
+      {type:'templates', icon:'&#128190;', title:'Templates', items:['certCompliance']}
+    ]},
+
+  rehearing:{ title:'Motion for Rehearing / En Banc Reconsideration',
+    subtitle:'Asking the same Court of Appeals to reconsider its decision.',
+    sections:()=>[
+      {type:'deadlines', icon:'&#9203;', title:'Deadline', rows:[
+        {event:'Motion for rehearing', when:'15 days after the court of appeals’ judgment or order', cite:T('49.1')},
+        {event:'Motion for en banc reconsideration', when:'same 15-day period (with or without a rehearing motion)', cite:T('49.5')}
+      ]},
+      {type:'checklist', icon:'&#9989;', title:'Contents & length', items:[
+        {t:'State clearly the points relied on for rehearing.', cites:[T('49.1')]},
+        {t:'En banc reconsideration should address the en banc standard (necessary to secure or maintain uniformity, or extraordinary circumstances).', cites:[T('41.2(c)')]},
+        {t:'Length: 4,500 words (computer-generated) or 15 pages.', cites:[T('9.4(i)(2)')]},
+        {t:'A motion for rehearing is <b>not</b> a prerequisite to a petition for review or PDR.', cites:[T('49.10')]}
+      ]},
+      {type:'templates', icon:'&#128190;', title:'Templates', items:['certCompliance']}
+    ]},
+
+  petitionForReview:{ title:'Petition for Review — Supreme Court of Texas',
+    subtitle:'Discretionary review of a Court of Appeals civil judgment by the state’s highest civil court.',
+    sections:()=>[
+      {type:'deadlines', icon:'&#9203;', title:'Deadline', rows:[
+        {event:'Petition for review', when:'45 days after the court of appeals renders judgment (if no rehearing motion)', cite:T('53.7')},
+        {event:'If a timely rehearing / en banc motion was filed', when:'45 days after the court of appeals’ last ruling on all such motions', cite:T('53.7')}
+      ]},
+      {type:'brief-parts', icon:'&#9998;', title:'Required contents (TRAP 53.2)', items:[
+        {t:'Introduction.', cites:[T('53.2')]},
+        {t:'Identity of parties and counsel.', cites:[T('53.2')]},
+        {t:'Table of contents; index of authorities.', cites:[T('53.2')]},
+        {t:'Statement of the case; statement of jurisdiction.', cites:[T('53.2')]},
+        {t:'Issues presented; statement of facts.', cites:[T('53.2')]},
+        {t:'Summary of the argument; argument.', cites:[T('53.2')]},
+        {t:'Prayer; appendix.', cites:[T('53.2')]}
+      ]},
+      {type:'note', title:'Review is discretionary',
+        body:'The Court considers factors such as conflicts among the courts of appeals, an important or unsettled question of law, construction or validity of a statute, constitutional questions, and error important to the jurisprudence of the State. Length: 4,500 words / 15 pages; merits briefs 15,000 words.',
+        cites:[T('56.1'),T('9.4(i)(2)')]},
+      {type:'templates', icon:'&#128190;', title:'Templates', items:['certCompliance']}
+    ]},
+
+  pdr:{ title:'Petition for Discretionary Review (PDR) — Court of Criminal Appeals',
+    subtitle:'Discretionary review of a Court of Appeals criminal decision by the state’s highest criminal court.',
+    sections:()=>[
+      {type:'deadlines', icon:'&#9203;', title:'Deadline', rows:[
+        {event:'Petition for discretionary review', when:'30 days after the court of appeals’ judgment, or after it overrules a timely rehearing motion', cite:T('68.2(a)')}
+      ]},
+      {type:'brief-parts', icon:'&#9998;', title:'Required contents (TRAP 68.4)', items:[
+        {t:'Identity of the judge, parties, and counsel.', cites:[T('68.4')]},
+        {t:'Table of contents; index of authorities.', cites:[T('68.4')]},
+        {t:'Statement regarding oral argument.', cites:[T('68.4')]},
+        {t:'Statement of the case; statement of procedural history.', cites:[T('68.4')]},
+        {t:'Grounds for review; argument.', cites:[T('68.4')]},
+        {t:'Prayer; appendix (including a copy of the court of appeals’ opinion).', cites:[T('68.4')]}
+      ]},
+      {type:'checklist', icon:'&#9989;', title:'Grounds the CCA considers (TRAP 66.3)', items:[
+        {t:'Conflict among the courts of appeals, or with a CCA or U.S. Supreme Court decision.', cites:[T('66.3')]},
+        {t:'An important question of state or federal law that is unsettled.', cites:[T('66.3')]},
+        {t:'A statute held unconstitutional, or apparently misconstrued.', cites:[T('66.3')]},
+        {t:'A court of appeals so far departed from usual proceedings as to warrant CCA supervision.', cites:[T('66.3')]}
+      ]},
+      {type:'note', title:'Length & who may petition',
+        body:'A PDR is limited to 4,500 words / 15 pages. Either party — including the State — may petition for discretionary review.',
+        cites:[T('9.4(i)(2)'),T('68.1')]},
+      {type:'templates', icon:'&#128190;', title:'Templates', items:['certCompliance']}
+    ]},
+
+  record:{ title:'The Appellate Record',
+    subtitle:'The clerk’s record and the reporter’s record — how to request them, pay, and the deadlines.',
+    sections:()=>txRecord()},
+
+  briefs:{ title:'Briefs — Contents, Deadlines & Length',
+    subtitle:'What each brief must contain, when it is due, and the TRAP 9.4 length limits.',
+    sections:()=>txBriefs()},
+
+  restricted:{ title:'Restricted Appeal',
+    subtitle:'A limited appeal for a party who did not participate at trial (replaces the old writ of error).',
+    sections:()=>[
+      {type:'checklist', icon:'&#9989;', title:'Who may bring a restricted appeal', items:[
+        {t:'A party to the suit who <b>did not participate</b> — in person or through counsel — in the hearing that resulted in the judgment,', cites:[T('30')]},
+        {t:'who <b>did not timely file</b> a post-judgment motion, request for findings, or notice of appeal, and', cites:[T('30')]},
+        {t:'where error is <b>apparent on the face of the record</b>.', cites:[T('30')]}
+      ]},
+      {type:'deadlines', icon:'&#9203;', title:'Deadline', rows:[
+        {event:'Notice of restricted appeal', when:'6 months after the judgment or order is signed', cite:T('26.1(c)')}
+      ]},
+      {type:'note', title:'Notice requirements',
+        body:'The notice of appeal must state that the appeal is restricted and that the party did not participate at trial and did not timely file a post-judgment motion or request for findings.',
+        cites:[T('25.1(d)')]},
+      {type:'templates', icon:'&#128190;', title:'Templates', items:['noticeCivil']}
+    ]},
+
+  extensions:{ title:'Extending a Deadline',
+    subtitle:'Extra time to file the notice of appeal, the record, or a brief.',
+    sections:()=>[
+      {type:'checklist', icon:'&#9989;', title:'Extend the time to file the notice of appeal (TRAP 26.3)', items:[
+        {t:'Within <b>15 days</b> after the deadline, file the notice of appeal in the trial court <b>and</b> a motion for extension in the appellate court.', cites:[T('26.3')]},
+        {t:'The motion must comply with TRAP 10.5(b): the deadline, the facts relied on, and the length of the extension requested.', cites:[T('10.5(b)')]}
+      ]},
+      {type:'note', title:'Extending briefing / record deadlines',
+        body:'Motions to extend time for the record or briefs are also governed by TRAP 10.5(b); reasonable extensions are commonly granted on a showing of good cause.',
+        cites:[T('10.5(b)')]},
+      {type:'templates', icon:'&#128190;', title:'Templates', items:['motionExtend']}
+    ]},
+
+  motions:{ title:'Motions Practice — TRAP 10',
+    subtitle:'Form and content of motions in the appellate court.',
+    sections:()=>[
+      {type:'checklist', icon:'&#9989;', title:'Every motion (TRAP 10.1)', items:[
+        {t:'State the relief sought and the grounds for it.', cites:[T('10.1(a)')]},
+        {t:'Contain or be accompanied by a certificate of conference where required, and a certificate of service.', cites:[T('10.1(a)'),T('9.5')]},
+        {t:'A motion may be decided without an oral hearing.', cites:[T('10.3')]}
+      ]},
+      {type:'wordlimits', icon:'&#128207;', title:'Length', rows:[
+        {doc:'Motion or response', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)')}
+      ]},
+      {type:'templates', icon:'&#128190;', title:'Templates', items:['motionExtend','certCompliance']}
+    ]}
+};
+
+/* ============================================================
+   WORD (.docx) GENERATOR — self-contained (store-only ZIP)
+   ============================================================ */
+function crc32(bytes){
+  let table = crc32._t; if(!table){ table=crc32._t=[]; for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1); table[n]=c>>>0; } }
+  let crc=0xFFFFFFFF; for(let i=0;i<bytes.length;i++) crc=(crc>>>8)^table[(crc^bytes[i])&0xFF];
+  return (crc^0xFFFFFFFF)>>>0;
+}
+function makeZip(files){
+  const enc=new TextEncoder(); const chunks=[]; const central=[]; let offset=0;
+  const u16=n=>new Uint8Array([n&255,(n>>8)&255]);
+  const u32=n=>new Uint8Array([n&255,(n>>8)&255,(n>>16)&255,(n>>>24)&255]);
+  const push=a=>{chunks.push(a); offset+=a.length;};
+  files.forEach(f=>{
+    const name=enc.encode(f.name); const data=(typeof f.data==='string')?enc.encode(f.data):f.data;
+    const crc=crc32(data); const local=offset;
+    push(u32(0x04034b50)); push(u16(20)); push(u16(0)); push(u16(0)); push(u16(0)); push(u16(0));
+    push(u32(crc)); push(u32(data.length)); push(u32(data.length)); push(u16(name.length)); push(u16(0));
+    push(name); push(data);
+    const c=[]; c.push(u32(0x02014b50)); c.push(u16(20)); c.push(u16(20)); c.push(u16(0)); c.push(u16(0)); c.push(u16(0)); c.push(u16(0));
+    c.push(u32(crc)); c.push(u32(data.length)); c.push(u32(data.length)); c.push(u16(name.length)); c.push(u16(0)); c.push(u16(0)); c.push(u16(0)); c.push(u16(0)); c.push(u32(0)); c.push(u32(local)); c.push(name);
+    central.push(c);
+  });
+  const cdStart=offset; let cdLen=0;
+  central.forEach(c=>c.forEach(p=>{push(p); cdLen+=p.length;}));
+  push(u32(0x06054b50)); push(u16(0)); push(u16(0)); push(u16(files.length)); push(u16(files.length)); push(u32(cdLen)); push(u32(cdStart)); push(u16(0));
+  let total=0; chunks.forEach(a=>total+=a.length); const out=new Uint8Array(total); let p=0; chunks.forEach(a=>{out.set(a,p); p+=a.length;});
+  return out;
+}
+function xesc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function docParagraph(b){
+  const pStyle = b.style==='title'?'Title':(b.style==='h1'?'Heading1':'');
+  let pin=''; if(pStyle) pin+='<w:pStyle w:val="'+pStyle+'"/>';
+  if(b.align) pin+='<w:jc w:val="'+b.align+'"/>';
+  if(b.spaceAfter!=null) pin+='<w:spacing w:after="'+b.spaceAfter+'"/>';
+  let rpr=''; if(b.bold) rpr+='<w:b/>'; if(b.italic) rpr+='<w:i/>'; if(b.underline) rpr+='<w:u w:val="single"/>';
+  const t=b.t==null?'':b.t;
+  return '<w:p>'+(pin?'<w:pPr>'+pin+'</w:pPr>':'')+'<w:r>'+(rpr?'<w:rPr>'+rpr+'</w:rPr>':'')+'<w:t xml:space="preserve">'+xesc(t)+'</w:t></w:r></w:p>';
+}
+function buildDocx(blocks){
+  const body=blocks.map(docParagraph).join('')+
+    '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/></w:sectPr>';
+  const document='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'+body+'</w:body></w:document>';
+  const contentTypes='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
+    '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'+
+    '<Default Extension="xml" ContentType="application/xml"/>'+
+    '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'+
+    '<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>';
+  const rels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
+  const drels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';
+  const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'+
+    '<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr></w:rPrDefault></w:docDefaults>'+
+    '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style>'+
+    '<w:style w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:basedOn w:val="Normal"/><w:pPr><w:spacing w:before="240" w:after="120"/></w:pPr><w:rPr><w:b/></w:rPr></w:style>'+
+    '<w:style w:type="paragraph" w:styleId="Title"><w:name w:val="Title"/><w:basedOn w:val="Normal"/><w:pPr><w:jc w:val="center"/><w:spacing w:after="240"/></w:pPr><w:rPr><w:b/></w:rPr></w:style></w:styles>';
+  return makeZip([
+    {name:'[Content_Types].xml', data:contentTypes},
+    {name:'_rels/.rels', data:rels},
+    {name:'word/document.xml', data:document},
+    {name:'word/_rels/document.xml.rels', data:drels},
+    {name:'word/styles.xml', data:styles}
+  ]);
+}
+function downloadDocx(id){
+  const t=TEMPLATES[id]; if(!t) return;
+  const blocks=t.blocks(CIRCUITS[state.circuit]||{});
+  const bytes=buildDocx(blocks);
+  const blob=new Blob([bytes],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download=(t.file||'template')+'.docx'; document.body.appendChild(a); a.click();
+  setTimeout(()=>{URL.revokeObjectURL(url); a.remove();},400);
+}
+
+/* ---------- Document templates ---------- */
+function P(t,o){ return Object.assign({t:t},o||{}); }
+const TEMPLATES = {
+  noticeCivil:{ name:'Notice of Appeal (Civil)', file:'Notice-of-Appeal-Civil',
+    desc:'TRAP 25.1 — filed with the trial-court clerk. Fill in bracketed items.',
+    cites:[T('25.1')],
+    blocks:c=>[
+      P('CAUSE NO. [TRIAL COURT CAUSE NUMBER]',{align:'center'}),
+      P('[PLAINTIFF] v. [DEFENDANT]',{align:'center'}),
+      P('IN THE [___] [DISTRICT/COUNTY] COURT OF [COUNTY] COUNTY, TEXAS',{align:'center',spaceAfter:240}),
+      P('NOTICE OF APPEAL',{style:'title'}),
+      P('[APPEALING PARTY], [plaintiff/defendant] in the above-styled and numbered cause, files this notice of appeal and states:',{spaceAfter:120}),
+      P('1. This appeal is taken from the [final judgment / order] signed on [DATE].',{}),
+      P('2. [Appealing party] desires to appeal to the '+(c.name||'[____] Court of Appeals')+'.',{}),
+      P('3. [If applicable: This is an accelerated appeal. / This is a restricted appeal; [party] did not participate at trial and did not timely file a post-judgment motion or request for findings.]',{spaceAfter:240}),
+      P('Respectfully submitted,',{spaceAfter:240}),
+      P('/s/ [ATTORNEY NAME]',{}), P('[ATTORNEY NAME] — State Bar No. [____]',{}), P('[FIRM] · [ADDRESS] · [PHONE] · [EMAIL]',{}),
+      P('Counsel for [PARTY]',{spaceAfter:120}),
+      P('CERTIFICATE OF SERVICE',{style:'h1'}),
+      P('I certify that a true copy of this notice was served on all parties/counsel of record on [DATE] in accordance with TRAP 9.5. /s/ [ATTORNEY NAME]',{})
+    ]},
+  noticeCriminal:{ name:'Notice of Appeal (Criminal)', file:'Notice-of-Appeal-Criminal',
+    desc:'TRAP 25.2 — filed with the trial-court clerk; ensure the trial court’s certification of the right of appeal is in the record.',
+    cites:[T('25.2')],
+    blocks:c=>[
+      P('CAUSE NO. [TRIAL COURT CAUSE NUMBER]',{align:'center'}),
+      P('THE STATE OF TEXAS v. [DEFENDANT]',{align:'center'}),
+      P('IN THE [___] [DISTRICT/COUNTY] COURT OF [COUNTY] COUNTY, TEXAS',{align:'center',spaceAfter:240}),
+      P('DEFENDANT’S NOTICE OF APPEAL',{style:'title'}),
+      P('[DEFENDANT], defendant in the above cause, gives notice of appeal to the '+(c.name||'[____] Court of Appeals')+' from the judgment of conviction/sentence [or appealable order] entered on [DATE].',{spaceAfter:120}),
+      P('The trial court’s certification of the defendant’s right of appeal is filed with this notice / is part of the record. (TRAP 25.2(a)(2), (d).)',{spaceAfter:240}),
+      P('/s/ [ATTORNEY NAME]',{}), P('Counsel for Defendant — State Bar No. [____]',{spaceAfter:120}),
+      P('CERTIFICATE OF SERVICE',{style:'h1'}),
+      P('I certify that a copy of this notice was served on the State on [DATE] per TRAP 9.5. /s/ [ATTORNEY NAME]',{})
+    ]},
+  docketingStatement:{ name:'Docketing Statement', file:'Docketing-Statement',
+    desc:'TRAP 32 — filed in the court of appeals with (or promptly after) the notice of appeal.',
+    cites:[T('32.1')],
+    blocks:c=>[
+      P('IN THE '+(c.name?c.name.toUpperCase():'[____] COURT OF APPEALS'),{align:'center'}),
+      P('[APPELLATE CASE NUMBER, if assigned]',{align:'center',spaceAfter:240}),
+      P('DOCKETING STATEMENT',{style:'title'}),
+      P('Style of case: [APPELLANT] v. [APPELLEE]',{}),
+      P('Trial court: [___] [District/County] Court of [County] County; Cause No. [____]; Judge [____].',{}),
+      P('Date of judgment/order appealed: [DATE].   Date notice of appeal filed: [DATE].',{}),
+      P('Type of appeal: [ ] civil  [ ] criminal  [ ] accelerated/interlocutory  [ ] restricted.',{}),
+      P('Post-judgment motions filed: [motion for new trial / to modify / to reinstate / request for findings — dates].',{}),
+      P('Reporter’s record: [ordered / not needed]; court reporter: [NAME].   Clerk’s record requested: [YES/NO].',{}),
+      P('Appellate counsel: [NAME, BAR NO., FIRM, ADDRESS, PHONE, EMAIL].',{spaceAfter:240}),
+      P('/s/ [ATTORNEY NAME]',{})
+    ]},
+  reporterRecordRequest:{ name:'Request for Reporter’s Record', file:'Request-for-Reporters-Record',
+    desc:'TRAP 34.6(b) — written request to the court reporter; file a copy with the trial-court clerk.',
+    cites:[T('34.6(b)')],
+    blocks:c=>[
+      P('CAUSE NO. [____] — [STYLE]',{align:'center',spaceAfter:240}),
+      P('REQUEST FOR PREPARATION OF THE REPORTER’S RECORD',{style:'title'}),
+      P('TO: [COURT REPORTER NAME], Official Court Reporter, [___] Court of [County] County.',{spaceAfter:120}),
+      P('Appellant [NAME] requests preparation of the reporter’s record in this appeal and designates the following:',{spaceAfter:120}),
+      P('1. Proceedings to be included: [all proceedings / the following portions: ____].',{}),
+      P('2. Exhibits to be included: [all admitted exhibits / the following: ____].',{}),
+      P('3. Appellant has made financial arrangements to pay for the record / will pay upon completion / is indigent (see attached).',{spaceAfter:240}),
+      P('A copy of this request has been filed with the trial-court clerk and served on all parties. (TRAP 34.6(b), 9.5.)',{spaceAfter:240}),
+      P('/s/ [ATTORNEY NAME]',{}), P('Counsel for Appellant',{})
+    ]},
+  certCompliance:{ name:'Certificate of Compliance', file:'Certificate-of-Compliance',
+    desc:'TRAP 9.4(i)(3) — word-count certificate for a computer-generated document.',
+    cites:[T('9.4(i)(3)')],
+    blocks:c=>[
+      P('CERTIFICATE OF COMPLIANCE',{style:'title'}),
+      P('This document complies with the length limit of Texas Rule of Appellate Procedure 9.4(i)(2) because, excluding the parts exempted by Rule 9.4(i)(1), it contains [NUMBER] words as counted by [WORD PROCESSOR].',{spaceAfter:120}),
+      P('It also complies with the typeface requirements of Rule 9.4(e) because it is in a conventional 14-point typeface (12-point for footnotes).',{spaceAfter:240}),
+      P('/s/ [ATTORNEY NAME]',{}), P('Counsel for [PARTY]',{}), P('Dated: [DATE]',{})
+    ]},
+  motionExtend:{ name:'Motion to Extend Time', file:'Motion-to-Extend-Time',
+    desc:'TRAP 10.5(b) / 26.3 — extend a filing deadline.',
+    cites:[T('10.5(b)'),T('26.3')],
+    blocks:c=>[
+      P('IN THE '+(c.name?c.name.toUpperCase():'[____] COURT OF APPEALS'),{align:'center'}),
+      P('[STYLE] — No. [____]',{align:'center',spaceAfter:240}),
+      P('MOTION TO EXTEND TIME TO FILE [NOTICE OF APPEAL / BRIEF]',{style:'title'}),
+      P('[MOVING PARTY] moves to extend the time to file its [notice of appeal / brief] and states:',{spaceAfter:120}),
+      P('1. The [document] is currently due [CURRENT DATE].',{}),
+      P('2. [Moving party] requests an extension of [NUMBER] days, to and including [NEW DATE].',{}),
+      P('3. The facts relied on to reasonably explain the need for an extension are: [REASON].',{}),
+      P('4. This is the [first/second] extension requested. [Opposing counsel is / is not opposed.]',{spaceAfter:240}),
+      P('WHEREFORE, [moving party] requests that the Court extend the deadline to [NEW DATE].',{spaceAfter:240}),
+      P('/s/ [ATTORNEY NAME]',{}), P('Counsel for [PARTY]',{})
+    ]},
+
+  exampleAppellantBrief:{ name:'Sample — Appellant’s Brief (Civil)', file:'SAMPLE-Texas-Appellant-Brief',
+    desc:'A complete, illustrative appellant’s brief under TRAP 38.1. Fictional parties; verify all authorities.',
+    cites:[T('38.1')],
+    blocks:c=>[
+      P('ILLUSTRATIVE SAMPLE — fictional parties and facts. Verify every rule, citation, and authority before use.',{italic:true,align:'center',spaceAfter:240}),
+      P('No. [____]',{align:'center'}),
+      P('IN THE '+(c.name?c.name.toUpperCase():'[____] COURT OF APPEALS')+' OF TEXAS',{align:'center',spaceAfter:240}),
+      P('JORDAN AVERY, Appellant,',{align:'center'}), P('v.',{align:'center'}), P('MERIDIAN FREIGHT SYSTEMS, INC., Appellee.',{align:'center',spaceAfter:240}),
+      P('On Appeal from the [___] District Court of [County] County, Texas',{align:'center'}),
+      P('Cause No. [____], Hon. [Judge]',{align:'center',spaceAfter:240}),
+      P('BRIEF OF APPELLANT',{style:'title'}),
+      P('IDENTITY OF PARTIES AND COUNSEL',{style:'h1'}),
+      P('Appellant: Jordan Avery — [counsel, firm, address]. Appellee: Meridian Freight Systems, Inc. — [counsel, firm, address].',{spaceAfter:120}),
+      P('TABLE OF CONTENTS',{style:'h1'}),
+      P('Index of Authorities … · Statement of the Case … · Issues Presented … · Statement of Facts … · Summary of the Argument … · Argument … · Prayer …',{spaceAfter:120}),
+      P('INDEX OF AUTHORITIES',{style:'h1'}),
+      P('[Cases and rules relied on, alphabetically, with page references.]',{spaceAfter:120}),
+      P('STATEMENT OF THE CASE',{style:'h1'}),
+      P('This is an appeal from a [summary judgment / take-nothing judgment] rendered [date] disposing of all claims. Appellant timely perfected this appeal. (TRAP 38.1(d).)',{spaceAfter:120}),
+      P('ISSUES PRESENTED',{style:'h1'}),
+      P('1. Whether the trial court erred in granting summary judgment where the evidence raises a genuine issue of material fact as to [element].',{spaceAfter:120}),
+      P('STATEMENT OF FACTS',{style:'h1'}),
+      P('[Concise statement of the material facts, with citations to the clerk’s record (CR __) and reporter’s record (RR __).]',{spaceAfter:120}),
+      P('SUMMARY OF THE ARGUMENT',{style:'h1'}),
+      P('The judgment should be reversed. Viewing the evidence in the light most favorable to appellant, a reasonable factfinder could find [fact]; the trial court instead resolved a disputed fact issue, which is error.',{spaceAfter:120}),
+      P('ARGUMENT',{style:'h1'}),
+      P('I. Standard of Review. This Court reviews a summary judgment de novo, taking evidence favorable to the nonmovant as true and indulging every reasonable inference in the nonmovant’s favor. [Cite controlling Texas authority.]',{}),
+      P('II. A genuine issue of material fact precludes summary judgment. [Apply the standard to the record; explain the specific fact dispute with CR/RR cites.]',{spaceAfter:120}),
+      P('PRAYER',{style:'h1'}),
+      P('Appellant respectfully asks the Court to reverse the judgment and remand for trial, and for all other relief to which appellant is entitled.',{spaceAfter:240}),
+      P('/s/ [Attorney]',{}), P('Counsel for Appellant',{spaceAfter:120}),
+      P('CERTIFICATE OF COMPLIANCE',{style:'h1'}),
+      P('This brief contains [____] words per TRAP 9.4(i), in 14-point Times New Roman. /s/ [Attorney]',{spaceAfter:120}),
+      P('CERTIFICATE OF SERVICE',{style:'h1'}),
+      P('I certify that this brief was served on all counsel of record on [date] per TRAP 9.5. /s/ [Attorney]',{})
+    ]}
+};
+
+/* ============================================================
+   BOOT + entry gate (posts to /texas/enter when app-served)
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', initMap);
+(function(){
+  const KEY='txnav-gate-accepted';
+  const gate=document.getElementById('gate');
+  if(!gate) return;
+  let accepted=false;
+  try{ accepted=!!sessionStorage.getItem(KEY); }catch(e){}
+  if(accepted){ gate.classList.add('hidden'); return; }
+  document.body.classList.add('gate-open');
+  const nameEl=document.getElementById('gate-name'); const email=document.getElementById('gate-email');
+  const chk=document.getElementById('gate-understand');
+  const btn=document.getElementById('gate-continue');
+  const err=document.getElementById('gate-err');
+  const valid=()=>((nameEl.value||'').trim().length>0) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((email.value||'').trim()) && chk.checked;
+  const sync=()=>{ btn.disabled=!valid(); if(!err.hidden && valid()) err.hidden=true; };
+  nameEl.addEventListener('input',sync); email.addEventListener('input',sync);
+  chk.addEventListener('change',sync);
+  email.addEventListener('keydown',function(e){ if(e.key==='Enter' && valid()) btn.click(); });
+  btn.addEventListener('click',function(){
+    if(!valid()){ err.hidden=false; return; }
+    btn.disabled=true;
+    var done=function(){ try{ sessionStorage.setItem(KEY, JSON.stringify({email:(email.value||'').trim(), at:new Date().toISOString()})); }catch(e){} gate.classList.add('hidden'); document.body.classList.remove('gate-open'); };
+    try{ fetch('/texas/enter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:(nameEl.value||'').trim(), email:(email.value||'').trim()})}).then(function(){ done(); }).catch(function(){ done(); }); }catch(e){ done(); }
+  });
+})();
+</script>
+</body>
+</html>
