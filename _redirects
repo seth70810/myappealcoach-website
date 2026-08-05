@@ -9,8 +9,8 @@
 # Wix named untitled pages /blank, /blank-1, and so on. Anyone with an old
 # link or a search result pointing at these lands on the right page instead
 # of a 404.
-/blank      /write-your-brief.html    301
-/blank-1    /oral-argument.html       301
+/blank      /appellate-navigator.html    301
+/blank-1    /appellate-navigator.html    301
 
 # --- friendlier paths ---------------------------------------------------
 # Extensionless URLs for the pages most likely to be typed or spoken aloud.
@@ -19,6 +19,12 @@
 /faq             /faq.html               301
 /rules           /local-rules.html       301
 /recordings      /recordings.html        301
+/navigator       /appellate-navigator.html   301
+
+# --- retired pages ------------------------------------------------------
+# "Tips for Briefs" and "Tips for Argument" merged into the Appellate Navigator.
+/write-your-brief.html   /appellate-navigator.html   301
+/oral-argument.html      /appellate-navigator.html   301
 
 # Anything unmatched falls through to 404.html automatically — Netlify picks
 # that up by filename, so it needs no rule here.
