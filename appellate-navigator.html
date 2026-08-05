@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Appellate Navigator | My Appeal Coach</title>
-<meta name="description" content="One place to prepare your appeal: appellate rules, style guides, free legal research, oral argument recordings, and AI tools for briefs and argument.">
+<meta name="description" content="One place to prepare your appeal: a federal procedure guide, appellate rules and research for your brief, oral argument recordings, and AI tools.">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="icon" type="image/png" href="favicon-dog.png">
@@ -37,53 +37,82 @@
 </header>
 
 <main>
-<section class="page-dark">
+<section class="navigator-page">
   <div class="wrap-narrow">
-    <div class="hub">
-      <svg class="pillar" viewBox="0 0 120 96" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
-<path d="M6 30 60 6l54 24"/><path d="M14 30v46M35 30v46M60 30v46M85 30v46M106 30v46"/>
-<path d="M4 80h112M2 90h116"/></svg>
-      <div>
-        <h1><span class="lead">Appellate</span> Navigator</h1>
-        <p class="just">Everything you need to prepare an appeal, in one place: the rules and research
-           to write a persuasive brief, and the recordings and tools to walk into oral argument ready
-           for a hot bench. Bookmark this page and start wherever your case stands.</p>
 
-        <h2 class="subhead">Write Your Brief</h2>
-        <p class="just">Appellate courts grant oral argument to only a small percentage of appeals, and
-           chances are, your appeal will be decided based on the briefs. This is your one-stop-shop for
-           reviewing the appellate rules, finding free legal research and style guide help, and using AI
-           tools to summarize your appellate record, check your brief for grammar, and make a Table of
-           Authorities.</p>
+    <h1 class="np-title"><span class="np-title-lead">Appellate</span> Navigator</h1>
+    <p class="np-intro">Everything you need to prepare an appeal, in one place. Start with the
+       procedure guide to find your court's rules, then write your brief, get ready for oral
+       argument, and put the AI tools to work.</p>
 
-        <div class="reslist">
-          <h3><a href="local-rules.html">Local Rules</a></h3>
-          <p>Appellate rules for every federal circuit, the U.S. Supreme Court, and selected states.</p>
+    <!-- Federal Procedure Navigator — prominent, at the top -->
+    <a class="proc-hero" href="procedure.html" target="_blank" rel="noopener noreferrer">
+      <span class="proc-hero-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+        </svg>
+      </span>
+      <span class="proc-hero-text">
+        <span class="proc-hero-title">Federal Procedure Navigator</span>
+        <span class="proc-hero-desc">Use our Appellate Procedure Navigator to help identify your
+          court's rules and procedures for different types of appeals.</span>
+      </span>
+      <span class="proc-hero-go" aria-hidden="true">&rarr;</span>
+    </a>
 
-          <h3><a href="style-guides.html">Online Style Guides &amp; Free Legal Research</a></h3>
-          <p>Links to Bluebook style guide assistance and free legal research tools.</p>
-        </div>
-
-        <h2 class="subhead">Prepare for Oral Argument</h2>
-        <p class="just">Has oral argument been granted in your case? Congratulations! The Court feels
-           strongly enough about the merits that they want to hear from you in person. But this isn't
-           just about telling your story. Some of the most distinguished jurists in the nation will ask
-           you questions about facts, points of law, and even hypotheticals about your case's effect on
-           future litigants.</p>
-        <p class="just">The resources below contain links to example oral arguments around the country,
-           and the AI tools will help you organize your record, narrow the issues most likely to be
-           important at oral argument, create an oral argument outline, and anticipate questions from
-           the judges or justices.</p>
-
-        <div class="reslist">
-          <h3><a href="recordings.html">Oral Argument Recordings</a></h3>
-          <p>Watch or listen to oral argument recordings for every federal circuit, the U.S. Supreme
-             Court, and selected state supreme courts.</p>
-        </div>
-
-        <p style="margin-top:26px"><a class="btn-butter" href="https://app.myappealcoach.com/" target="_blank" rel="noopener noreferrer">Open the AI Tools</a></p>
+    <!-- Write Your Brief -->
+    <div class="nav-card">
+      <h2>Write Your Brief</h2>
+      <p>Appellate courts grant oral argument to only a small percentage of appeals, and chances are,
+         your appeal will be decided based on the briefs. This is your one-stop-shop for reviewing the
+         appellate rules, finding free legal research and style guide help, and using AI tools to
+         summarize your appellate record, check your brief for grammar, and make a Table of
+         Authorities.</p>
+      <div class="nav-reslist">
+        <h3><a href="local-rules.html">Local Rules</a></h3>
+        <p>Appellate rules for every federal circuit, the U.S. Supreme Court, and selected states.</p>
+        <h3><a href="style-guides.html">Online Style Guides &amp; Free Legal Research</a></h3>
+        <p>Links to Bluebook style guide assistance and free legal research tools.</p>
       </div>
     </div>
+
+    <!-- Prepare for Oral Argument -->
+    <div class="nav-card">
+      <h2>Prepare for Oral Argument</h2>
+      <p>Has oral argument been granted in your case? Congratulations! The Court feels strongly enough
+         about the merits that they want to hear from you in person. But this isn't just about telling
+         your story. Some of the most distinguished jurists in the nation will ask you questions about
+         facts, points of law, and even hypotheticals about your case's effect on future litigants.
+         The resources below link to example oral arguments around the country, and the AI tools will
+         help you organize your record, narrow the issues, build an outline, and anticipate questions
+         from the bench.</p>
+      <div class="nav-reslist">
+        <h3><a href="recordings.html">Oral Argument Recordings</a></h3>
+        <p>Watch or listen to oral argument recordings for every federal circuit, the U.S. Supreme
+           Court, and selected state supreme courts.</p>
+      </div>
+    </div>
+
+    <!-- The AI Tools -->
+    <div class="nav-card nav-card--tools">
+      <h2>Open the AI Tools</h2>
+      <p>Custom tools written by an experienced appellate attorney &mdash; free while in testing.</p>
+      <ul class="tool-list">
+        <li><strong>Moot Court Simulator</strong> &mdash; argue before a virtual panel of twenty
+          current and historic justices, with live questions and a post-argument critique.</li>
+        <li><strong>Hot Bench Prep</strong> &mdash; upload your brief and get the twenty questions the
+          court is most likely to ask, at the difficulty you choose.</li>
+        <li><strong>Argument Outline</strong> &mdash; a first-draft oral argument outline as a Word
+          file: the points that matter most, in order, with transitions written between them.</li>
+        <li><strong>Appellate Record Summary</strong> &mdash; distill a long record into the facts and
+          procedural history that matter.</li>
+        <li><strong>Brief &amp; Table of Authorities</strong> &mdash; check your brief for grammar and
+          citation form, and generate a Table of Authorities.</li>
+      </ul>
+      <a class="pill pill-dark" href="https://app.myappealcoach.com/" target="_blank" rel="noopener noreferrer">Open the AI Tools</a>
+    </div>
+
   </div>
 </section>
 </main>
