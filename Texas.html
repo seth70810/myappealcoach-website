@@ -483,7 +483,8 @@ function renderOtherMenu(root){
     ['b','Briefs — contents, deadlines, length','Required sections, the 15,000-word limit, and format. (TRAP 38, 9.4)',()=>pushFrame('Briefs',()=>renderGuide('briefs'))],
     ['c','Restricted appeal','For a party who did not participate at trial — 6-month deadline. (TRAP 30)',()=>pushFrame('Restricted appeal',()=>renderGuide('restricted'))],
     ['d','Extend a deadline','Extend the time to file the notice of appeal or a brief. (TRAP 26.3, 10.5(b))',()=>pushFrame('Extensions',()=>renderGuide('extensions'))],
-    ['e','Motions practice','Form and content of motions in the appellate court. (TRAP 10)',()=>pushFrame('Motions',()=>renderGuide('motions'))]
+    ['e','Motions practice','Form and content of motions in the appellate court. (TRAP 10)',()=>pushFrame('Motions',()=>renderGuide('motions'))],
+    ['f','Accelerated appeals & Texas quirks','What “accelerated” means, plus the bifurcated high courts, signed-date deadlines, the right-to-appeal certification, and other oddities of Texas appellate law.',()=>pushFrame('Texas quirks',()=>renderGuide('txOddities'))]
   ]);
 }
 function question(root,eyebrow,title,items){
@@ -891,6 +892,31 @@ const GUIDES = {
         {doc:'Motion or response', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)')}
       ]},
       {type:'templates', icon:'&#128190;', title:'Templates', items:['motionExtend','certCompliance']}
+    ]},
+
+  txOddities:{ title:'Accelerated Appeals & Texas Quirks',
+    subtitle:'What an “accelerated appeal” is, and the features of Texas appellate practice that most often surprise practitioners.',
+    sections:()=>[
+      {type:'checklist', icon:'&#9889;', title:'What is an accelerated appeal? (TRAP 28.1)', items:[
+        {t:'An <b>accelerated appeal</b> is a faster track that applies to <b>statutory interlocutory appeals</b> (CPRC § 51.014), quo warranto appeals, and — by statute — <b>parental-termination and child-protection</b> appeals, among others.', cites:[T('28.1'),CPRC('§ 51.014')]},
+        {t:'The notice of appeal is due <b>20 days</b> after the judgment or order is signed, and a motion for new trial does <b>not</b> extend that time.', cites:[T('26.1(b)')]},
+        {t:'The appellate record is due <b>10 days</b> after the notice of appeal is filed.', cites:[T('35.1(b)')]},
+        {t:'Briefing is expedited and the appeal is given precedence; the court may shorten times and act quickly.', cites:[T('28.1')]}
+      ]},
+      {type:'checklist', icon:'&#9878;', title:'Texas oddities worth knowing', items:[
+        {t:'<b>Two courts of last resort.</b> Texas (with Oklahoma) splits final review: the <b>Supreme Court of Texas</b> hears civil and juvenile cases; the <b>Court of Criminal Appeals</b> hears criminal cases.'},
+        {t:'<b>Deadlines run from the date the judgment is SIGNED</b> — not when it is rendered, entered, or received.', cites:[T('26.1')]},
+        {t:'<b>Post-judgment motions extend two things at once</b> — the trial court’s plenary power and the appellate deadline (to 90 days): a timely motion for new trial, motion to modify, motion to reinstate, or request for findings.', cites:[T('26.1(a)')]},
+        {t:'<b>Criminal certification.</b> The trial court’s certification of the defendant’s right of appeal must be in the record, or the appeal is dismissed.', cites:[T('25.2(d)')]},
+        {t:'<b>Restricted appeal.</b> A party who did not participate at trial has a 6-month appeal (it replaced the old writ of error).', cites:[T('30')]},
+        {t:'<b>Error preservation is strict.</b> You generally must have made a timely, specific request, objection, or motion in the trial court and obtained a ruling.', cites:[T('33.1')]},
+        {t:'<b>No rehearing prerequisite.</b> A motion for rehearing in the court of appeals is not required before a petition for review or a PDR.', cites:[T('49.10')]},
+        {t:'<b>Two Houston courts.</b> The First and Fourteenth Courts of Appeals share the same geographic district; cases are assigned between them.'},
+        {t:'<b>The Fifteenth Court of Appeals</b> (effective Sept. 1, 2023) has statewide civil jurisdiction over cases involving the State or state agencies and appeals from the new Texas Business Court.'},
+        {t:'<b>Supersedeas.</b> To suspend enforcement of a judgment during the appeal, post a supersedeas bond or other security.', cites:[T('24')]},
+        {t:'<b>Mandamus standard.</b> Extraordinary relief requires a clear abuse of discretion and no adequate remedy by appeal.', cites:[CITE.walker,CITE.prudential]},
+        {t:'<b>eFileTexas.</b> Electronic filing is mandatory for attorneys statewide through the eFileTexas portal.', cites:[T('9.2')]}
+      ]}
     ]}
 };
 
