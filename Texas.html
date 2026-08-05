@@ -982,12 +982,12 @@ function renderSection(s){
       const head=el('div','tpl');
       head.innerHTML='<div class="tinfo"><h4>'+t.name+'</h4><p>'+t.desc+'</p>'+(t.cites?citesHTML(t.cites):'')+'</div>';
       const btns=el('div','exbtns');
-      const view=el('button','btn btn-ghost','&#128065; View sample');
+      const view=el('button','btn btn-ghost','&#128065; View example');
       const dl=el('button','btn btn-navy','&#8681; Word');
       btns.appendChild(view); btns.appendChild(dl); head.appendChild(btns);
       const prev=el('div','exdoc'); prev.style.display='none';
-      prev.innerHTML='<div class="exbanner">Illustrative sample — fictional parties and facts. Verify every rule, citation, and authority before use.</div>'+blocksToHTML(t.blocks(CIRCUITS[state.circuit]||{}));
-      view.addEventListener('click',()=>{ const openIt=prev.style.display==='none'; prev.style.display=openIt?'block':'none'; view.innerHTML=openIt?'&#128065; Hide sample':'&#128065; View sample'; });
+      prev.innerHTML='<div class="exbanner">Illustrative example — fictional parties and facts. Verify every rule, citation, and authority before use.</div>'+blocksToHTML(t.blocks(CIRCUITS[state.circuit]||{}));
+      view.addEventListener('click',()=>{ const openIt=prev.style.display==='none'; prev.style.display=openIt?'block':'none'; view.innerHTML=openIt?'&#128065; Hide example':'&#128065; View example'; });
       dl.addEventListener('click',()=>downloadDocx(id));
       wrap.appendChild(head); wrap.appendChild(prev);
       d.appendChild(wrap);
@@ -1153,7 +1153,7 @@ const GUIDES = {
         'Confirm whether the appeal is accelerated (20-day, non-extendable) before assuming the 30/90-day timeline.'
       ]},
       {type:'templates', icon:'&#128190;', title:'Templates (download as Word)', items:['noticeCivil','docketingStatement','reporterRecordRequest','certCompliance']},
-      {type:'examples', icon:'&#128196;', title:'Complete sample brief', items:['exampleAppellantBrief']}
+      {type:'examples', icon:'&#128196;', title:'Checklist for an Appellant Brief', items:['exampleAppellantBrief']}
     ]},
 
   criminalAppeal:{ title:'Appealing a Criminal Conviction or Sentence',
@@ -1547,7 +1547,7 @@ const TEMPLATES = {
       P('/s/ [ATTORNEY NAME]',{}), P('Counsel for [PARTY]',{})
     ]},
 
-  exampleAppellantBrief:{ name:'Sample — Appellant’s Brief (Civil)', file:'SAMPLE-Texas-Appellant-Brief',
+  exampleAppellantBrief:{ name:'Appellant’s Brief (Civil)', file:'Checklist-Texas-Appellant-Brief',
     desc:'A complete, illustrative appellant’s brief under TRAP 38.1. Fictional parties; verify all authorities.',
     cites:[T('38.1')],
     blocks:c=>[
