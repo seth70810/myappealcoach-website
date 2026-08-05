@@ -44,6 +44,8 @@ main{padding:8px 0 60px}
 .step-help{color:var(--muted);font-size:14.5px;margin:0 0 16px;max-width:70ch}
 .map-wrap{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;
   box-shadow:var(--shadow);padding:10px 10px 6px;overflow:hidden}
+.map-hint{position:absolute;right:12px;bottom:10px;z-index:5;background:rgba(255,255,255,.92);color:#c0202a;font-size:12px;font-weight:700;padding:5px 9px;border-radius:6px;border:1px solid #e6b3b3;box-shadow:0 1px 4px rgba(0,0,0,.15);pointer-events:none}
+.map-hint[hidden]{display:none}
 #us-map{width:100%;height:auto;display:block}
 #us-map .state{stroke:#ffffff;stroke-width:1;cursor:pointer;transition:opacity .12s,filter .12s}
 #us-map .state:hover{opacity:.82}
@@ -388,6 +390,7 @@ body.gate-open{overflow:hidden}
 <path class="county" d="M 326.25 354.29 350.71 354.04 351.01 343.88 353.17 344.55 369.07 344.78 388.95 344.84 389.03 352.35 389.49 352.76 396.52 352.82 396.35 387.76 388.1 387.74 361.32 387.84 361.3 376.45 361.16 356.8 341.64 356.45 326.21 356.26 326.25 354.29 Z" id="Tom Green" />
 </g>
 </svg>
+    <div class="map-hint" id="map-hint" hidden>Click Continue below to continue.</div>
     </div><!-- /map-wrap -->
 
     <div id="circuit-chips" class="chips"></div>
@@ -741,6 +744,7 @@ function selectCircuit(cid){
   });
   document.querySelectorAll('#tx-map .hc-marker').forEach(m=>m.classList.toggle('on', m.getAttribute('data-cid')===cid));
   document.querySelectorAll('.chip').forEach(ch=>ch.classList.toggle('on',ch.getAttribute('data-cid')===cid));
+  const _mh=document.getElementById('map-hint'); if(_mh) _mh.hidden=false;
   const star=document.querySelector('#us-map .scotus-star'); if(star) star.classList.toggle('on', cid==='SCOTUS');
   const bar=$('#court-selected'); bar.hidden=false;
   bar.innerHTML='<span class="txt">Selected court: <b>'+c.name+'</b> &mdash; '+c.states+'</span>'+
@@ -901,27 +905,11 @@ function renderCcaActions(root){
     ['3','Something else','Briefs on the merits, motions, and more.',()=>pushFrame('Something else',renderOtherMenu)]
   ]);
 }
-function renderInterlocutoryMenu(root){
-  question(root,'Interlocutory appeal','On what basis are you seeking review before final judgment?',[
-    ['a','Injunction, receiver, or admiralty order','Appealable as of right under 28 U.S.C. § 1292(a).',()=>pushFrame('§ 1292(a) as-of-right',()=>renderGuide('interlocutoryA'))],
-    ['b','Controlling question of law (certified)','Discretionary appeal under 28 U.S.C. § 1292(b) — requires district-court certification + court of appeals permission (FRAP 5).',()=>pushFrame('§ 1292(b) certified',()=>renderGuide('interlocutoryB'))],
-    ['c','Collateral order doctrine','A small class of orders that are conclusive, separate from the merits, and effectively unreviewable later.',()=>pushFrame('Collateral order',()=>renderGuide('collateral'))],
-    ['d','Not sure / other basis','Review the finality and interlocutory options side by side.',()=>pushFrame('Finality overview',()=>renderGuide('finalityOverview'))]
-  ]);
-}
 function renderRehearingMenu(root){
   question(root,'Rehearing or higher review','What are you seeking after the court of appeals’ decision?',[
     ['a','Motion for rehearing / en banc','Ask the same court of appeals to reconsider — 15-day deadline. (TRAP 49)',()=>pushFrame('Rehearing',()=>renderGuide('rehearing'))],
     ['b','Petition for review (civil) — Supreme Court of Texas','Discretionary review of a civil judgment — 45 days. (TRAP 53)',()=>pushFrame('Petition for review',()=>renderGuide('petitionForReview'))],
     ['c','Petition for discretionary review (criminal) — CCA','Discretionary review of a criminal decision — 30 days. (TRAP 68)',()=>pushFrame('PDR',()=>renderGuide('pdr'))]
-  ]);
-}
-function renderCriminalMenu(root){
-  question(root,'Criminal or habeas appeal','What kind of matter is this?',[
-    ['a','Direct criminal appeal (defendant)','Appeal a conviction or sentence — 14-day deadline, transcripts, Anders posture. (FRAP 4(b))',()=>pushFrame('Criminal appeal',()=>renderGuide('criminalAppeal'))],
-    ['b','Release / bail pending appeal','Seek release while the appeal is pending. (FRAP 9; 18 U.S.C. § 3143)',()=>pushFrame('Release pending appeal',()=>renderGuide('bailPendingAppeal'))],
-    ['c','Habeas / § 2255 appeal (needs a COA)','Post-conviction appeal requiring a certificate of appealability. (28 U.S.C. § 2253; FRAP 22)',()=>pushFrame('Habeas / COA',()=>renderGuide('habeasCOA'))],
-    ['d','Government appeal','When the United States may appeal in a criminal case. (18 U.S.C. § 3731)',()=>pushFrame('Government appeal',()=>renderGuide('govtCriminalAppeal'))]
   ]);
 }
 function renderOtherMenu(root){
@@ -971,7 +959,6 @@ function renderSections(container, sections){
 function renderSection(s){
   if(s.type==='flag'){ const d=el('div','sec flag'); d.innerHTML='<h3><span class="ic">&#9873;</span>'+s.title+'</h3><div class="itxt">'+s.body+'</div>'; return d; }
   if(s.type==='note'){ const d=el('div','sec note'); d.innerHTML='<h3><span class="ic">&#8505;</span>'+s.title+'</h3><div class="itxt">'+s.body+'</div>'+(s.cites?citesHTML(s.cites):''); return d; }
-  if(s.type==='circuit'){ return renderCircuitSection(s); }
   const d=el('div','sec');
   const icon=s.icon||'&#9776;';
   d.appendChild(el('h3',null,'<span class="ic">'+icon+'</span>'+s.title));
@@ -1032,20 +1019,6 @@ function renderSection(s){
   }
   return d;
 }
-function renderCircuitSection(s){
-  const d=el('div','sec circuit');
-  d.appendChild(el('h3',null,'<span class="ic">&#9878;</span>'+s.title+' &mdash; '+CIRCUITS[state.circuit].name));
-  const data = (CIRCUIT_DATA[state.circuit]||{})[s.topic];
-  if(!data){
-    d.appendChild(el('p','pending','Circuit-specific content for the '+CIRCUITS[state.circuit].name+' is being verified for this release. The national FRAP requirements above govern in the meantime. (This prototype ships with the Fifth Circuit fully sourced.)'));
-    return d;
-  }
-  const inner=el('div'); renderSections(inner, data);
-  // unwrap: the circuit sub-sections are rendered as their own .sec; place directly
-  [...inner.children].forEach(ch=>d.appendChild(ch));
-  return d;
-}
-
 /* ---------- Guide renderer ---------- */
 function renderGuide(key){
   const g=GUIDES[key];
