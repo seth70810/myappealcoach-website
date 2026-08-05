@@ -36,7 +36,7 @@ p,li,dd,blockquote{text-wrap:pretty}
 
 /* ---------- buttons ---------- */
 .pill{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;
-      text-decoration:none;font-family:var(--serif);border:0;
+      text-align:center;text-decoration:none;font-family:var(--serif);border:0;
       transition:background .18s,color .18s}
 .pill-red{background:var(--red);color:#fff;font-size:29px;padding:20px 52px;width:100%}
 .pill-red:hover,.pill-red:focus-visible{background:#7d1414}
