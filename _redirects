@@ -35,5 +35,12 @@
 /procedure       https://app.myappealcoach.com/procedure   301!
 /procedure.html  https://app.myappealcoach.com/procedure   301!
 
+# --- Texas Appellate Navigator — served by the Flask app --------------------
+# Same pattern as Procedure: app-served so the entry-gate name/email are captured.
+# Forced ("!") so it overrides the static Texas.html copy that also lives in this repo.
+/texas       https://app.myappealcoach.com/texas   301!
+/Texas.html  https://app.myappealcoach.com/texas   301!
+/texas.html  https://app.myappealcoach.com/texas   301!
+
 # Anything unmatched falls through to 404.html automatically — Netlify picks
 # that up by filename, so it needs no rule here.
