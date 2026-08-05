@@ -288,6 +288,7 @@ button.btn-butter{cursor:pointer;font-size:19px}
 .proc-hero-maps{display:flex;gap:16px;align-items:center;justify-content:center;margin:0 0 6px}
 .proc-hero-map{height:104px;width:auto;display:block}
 .proc-hero-actions .nav-cta{width:100%}
+.proc-hero-actions .pill{width:100%;font-size:18px;padding:15px 34px}
 .nav-cta{display:inline-flex;align-items:center;justify-content:center;text-align:center;font-family:var(--serif);
   font-size:18px;line-height:1.3;background:var(--navy-dp);color:var(--butter);border:1px solid rgba(210,166,60,.5);
   border-radius:3px;padding:15px 28px;text-decoration:none;transition:background .18s,transform .18s,border-color .18s}
