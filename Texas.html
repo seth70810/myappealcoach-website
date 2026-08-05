@@ -781,7 +781,7 @@ function renderActions(root){
   root.appendChild(el('h2','step-title','What would you like to do?'));
   root.appendChild(el('p','step-help','Select the posture that fits your matter. Each path walks through the governing rules, deadlines, checklists, and templates.'));
   const opts=el('div','opts');
-  const A=[
+  let A=[
     ['1','Appeal a civil judgment','A final civil judgment from a district or county court — perfect the appeal, get the record, and brief it. (TRAP 25.1, 26.1)',()=>pushFrame('Civil appeal',()=>renderGuide('civilAppeal'))],
     ['2','Appeal a criminal conviction or sentence','Notice of appeal plus the trial court’s certification of your right to appeal. (TRAP 25.2, 26.2)',()=>pushFrame('Criminal appeal',()=>renderGuide('criminalAppeal'))],
     ['3','File an interlocutory or accelerated appeal','Appeal an order a statute makes immediately appealable — accelerated, 20-day deadline. (CPRC § 51.014, TRAP 28.1)',()=>pushFrame('Interlocutory appeal',()=>renderGuide('interlocutory'))],
@@ -789,6 +789,8 @@ function renderActions(root){
     ['5','Seek rehearing or higher review','Motion for rehearing / en banc, then a petition for review (civil) or PDR (criminal). (TRAP 49, 53, 68)',()=>pushFrame('Rehearing / higher review',renderRehearingMenu)],
     ['6','Something else','The appellate record, briefs, restricted appeals, extensions, and motions.',()=>pushFrame('Something else',renderOtherMenu)]
   ];
+  // The 15th Court hears only civil matters — drop the criminal option and renumber.
+  if(state.circuit==='15'){ A=A.filter(o=>o[0]!=='2').map((o,i)=>[String(i+1),o[1],o[2],o[3]]); }
   A.forEach(o=>{
     const b=el('button','opt');
     b.innerHTML='<span class="k">'+o[0]+'</span><span><h4>'+o[1]+'</h4><p>'+o[2]+'</p></span>';
