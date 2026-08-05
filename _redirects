@@ -26,5 +26,14 @@
 /write-your-brief.html   /appellate-navigator.html   301
 /oral-argument.html      /appellate-navigator.html   301
 
+# --- Appellate Navigator ("Procedure") — now served by the Flask app --------
+# The tool moved into the app so its entry-gate email is captured into the admin.
+# The trailing "!" FORCES the redirect even though a legacy procedure.html still
+# sits in this repo (without "!", Netlify would serve the static file instead).
+# IMPORTANT: deploy the app first (so app.myappealcoach.com/procedure works),
+# THEN deploy this — otherwise /procedure briefly redirects to a 404.
+/procedure       https://app.myappealcoach.com/procedure   301!
+/procedure.html  https://app.myappealcoach.com/procedure   301!
+
 # Anything unmatched falls through to 404.html automatically — Netlify picks
 # that up by filename, so it needs no rule here.
