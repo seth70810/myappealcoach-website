@@ -71,6 +71,7 @@ main{padding:8px 0 60px}
 #tx-map .hc-marker:hover .hc-dot{fill:#000}
 #tx-map .hc-marker.on .hc-dot{stroke:#111;stroke-width:2.2}
 #tx-map .hc-num{fill:#fff;font:700 11px/1 -apple-system,Segoe UI,Arial,sans-serif}
+#tx-map .hc-box{fill:#ffffff;stroke:#111;stroke-width:1;pointer-events:none}
 /* entry gate / disclaimer modal */
 .gate{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
   background:rgba(11,23,40,.78);padding:20px;overflow:auto}
@@ -619,12 +620,19 @@ function txHighCourtMarkers(svg){
   const trav=svg.querySelector('[id="Travis"]');
   let cx=430, cy=470;
   if(trav){ try{ const b=trav.getBBox(); cx=b.x+b.width/2; cy=b.y+b.height/2; }catch(e){} }
-  // Three markers spaced in a small triangle around Travis (Austin); some fall
-  // outside the county border on purpose so they don't overlap.
+  // A tight white box (thin black border) holds the three high-court markers
+  // together over Travis, set apart from the surrounding district badges — esp.
+  // the 3rd — for visibility.
+  const box=document.createElementNS(NS,'rect');
+  box.setAttribute('x',cx-38); box.setAttribute('y',cy-43);
+  box.setAttribute('width',76); box.setAttribute('height',77); box.setAttribute('rx',3);
+  box.setAttribute('class','hc-box');
+  svg.appendChild(box);
+  // Three markers, pulled ~10% closer together than before.
   const marks=[
-    {cid:'SCOTX', kind:'star', dx:-24, dy:-18, label:'SCOTX'},
-    {cid:'CCA',   kind:'star', dx: 24, dy:-18, label:'CCA'},
-    {cid:'15',    kind:'dot',  dx:  0, dy: 22, label:'15'}
+    {cid:'SCOTX', kind:'star', dx:-21.6, dy:-16.2, label:'SCOTX'},
+    {cid:'CCA',   kind:'star', dx: 21.6, dy:-16.2, label:'CCA'},
+    {cid:'15',    kind:'dot',  dx:  0,   dy: 19.8, label:'15'}
   ];
   marks.forEach(m=>{
     const x=cx+m.dx, y=cy+m.dy;
@@ -818,6 +826,12 @@ function renderJurisdictionScreen(root){
   nb.innerHTML='<span class="k" style="background:#8a2b2b">&#10007;</span><span><h4>'+j.noneLabel+'</h4><p>'+j.noneDesc+'</p></span>';
   nb.addEventListener('click',()=>pushFrame('Jurisdiction check',renderJurisdictionMismatch));
   opts.appendChild(nb);
+  if(j.criminal){
+    const cb=el('button','opt');
+    cb.innerHTML='<span class="k" style="background:#12233b">&#9878;</span><span><h4>My case is criminal</h4><p>'+j.criminal+'</p></span>';
+    cb.addEventListener('click',()=>pushFrame('Criminal case',renderCriminalRedirect));
+    opts.appendChild(cb);
+  }
   root.appendChild(opts);
   if(j.note){ const n=el('div','sec note'); n.style.marginTop='16px';
     n.innerHTML='<h3><span class="ic">&#8505;</span>Jurisdiction</h3><div class="itxt">'+j.note+'</div>'+(j.cites?citesHTML(j.cites):'');
@@ -840,6 +854,26 @@ function renderJurisdictionMismatch(root){
   row.appendChild(a); row.appendChild(b);
   root.appendChild(row);
 }
+function switchCourt(cid){ selectCircuit(cid); startFlow(); }
+function renderCriminalRedirect(root){
+  root.appendChild(el('div','step-eyebrow','Criminal case · '+CIRCUITS[state.circuit].name));
+  root.appendChild(el('h2','step-title','Criminal cases go to a different court'));
+  const box=el('div','sec flag');
+  const msg = state.circuit==='SCOTX'
+    ? 'The Supreme Court of Texas hears only <b>civil and juvenile</b> cases. In a criminal matter the court of last resort is the <b>Court of Criminal Appeals</b> (discretionary review by petition for discretionary review). The intermediate criminal appeal is first heard by the geographic Court of Appeals for the county where the case was tried.'
+    : 'The Fifteenth Court of Appeals hears only <b>civil</b> matters. A criminal appeal is heard by the <b>geographic Court of Appeals</b> for the county where the case was tried; discretionary review is then by the <b>Court of Criminal Appeals</b> (PDR).';
+  box.innerHTML='<h3><span class="ic">&#9873;</span>No criminal jurisdiction here</h3><div class="itxt">'+msg+'</div>';
+  root.appendChild(box);
+  const row=el('div','opts');
+  const a=el('button','opt');
+  a.innerHTML='<span class="k">&#8594;</span><span><h4>Go to the Court of Criminal Appeals</h4><p>Texas&rsquo;s highest court for criminal cases — PDR, mandamus, and related relief.</p></span>';
+  a.addEventListener('click',()=>switchCourt('CCA'));
+  const b=el('button','opt');
+  b.innerHTML='<span class="k">&#8592;</span><span><h4>Pick a Court of Appeals on the map</h4><p>Choose the geographic court for the county where the case was tried.</p></span>';
+  b.addEventListener('click',backToMap);
+  row.appendChild(a); row.appendChild(b);
+  root.appendChild(row);
+}
 function _hcMenu(root, title, help, A){
   root.appendChild(el('div','step-eyebrow','Step 2 · '+title));
   root.appendChild(el('h2','step-title','What would you like to do?'));
@@ -854,7 +888,8 @@ function renderScotxActions(root){
   _hcMenu(root,'Supreme Court of Texas','The Supreme Court of Texas is the court of last resort for civil and juvenile cases; review is discretionary.',[
     ['1','Petition for review','Seek discretionary review of a court of appeals judgment — 45-day deadline. (TRAP 53)',()=>pushFrame('Petition for review',()=>renderGuide('petitionForReview'))],
     ['2','File a petition for mandamus','Original proceeding for extraordinary relief. (TRAP 52)',()=>pushFrame('Mandamus',()=>renderGuide('mandamus'))],
-    ['3','Something else','Briefs on the merits, motions, and more.',()=>pushFrame('Something else',renderOtherMenu)]
+    ['3','My case is criminal','The Supreme Court of Texas has no criminal jurisdiction — the Court of Criminal Appeals is the court of last resort for criminal cases.',()=>pushFrame('Criminal case',renderCriminalRedirect)],
+    ['4','Something else','Briefs on the merits, motions, and more.',()=>pushFrame('Something else',renderOtherMenu)]
   ]);
 }
 function renderCcaActions(root){
@@ -1064,6 +1099,7 @@ const JURISDICTION = {
     noneDesc:'A different kind of civil or criminal case — it goes to your geographic Court of Appeals, not the Fifteenth.',
     mismatch:'The Fifteenth Court’s jurisdiction is <b>exclusive but narrow</b>: Business Court appeals, State-party civil cases, and Attorney-General statute/rule challenges. Everything else — and the carve-outs listed on the previous screen — goes to the numbered geographic Court of Appeals for the county. The Texas Supreme Court has confirmed the Fifteenth is <b>not</b> a general civil-appeals court: its statewide reach operates only within these exclusive categories (plus cases transferred to it for docket equalization).',
     note:'<b>Carve-outs — these stay with the geographic court even when the State is a party (§ 22.220(d)(1)):</b> Family Code matters; protective orders; suits against a district, criminal-district, or county attorney; mental-health commitments; asset forfeiture; condemnation / eminent domain; Tort Claims Act (ch. 101) and personal-injury or wrongful-death claims; common-nuisance suits (ch. 125); Code of Criminal Procedure ch. 55A; Government Code ch. 22A and Subchapter E-1 of ch. 411; employment-discrimination claims (Labor Code ch. 21); officer-removal actions (Local Gov’t Code ch. 87); and sexually-violent-predator commitments (Health & Safety Code ch. 841).<br><br><b>No transfer out:</b> a case properly filed in the Fifteenth Court may not be transferred to another court for docket equalization (§ 73.001).',
+    criminal:'The Fifteenth Court has no criminal jurisdiction — a criminal appeal goes to your geographic Court of Appeals, then the Court of Criminal Appeals.',
     cites:[GVch('22','§ 22.220(d)'),GVch('25A','§ 25A.007'),GVch('73','§ 73.001')]
   },
   '1':{ infoOnly:true, title:'How the First and Fourteenth Courts share Houston', intro:'You do not choose between the First and Fourteenth Courts of Appeals — they cover the identical district, and the clerk assigns your appeal for you.', noteTitle:'How Houston appeals are allocated', note:TX_1_14_NOTE, cites:TX_1_14_CITES },
