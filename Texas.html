@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Texas Appellate Navigator — Texas Rules of Appellate Procedure Guide</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA4MiA4MCc+PHBhdGggZmlsbD0nIzFkNGVkOCcgZD0nTTU2Ljg4IDYyLjU2bDEuNjggNC43Mi0xLjQ0LTcuMDQwLTAuMjQgMC4wODAtMC4xNiAwLjE2ek01Ny43NiA1OC4wODBsMC4zMi0wLjggMC44LTEuNjgtMS4xMiAxLjY4LTAuODggMi44ek01OS42IDU0bC0wLjU2IDEuNiAwLjgtMS4xMnYtMC41NnpNNjAuNjQgNTMuMjhsMS43Ni0wLjg4LTIgMC44OC0wLjU2IDAuODh6TTYzLjA0MCA1MS42OGwtMC40IDAuMDgwIDAuODgtMC40ek03MS41MiA0NS4yaC0wLjR2MC4yNGwtMS4zNiAxLjQ0ek00MC43Mi0wLjcyaC0xNS45MmwtMC44OCAyOS42OC0xOS45Mi0wLjggMC4zMiAxLjEyIDYuNDggNi45NiAyLjQgMS41MiAyLjY0IDYuNjQgNi4xNiA0LjE2IDEuMzYgMC4zMiAxLjY4LTEuODQgMC45Ni0zLjM2IDEuNi0wLjE2IDAuNDgtMC42NCAwLjk2IDAuNCA0LjE2IDAuMjQgMC41NiAxLjM2IDAuNjQtMC4xNiAzLjIgMy4wNDAgMi4zMiA1LjUyIDEuMiAxLjIgMS40NCAyLjQgMS45MiAwLjk2IDAuNCAzLjYgMS40NCAxLjY4IDAuOCAyLjY0IDEuNiAwLjE2IDMuOTIgMS43NiAzLjEyIDAuMTYgMS44NCAxLjQ0IDAuMTYtMC43MiAxLjEyLTAuNTYtMC4zMi0wLjQtMC4yNCAwLjI0IDAuMTYtMC41Ni0wLjcyLTAuMDgwLTEuNjgtNC42NCAwLjQ4LTAuNDgtMC40OC0wLjY0IDAuNjQtMS43NmgtMS45MmwwLjcyLTAuMTYtMC43Mi0xLjEyIDAuODggMS4xMiAwLjcyLTAuOC0wLjMyIDAuOTYgMC42NC0wLjI0IDEuMDQwLTIuNTYtMS42OC0xLjI4IDIgMC4yNCAwLjk2LTEuODQtMC43MiAwLjcyLTAuMjQtMC45NiAwLjk2LTAuNTYgMC4zMiAwLjcyIDAuMzItMC4xNiAwLjcyLTAuNzItMC4wODAtMS4zNiAwLjggMC44IDEuMjgtMC43Mi0wLjgtMC4wODAgMC40LTAuNDgtMC44OC0xLjI4IDEuMDQwIDAuMzItMC4xNiAwLjcyIDAuNC0wLjQgMC4wODAtMC4zMi0wLjMyLTAuNjQgMC4yNCAwLjA4MCAwLjI0IDAuNTYgMS4wNDAtMC4zMiAwLjMyIDAuMzItMC40OCAwLjMyIDEuMjgtMC41Ni0xLjI4IDEuMzYgMi44LTEuNzYtMS4yIDAuNHYtMC4wODBsMi45Ni0xLjQ0IDEuNDQtMS40NHYtMC44bDEuNi0xLjA0MC0wLjU2LTAuNDgtMC44LTIgMC45NiAwLjI0IDAuNzItMC41Ni0wLjMyIDEuNTIgMi4wODAtMC40djAuMTZsLTEuNDQgMC41Ni0wLjI0IDAuOTYgMy44NC0yLjQ4IDEuMTItMC4zMi0wLjQ4LTAuODggMS4yLTEuNi0wLjQ4LTMuMjggMS4yLTMuMTItMi4yNC0zLjQ0di0xLjM2bC0xLjM2LTEuMi0wLjY0LTEwLjMyLTEuOTIgMC4yNC00LjgtMi40OC0wLjY0IDAuNzItMS4yLTAuMjQtMS4xMiAwLjQ4LTAuNzItMC4yNC0yLjE2IDEuMjgtMS43Ni0xLjA0MC0wLjggMC4zMi0wLjgtMC41Ni0xLjIgMS41Mi0wLjMyLTEuMjgtMS4yOCAwLjgtMS4yOC0xLjEyLTEuMzYgMC42NC0xLjA0MC0xLjYtMi4xNiAwLjcyLTAuNDgtMC43Mi0zLjA0MC0wLjQ4LTEuMjgtMS4zNi0wLjI0IDAuMzJoLTEuMmwtMi4wODAtMS4yeicvPjwvc3ZnPg==">
 <style>
 :root{
   --navy:#0f2740; --navy2:#1b3a5c; --accent:#b3892f; --accent2:#c99a3a;
@@ -970,6 +971,16 @@ const CITE={
   prudential:{type:'case', label:'In re Prudential Ins. Co., 148 S.W.3d 124 (Tex. 2004)'},
   walker:{type:'case', label:'Walker v. Packer, 827 S.W.2d 833 (Tex. 1992)'}
 };
+const CAP='https://statutes.capitol.texas.gov/Docs/';
+function EL(n){ return {type:'local', label:'Tex. Elec. Code '+n, url:CAP+'EL/htm/EL.232.htm'}; }
+function GV(n){ return {type:'local', label:"Tex. Gov't Code "+n, url:CAP+'GV/htm/GV.2001.htm'}; }
+function PROP(n){ return {type:'local', label:'Tex. Prop. Code '+n, url:CAP+'PR/htm/PR.21.htm'}; }
+function FAM(n){ return {type:'local', label:'Tex. Fam. Code '+n, url:CAP+'FA/htm/FA.263.htm'}; }
+function CPRCch(ch,n){ return {type:'local', label:'Tex. Civ. Prac. & Rem. Code '+n, url:CAP+'CP/htm/CP.'+ch+'.htm'}; }
+function CONST(n){ return {type:'local', label:'Tex. Const. '+n, url:'https://statutes.capitol.texas.gov/?link=CN'}; }
+function CCP(n){ return {type:'local', label:'Tex. Code Crim. Proc. '+n, url:CAP+'CR/htm/CR.55.htm'}; }
+const CASE_AGAN={type:'case', label:'Commissioners Court of Titus County v. Agan, 940 S.W.2d 77 (Tex. 1997)'};
+const CASE_HEINRICH={type:'case', label:'City of El Paso v. Heinrich, 284 S.W.3d 366 (Tex. 2009)'};
 
 /* Texas courts have statewide uniform rules; no per-court circuit sections in v1. */
 const JURISDICTION = {};
@@ -1261,6 +1272,22 @@ const GUIDES = {
         {t:'<b>Supersedeas.</b> To suspend enforcement of a judgment during the appeal, post a supersedeas bond or other security.', cites:[T('24')]},
         {t:'<b>Mandamus standard.</b> Extraordinary relief requires a clear abuse of discretion and no adequate remedy by appeal.', cites:[CITE.walker,CITE.prudential]},
         {t:'<b>eFileTexas.</b> Electronic filing is mandatory for attorneys statewide through the eFileTexas portal.', cites:[T('9.2')]}
+      ]},
+      {type:'checklist', icon:'&#127963;', title:'Quirky appellate causes of action', items:[
+        {t:'<b>Quo warranto</b> &mdash; a challenge to someone&rsquo;s hold on a public office or a corporate franchise. The State (through the Attorney General or a district/county attorney) sues in district court; the appeal is <b>accelerated</b> (20-day notice), running district court &rarr; Court of Appeals &rarr; discretionary review in the Supreme Court of Texas.', cites:[CPRCch('66','ch. 66'),T('28.1(a)'),T('26.1(b)')]},
+        {t:'<b>Election contests</b> begin in district court. A <b>primary</b>-election contest is on a super-fast track &mdash; notice of appeal within <b>5 days</b> &mdash; and the Court of Appeals&rsquo; decision is <b>final and not reviewable by the Supreme Court</b>. A general or special-election contest may also be accelerated, but Supreme Court review is not foreclosed.', cites:[EL('§ 221.002'),EL('§ 232.014'),EL('§ 232.015')]},
+        {t:'<b>Some contests never reach a court.</b> Contests for <b>Governor and Lieutenant Governor</b> are tried by the Legislature, and each house judges the election of its <b>own members</b> &mdash; so there is no appeal to a Court of Appeals.', cites:[CONST('art. IV, § 3'),CONST('art. III, § 8')]},
+        {t:'<b>Challenging a Commissioners Court decision.</b> If a statute grants an appeal, the district court tries it <b>de novo</b>; otherwise the district court sits in a <b>supervisory (certiorari) role</b> and may set the order aside only if the commissioners court exceeded its jurisdiction or <b>clearly abused its discretion</b> &mdash; it cannot substitute its own judgment. From there, the ordinary civil appeal runs to the Court of Appeals.', cites:[CONST('art. V, § 18'),CASE_AGAN]},
+        {t:'<b>Ultra vires suits</b> against government officials (to compel compliance with a statutory or constitutional duty) survive immunity but win only <b>prospective</b> relief. They usually reach the appellate courts through an <b>interlocutory, accelerated</b> appeal of the ruling on a plea to the jurisdiction, reviewed de novo, which generally stays the trial court.', cites:[CASE_HEINRICH,CPRC('§ 51.014(a)(8)'),T('28.1(a)')]}
+      ]},
+      {type:'checklist', icon:'&#128220;', title:'More appeal quirks worth flagging', items:[
+        {t:'<b>Bill of review.</b> An order that grants or denies a bill of review and disposes of the whole case is <b>final and appealable</b> (ordinary 30-day route); one that leaves the underlying case pending is interlocutory and not appealable.', cites:[T('26.1(a)')]},
+        {t:'<b>Agency / administrative appeals.</b> Contested-case review goes first to district court under the <b>substantial-evidence rule</b> (the court cannot substitute its judgment), then to the Court of Appeals &ldquo;in the manner provided for civil actions generally.&rdquo;', cites:[GV('§ 2001.174'),GV('§ 2001.901')]},
+        {t:'<b>Eminent domain / condemnation.</b> A party&rsquo;s <b>objection</b> to the special commissioners&rsquo; award (due by the first Monday after the 20th day) turns the award into a <b>de novo</b> court trial; district and county courts at law share jurisdiction, and appeal then follows the ordinary civil route.', cites:[PROP('§ 21.018'),PROP('§ 21.001')]},
+        {t:'<b>Expunction.</b> Though it arises from a criminal record, the appeal is <b>civil</b> &mdash; the State or a protesting agency appeals as in other civil cases. (The expunction statute was recodified &mdash; confirm current section numbers.)', cites:[CCP('art. 55.02, § 3(a)')]},
+        {t:'<b>Parental-termination and child-protection appeals</b> are <b>accelerated</b> by statute (20-day notice, strictly enforced), and the order must carry a boldface accelerated-appeal warning.', cites:[FAM('§ 263.405'),T('28.4')]},
+        {t:'<b>Anti-SLAPP (TCPA).</b> Denial of a TCPA motion to dismiss &mdash; by ruling or by operation of law &mdash; is an <b>interlocutory, accelerated</b> appeal the court must expedite.', cites:[CPRC('§ 51.014(a)(12)'),CPRCch('27','§ 27.008')]},
+        {t:'<b>Permissive interlocutory appeal.</b> For an otherwise non-appealable order, the trial court may permit an appeal on a controlling, debatable question of law; you then petition the Court of Appeals within <b>15 days</b>.', cites:[CPRC('§ 51.014(d)'),T('28.3')]}
       ]}
     ]}
 };
