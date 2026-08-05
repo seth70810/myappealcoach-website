@@ -62,6 +62,15 @@ main{padding:8px 0 60px}
 #tx-map .county.nocounty{fill:#eef1f5;pointer-events:none;stroke:#d7dde5}
 #tx-map .badge circle{fill:#12233b;stroke:#fff;stroke-width:1.2;pointer-events:none}
 #tx-map .badge text{fill:#fff;font:700 12px/1 -apple-system,Segoe UI,Arial,sans-serif;pointer-events:none}
+#tx-map .hc-marker{cursor:pointer}
+#tx-map .hc-star{fill:#c0202a;stroke:#fff;stroke-width:1.3;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.5))}
+#tx-map .hc-marker:hover .hc-star{fill:#e02531}
+#tx-map .hc-marker.on .hc-star{stroke:#111;stroke-width:2.2}
+#tx-map .hc-lab{fill:#7d0a0a;font:700 8.5px/1 -apple-system,Segoe UI,Arial,sans-serif;paint-order:stroke;stroke:#fff;stroke-width:2.4px;stroke-linejoin:round}
+#tx-map .hc-dot{fill:#12233b;stroke:#fff;stroke-width:1.2}
+#tx-map .hc-marker:hover .hc-dot{fill:#000}
+#tx-map .hc-marker.on .hc-dot{stroke:#111;stroke-width:2.2}
+#tx-map .hc-num{fill:#fff;font:700 11px/1 -apple-system,Segoe UI,Arial,sans-serif}
 /* entry gate / disclaimer modal */
 .gate{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
   background:rgba(11,23,40,.78);padding:20px;overflow:auto}
@@ -578,6 +587,7 @@ function initTexasMap(){
     p.addEventListener('click',()=>{ if(ds.length===1) selectCircuit(String(ds[0])); else chooseCourt(ds); });
   });
   try{ txDistrictBadges(svg); }catch(e){}
+  try{ txHighCourtMarkers(svg); }catch(e){}
 }
 function chooseCourt(ds){
   const bar=document.getElementById('court-selected'); bar.hidden=false;
@@ -602,6 +612,45 @@ function txDistrictBadges(svg){
     const t=document.createElementNS(NS,'text'); t.setAttribute('x',cx); t.setAttribute('y',cy+4); t.setAttribute('text-anchor','middle');
     if(d==='1'){ t.setAttribute('style','font-size:9px'); t.textContent='1/14'; } else { t.textContent=d; }
     g.appendChild(circ); g.appendChild(t); svg.appendChild(g);
+  });
+}
+function txHighCourtMarkers(svg){
+  const NS='http://www.w3.org/2000/svg';
+  const trav=svg.querySelector('[id="Travis"]');
+  let cx=430, cy=470;
+  if(trav){ try{ const b=trav.getBBox(); cx=b.x+b.width/2; cy=b.y+b.height/2; }catch(e){} }
+  // Three markers spaced in a small triangle around Travis (Austin); some fall
+  // outside the county border on purpose so they don't overlap.
+  const marks=[
+    {cid:'SCOTX', kind:'star', dx:-24, dy:-18, label:'SCOTX'},
+    {cid:'CCA',   kind:'star', dx: 24, dy:-18, label:'CCA'},
+    {cid:'15',    kind:'dot',  dx:  0, dy: 22, label:'15'}
+  ];
+  marks.forEach(m=>{
+    const x=cx+m.dx, y=cy+m.dy;
+    const g=document.createElementNS(NS,'g'); g.setAttribute('class','hc-marker'); g.setAttribute('data-cid',m.cid);
+    if(m.kind==='star'){
+      const star=document.createElementNS(NS,'polygon');
+      star.setAttribute('points', starPoints(x,y,12,5,5));
+      star.setAttribute('class','hc-star');
+      g.appendChild(star);
+      const lab=document.createElementNS(NS,'text');
+      lab.setAttribute('x',x); lab.setAttribute('y',y-15); lab.setAttribute('text-anchor','middle');
+      lab.setAttribute('class','hc-lab'); lab.textContent=m.label;
+      g.appendChild(lab);
+    } else {
+      const c=document.createElementNS(NS,'circle');
+      c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r',11);
+      c.setAttribute('class','hc-dot');
+      g.appendChild(c);
+      const t=document.createElementNS(NS,'text');
+      t.setAttribute('x',x); t.setAttribute('y',y+4); t.setAttribute('text-anchor','middle');
+      t.setAttribute('class','hc-num'); t.textContent=m.label;
+      g.appendChild(t);
+    }
+    const ttl=document.createElementNS(NS,'title'); ttl.textContent=CIRCUITS[m.cid].name; g.appendChild(ttl);
+    g.addEventListener('click',()=>selectCircuit(m.cid));
+    svg.appendChild(g);
   });
 }
 function initMap(){
@@ -682,6 +731,7 @@ function selectCircuit(cid){
     const ds=(p.getAttribute('data-districts')||''); const has=(','+ds+',').indexOf(','+cid+',')>=0;
     p.classList.toggle('on', has); p.classList.toggle('dim', !has && ds!=='');
   });
+  document.querySelectorAll('#tx-map .hc-marker').forEach(m=>m.classList.toggle('on', m.getAttribute('data-cid')===cid));
   document.querySelectorAll('.chip').forEach(ch=>ch.classList.toggle('on',ch.getAttribute('data-cid')===cid));
   const star=document.querySelector('#us-map .scotus-star'); if(star) star.classList.toggle('on', cid==='SCOTUS');
   const bar=$('#court-selected'); bar.hidden=false;
@@ -740,6 +790,20 @@ function renderActions(root){
 }
 function renderJurisdictionScreen(root){
   const j=JURISDICTION[state.circuit];
+  if(j.infoOnly){
+    root.appendChild(el('div','step-eyebrow','How this court works · '+CIRCUITS[state.circuit].name));
+    root.appendChild(el('h2','step-title',j.title));
+    root.appendChild(el('p','step-help',j.intro));
+    const n=el('div','sec note');
+    n.innerHTML='<h3><span class="ic">&#8505;</span>'+(j.noteTitle||'Jurisdiction')+'</h3><div class="itxt">'+j.note+'</div>'+(j.cites?citesHTML(j.cites):'');
+    root.appendChild(n);
+    const row=el('div','opts'); row.style.marginTop='16px';
+    const b=el('button','opt');
+    b.innerHTML='<span class="k">&#8594;</span><span><h4>Continue</h4><p>Go to the '+CIRCUITS[state.circuit].name+' options.</p></span>';
+    b.addEventListener('click',proceedToActions);
+    row.appendChild(b); root.appendChild(row);
+    return;
+  }
   root.appendChild(el('div','step-eyebrow','Confirm jurisdiction · '+CIRCUITS[state.circuit].name));
   root.appendChild(el('h2','step-title',j.title));
   root.appendChild(el('p','step-help',j.intro));
@@ -983,7 +1047,28 @@ const CASE_AGAN={type:'case', label:'Commissioners Court of Titus County v. Agan
 const CASE_HEINRICH={type:'case', label:'City of El Paso v. Heinrich, 284 S.W.3d 366 (Tex. 2009)'};
 
 /* Texas courts have statewide uniform rules; no per-court circuit sections in v1. */
-const JURISDICTION = {};
+function GVch(ch,n){ return {type:'local', label:"Tex. Gov't Code "+n, url:CAP+'GV/htm/GV.'+ch+'.htm'}; }
+const LR114={type:'local', label:'First & Fourteenth Ct. App. Local Rule 1', url:'https://www.txcourts.gov/14thcoa/'};
+const TX_1_14_NOTE='The First and Fourteenth Courts of Appeals are the only two Texas courts that share a single district — the same Houston-area counties. You do not pick between them; an <b>intake clerk</b> assigns each incoming appeal on an <b>alternating basis</b> under the courts’ <b>Local Rule 1</b>, so which court hears it is essentially the rotation of the docket (historically it was a random draw).<br><br><b>Related and successive matters stay together.</b> If a related appeal or original proceeding was already filed in one of the two courts — a later appeal from the same trial-court case, a remand, or a severed case — the clerk routes the new matter to that same court (Local Rule 1.3(b)).<br><br><b>Docket-equalization transfers.</b> Separately, the Supreme Court of Texas may transfer appeals among the geographic courts to balance dockets (§ 73.001); the court that receives a transferred case must apply the <b>precedent of the transferor court</b> (TRAP 41.3).';
+const TX_1_14_CITES=[GVch('22','§ 22.201'),LR114,GVch('73','§ 73.001'),T('41.3')];
+const JURISDICTION = {
+  '15':{
+    title:'Is your appeal within the Fifteenth Court’s jurisdiction?',
+    intro:'The Fifteenth Court of Appeals is a statewide court with EXCLUSIVE jurisdiction over only certain civil matters. Choose the category that fits — if none does, your appeal belongs in the geographic Court of Appeals for your county.',
+    categories:[
+      {label:'Appeal from the Texas Business Court', desc:'Any order or judgment of the Business Court is appealed here, exclusively.', cite:GVch('25A','§ 25A.007(a)')},
+      {label:'A civil case by or against the State, a state agency, or a state officer or employee', desc:'Executive-branch agencies, universities, and state officials sued over official conduct — subject to the carve-outs below.', cite:GVch('22','§ 22.220(d)(1)')},
+      {label:'A challenge to a Texas statute or rule with the Attorney General as a party', desc:'A case attacking the constitutionality or validity of a state statute or rule in which the Attorney General is a party.', cite:GVch('22','§ 22.220(d)(2)')}
+    ],
+    noneLabel:'None of these',
+    noneDesc:'A different kind of civil or criminal case — it goes to your geographic Court of Appeals, not the Fifteenth.',
+    mismatch:'The Fifteenth Court’s jurisdiction is <b>exclusive but narrow</b>: Business Court appeals, State-party civil cases, and Attorney-General statute/rule challenges. Everything else — and the carve-outs listed on the previous screen — goes to the numbered geographic Court of Appeals for the county. The Texas Supreme Court has confirmed the Fifteenth is <b>not</b> a general civil-appeals court: its statewide reach operates only within these exclusive categories (plus cases transferred to it for docket equalization).',
+    note:'<b>Carve-outs — these stay with the geographic court even when the State is a party (§ 22.220(d)(1)):</b> Family Code matters; protective orders; suits against a district, criminal-district, or county attorney; mental-health commitments; asset forfeiture; condemnation / eminent domain; Tort Claims Act (ch. 101) and personal-injury or wrongful-death claims; common-nuisance suits (ch. 125); Code of Criminal Procedure ch. 55A; Government Code ch. 22A and Subchapter E-1 of ch. 411; employment-discrimination claims (Labor Code ch. 21); officer-removal actions (Local Gov’t Code ch. 87); and sexually-violent-predator commitments (Health & Safety Code ch. 841).<br><br><b>No transfer out:</b> a case properly filed in the Fifteenth Court may not be transferred to another court for docket equalization (§ 73.001).',
+    cites:[GVch('22','§ 22.220(d)'),GVch('25A','§ 25A.007'),GVch('73','§ 73.001')]
+  },
+  '1':{ infoOnly:true, title:'How the First and Fourteenth Courts share Houston', intro:'You do not choose between the First and Fourteenth Courts of Appeals — they cover the identical district, and the clerk assigns your appeal for you.', noteTitle:'How Houston appeals are allocated', note:TX_1_14_NOTE, cites:TX_1_14_CITES },
+  '14':{ infoOnly:true, title:'How the First and Fourteenth Courts share Houston', intro:'You do not choose between the Fourteenth and First Courts of Appeals — they cover the identical district, and the clerk assigns your appeal for you.', noteTitle:'How Houston appeals are allocated', note:TX_1_14_NOTE, cites:TX_1_14_CITES }
+};
 const CIRCUIT_DATA = {};
 
 /* Shared section builders */
