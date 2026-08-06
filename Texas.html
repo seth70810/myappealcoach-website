@@ -73,7 +73,7 @@ main{padding:8px 0 60px}
 #tx-map .hc-marker:hover .hc-dot{fill:#000}
 #tx-map .hc-marker.on .hc-dot{stroke:#111;stroke-width:2.2}
 #tx-map .hc-num{fill:#fff;font:700 11px/1 -apple-system,Segoe UI,Arial,sans-serif}
-#tx-map .hc-box{fill:#ffffff;stroke:#111;stroke-width:1;pointer-events:none}
+#tx-map .hc-box{fill:#4E79A7;stroke:#111;stroke-width:1;pointer-events:none}
 /* entry gate / disclaimer modal */
 .gate{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
   background:rgba(11,23,40,.78);padding:20px;overflow:auto}
@@ -620,16 +620,14 @@ function txDistrictBadges(svg){
 }
 function txHighCourtMarkers(svg){
   const NS='http://www.w3.org/2000/svg';
-  const trav=svg.querySelector('[id="Travis"]');
-  let cx=430, cy=470;
-  if(trav){ try{ const b=trav.getBBox(); cx=b.x+b.width/2; cy=b.y+b.height/2; }catch(e){} }
-  // A tight white box (thin black border) holds the three high-court markers
-  // together over Travis, set apart from the surrounding district badges — esp.
-  // the 3rd — for visibility.
+  // Fixed position in the open white space in the lower-left of the map — left of
+  // the 4th Court (San Antonio) and below the 8th Court (El Paso).
+  const cx=100, cy=610;
   const box=document.createElementNS(NS,'rect');
   box.setAttribute('x',cx-38); box.setAttribute('y',cy-43);
   box.setAttribute('width',76); box.setAttribute('height',77); box.setAttribute('rx',3);
   box.setAttribute('class','hc-box');
+  box.style.fill = (typeof CIRCUITS!=='undefined' && CIRCUITS['1'] && CIRCUITS['1'].color) || '#4E79A7'; // match the 1st/14th county fill
   svg.appendChild(box);
   // Three markers, pulled ~10% closer together than before.
   const marks=[
@@ -926,7 +924,14 @@ function renderOtherMenu(root){
     items.push(['b','Briefs — contents, deadlines, length','Required sections, the 15,000-word limit, and format. (TRAP 38, 9.4)',()=>pushFrame('Briefs',()=>renderGuide('briefs'))]);
     items.push(['c','Restricted appeal','For a party who did not participate at trial — 6-month deadline. (TRAP 30)',()=>pushFrame('Restricted appeal',()=>renderGuide('restricted'))]);
   }
-  items.push(['d','Extend a deadline','Extend the time to file the notice of appeal or a brief. (TRAP 26.3, 10.5(b))',()=>pushFrame('Extensions',()=>renderGuide('extensions'))]);
+  if(hc){
+    const dl = state.circuit==='SCOTX'
+      ? 'Extend the time to file a petition for review or a merits brief — not a notice of appeal. (TRAP 53.7(f), 55.7, 10.5(b))'
+      : 'Extend the time to file a petition for discretionary review or a merits brief — not a notice of appeal. (TRAP 68.2(c), 10.5(b))';
+    items.push(['d','Extend a deadline',dl,()=>pushFrame('Extensions',()=>renderGuide('extensionsHC'))]);
+  } else {
+    items.push(['d','Extend a deadline','Extend the time to file the notice of appeal or a brief. (TRAP 26.3, 10.5(b))',()=>pushFrame('Extensions',()=>renderGuide('extensions'))]);
+  }
   items.push(['e','Motions practice','Form and content of motions in the appellate court. (TRAP 10)',()=>pushFrame('Motions',()=>renderGuide('motions'))]);
   items.push(['f','Accelerated appeals & Texas quirks','What “accelerated” means, plus the bifurcated high courts, signed-date deadlines, the right-to-appeal certification, and other oddities of Texas appellate law.',()=>pushFrame('Texas quirks',()=>renderGuide('txOddities'))]);
   const letters=['a','b','c','d','e','f'];
@@ -1371,6 +1376,32 @@ const GUIDES = {
           {t:'Typeface, format, and length follow the general form rule &mdash; confirm the current word limit for a merits brief.', cites:[T('9.4')]},
           {t:'A party may adopt by reference all or part of a brief already filed in the court of appeals.', cites:[T(rule)]}
         ]}
+      ];
+    }
+  },
+
+  extensionsHC:{ title:'Extending a Deadline in a Court of Last Resort',
+    subtitle:'There is no notice of appeal to extend here — the filings and deadlines differ from a court of appeals.',
+    sections:()=>{
+      var scotx = state.circuit==='SCOTX';
+      return scotx ? [
+        {type:'note', title:'No notice of appeal here', body:'The notice of appeal (TRAP 26.1) perfects an appeal to a court of appeals — it is not filed in the Supreme Court. Here you extend the time to file a <b>petition for review</b> or a <b>brief on the merits</b>.'},
+        {type:'deadlines', icon:'&#9203;', title:'Deadlines & extensions', rows:[
+          {event:'Petition for review', when:'45 days after the court of appeals renders judgment (or overrules the last timely rehearing motion)', cite:T('53.7(a)')},
+          {event:'&mdash; to extend it', when:'file a Rule 10.5(b) motion no later than 15 days after the last day to file the petition', cite:T('53.7(f)')},
+          {event:'Brief on the merits', when:'30 days after the clerk’s briefing notice (petitioner); 30 days response; 15 days reply', cite:T('55.7')},
+          {event:'&mdash; to extend it', when:'file a Rule 10.5(b) motion, before or after the brief is due', cite:T('55.7')}
+        ]},
+        {type:'note', title:'What the motion must say', body:'An extension motion (other than one to extend a notice of appeal) must state the deadline, the length of the extension sought, the facts explaining the need, and the number of previous extensions.', cites:[T('10.5(b)')]}
+      ] : [
+        {type:'note', title:'No notice of appeal here', body:'The notice of appeal (TRAP 26.1) perfects an appeal to a court of appeals — it is not filed in the Court of Criminal Appeals. Here you extend the time to file a <b>petition for discretionary review (PDR)</b> or a <b>brief on the merits</b>.'},
+        {type:'deadlines', icon:'&#9203;', title:'Deadlines & extensions', rows:[
+          {event:'Petition for discretionary review', when:'30 days after the court of appeals renders judgment (or overrules the last timely rehearing motion)', cite:T('68.2(a)')},
+          {event:'&mdash; to extend it', when:'file a Rule 10.5(b) motion no later than 15 days after the last day to file the PDR', cite:T('68.2(c)')},
+          {event:'Brief on the merits', when:'30 days after review is granted (petitioner); 30 days response', cite:T('70.1')},
+          {event:'&mdash; to extend it', when:'Rule 70 has no brief-specific extension — use the general motion to extend', cite:T('10.5(b)')}
+        ]},
+        {type:'note', title:'What the motion must say', body:'An extension motion (other than one to extend a notice of appeal) must state the deadline, the length of the extension sought, the facts explaining the need, and the number of previous extensions.', cites:[T('10.5(b)')]}
       ];
     }
   },
