@@ -888,10 +888,19 @@ function _hcMenu(root, title, help, A){
     b.addEventListener('click',o[3]); opts.appendChild(b); });
   root.appendChild(opts);
 }
+function renderScotxOriginalMenu(root){
+  question(root,'File an original proceeding','Which extraordinary writ are you seeking in the Supreme Court?',[
+    ['a','Mandamus','Compel a lower court or state officer to perform a clear legal duty — a clear abuse of discretion with no adequate remedy by appeal. (TRAP 52; § 22.002)',()=>pushFrame('Mandamus',()=>renderGuide('mandamus'))],
+    ['b','Prohibition','Stop a lower court from interfering with the Supreme Court’s jurisdiction — a writ in aid of jurisdiction (rare). (TRAP 52.1)',()=>pushFrame('Original proceedings',()=>renderGuide('scotxOriginal'))],
+    ['c','Injunction','Protect the Court’s jurisdiction, or compel an executive officer’s duty. (TRAP 52.1; § 22.002(c))',()=>pushFrame('Original proceedings',()=>renderGuide('scotxOriginal'))],
+    ['d','Habeas corpus — civil contempt','For a person confined for violating a civil order; concurrent with the courts of appeals. Not criminal habeas. (§ 22.002(e))',()=>pushFrame('Original proceedings',()=>renderGuide('scotxOriginal'))],
+    ['e','Quo warranto','Challenges a right to office or franchise — but it is filed in district court by the AG or a district/county attorney, not originally here. (CPRC ch. 66)',()=>pushFrame('Original proceedings',()=>renderGuide('scotxOriginal'))]
+  ]);
+}
 function renderScotxActions(root){
   _hcMenu(root,'Supreme Court of Texas','The Supreme Court of Texas is the court of last resort for civil and juvenile cases; review is discretionary.',[
     ['1','Petition for review','Seek discretionary review of a court of appeals judgment — 45-day deadline. (TRAP 53)',()=>pushFrame('Petition for review',()=>renderGuide('petitionForReview'))],
-    ['2','File a petition for mandamus','Original proceeding for extraordinary relief. (TRAP 52)',()=>pushFrame('Mandamus',()=>renderGuide('mandamus'))],
+    ['2','File an original proceeding','Mandamus, prohibition, injunction, or civil habeas — extraordinary writs filed by original petition. (TRAP 52)',()=>pushFrame('Original proceeding',renderScotxOriginalMenu)],
     ['3','My case is criminal','The Supreme Court of Texas has no criminal jurisdiction — the Court of Criminal Appeals is the court of last resort for criminal cases.',()=>pushFrame('Criminal case',renderCriminalRedirect)],
     ['4','Something else','Briefs on the merits, motions, and more.',()=>pushFrame('Something else',renderOtherMenu)]
   ]);
@@ -1362,6 +1371,21 @@ const GUIDES = {
       ]},
       {type:'templates', icon:'&#128190;', title:'Templates', items:['motionExtend','certCompliance']}
     ]},
+
+  scotxOriginal:{ title:'Original Proceedings in the Supreme Court of Texas',
+    subtitle:'Extraordinary writs a party may seek by original petition — beyond mandamus.',
+    sections:()=>[
+      {type:'note', title:'How an original proceeding is commenced', body:'File a petition with the Supreme Court clerk captioned &ldquo;In re [relator].&rdquo; The party seeking relief is the relator; in proceedings other than habeas, the person against whom relief is sought is the respondent. TRAP 52 names habeas corpus, mandamus, prohibition, injunction, and quo warranto &mdash; the list is illustrative.', cites:[T('52.1')]},
+      {type:'checklist', icon:'&#9878;', title:'The writs — beyond mandamus', items:[
+        {t:'<b>Prohibition</b> &mdash; to stop a lower court from acting in a way that interferes with the Supreme Court&rsquo;s jurisdiction. It is a writ <b>in aid of jurisdiction</b>, not general-purpose relief, and is rare.', cites:[T('52.1'),CONST('art. V, § 3')]},
+        {t:'<b>Injunction</b> &mdash; likewise issued to protect or enforce the Court&rsquo;s jurisdiction; the Court may also enjoin an <b>executive-department officer</b> to compel a judicial, ministerial, or discretionary duty.', cites:[T('52.1'),GVch('22','§ 22.002(c)')]},
+        {t:'<b>Habeas corpus &mdash; civil only.</b> Available when a person is confined for violating a prior order or judgment in a <b>civil case</b> (e.g., civil contempt); the Court may also set bail. This power is <b>concurrent</b> with the courts of appeals. It is <b>not</b> a route for criminal or general habeas &mdash; that is the Court of Criminal Appeals.', cites:[GVch('22','§ 22.002(e)'),GVch('22','§ 22.221(d)')]},
+        {t:'<b>Quo warranto</b> is <b>not</b> filed originally in the Supreme Court. It challenges a person&rsquo;s right to hold an office or franchise, but it is brought by the <b>Attorney General or a district/county attorney in district court</b>.', cites:[CPRCch('66','ch. 66')]}
+      ]},
+      {type:'note', title:'Against whom the writs run', body:'The Supreme Court may issue these writs against a district judge, a court of appeals or its justices, a statutory county or probate judge, or a state officer &mdash; but <b>not</b> against the Governor, the Court of Criminal Appeals, or a judge of the Court of Criminal Appeals.', cites:[GVch('22','§ 22.002(a)')]},
+      {type:'note', title:'Emergency / temporary relief', body:'With the petition, a relator may move to stay the underlying proceeding or for other temporary relief; the relator must notify (or diligently try to notify) every party and certify that it did so. The Court may grant any just relief pending its action, and may require a bond.', cites:[T('52.10')]}
+    ]
+  },
 
   meritsBriefs:{ title:'Briefs on the Merits',
     subtitle:'Merits briefing in a Texas court of last resort — after the court grants review.',
