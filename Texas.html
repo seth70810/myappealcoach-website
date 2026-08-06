@@ -46,6 +46,8 @@ main{padding:8px 0 60px}
   box-shadow:var(--shadow);padding:10px 10px 6px;overflow:hidden}
 .map-hint{position:absolute;right:12px;bottom:10px;z-index:5;background:rgba(255,255,255,.92);color:#c0202a;font-size:12px;font-weight:700;padding:5px 9px;border-radius:6px;border:1px solid #e6b3b3;box-shadow:0 1px 4px rgba(0,0,0,.15);pointer-events:none}
 .map-hint[hidden]{display:none}
+.nav-trouble-btn{background:#c9a84c;color:#fff;border:none;border-radius:6px;padding:5px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;vertical-align:middle}
+.nav-trouble-btn:hover{background:#a68b3b}
 #us-map{width:100%;height:auto;display:block}
 #us-map .state{stroke:#ffffff;stroke-width:1;cursor:pointer;transition:opacity .12s,filter .12s}
 #us-map .state:hover{opacity:.82}
@@ -405,9 +407,8 @@ body.gate-open{overflow:hidden}
 </main>
 
 <footer class="foot"><div class="wrap">
-  <span>Appellate Navigator &middot; prototype</span>
-  <span class="dot">&bull;</span>
-  <span>Content verified against Cornell LII &amp; official court sources; always re-verify before filing.</span>
+  <span>Appellate Navigator. This app is in the testing phase, and we need your help to improve. If you find an error or have a suggestion, please click here: </span>
+  <button type="button" class="nav-trouble-btn" onclick="openNavTrouble()">Trouble?</button>
 </div></footer>
 
 <style>
@@ -1685,6 +1686,14 @@ const TEMPLATES = {
    BOOT + entry gate (posts to /texas/enter when app-served)
    ============================================================ */
 document.addEventListener('DOMContentLoaded', initMap);
+function openNavTrouble(){
+  var n='', e='';
+  try{ n=sessionStorage.getItem('navUserName')||''; e=sessionStorage.getItem('navUserEmail')||''; }catch(_){}
+  var gn=document.getElementById('gate-name'); if(!n && gn) n=gn.value||'';
+  var ge=document.getElementById('gate-email'); if(!e && ge) e=ge.value||'';
+  if(window.MAC_openTrouble){ MAC_openTrouble({tool:'texas', name:n, email:e}); }
+  else { alert('The report form is still loading; please try again in a moment.'); }
+}
 (function(){
   const KEY='txnav-gate-accepted';
   const gate=document.getElementById('gate');
@@ -1705,7 +1714,7 @@ document.addEventListener('DOMContentLoaded', initMap);
   btn.addEventListener('click',function(){
     if(!valid()){ err.hidden=false; return; }
     btn.disabled=true;
-    var done=function(){ try{ sessionStorage.setItem(KEY, JSON.stringify({email:(email.value||'').trim(), at:new Date().toISOString()})); }catch(e){} gate.classList.add('hidden'); document.body.classList.remove('gate-open'); };
+    var done=function(){ try{ var _n=(nameEl.value||'').trim(), _e=(email.value||'').trim(); sessionStorage.setItem(KEY, JSON.stringify({email:_e, at:new Date().toISOString()})); sessionStorage.setItem('navUserName', _n); sessionStorage.setItem('navUserEmail', _e); }catch(e){} gate.classList.add('hidden'); document.body.classList.remove('gate-open'); };
     try{ fetch('/texas/enter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:(nameEl.value||'').trim(), email:(email.value||'').trim()})}).then(function(){ done(); }).catch(function(){ done(); }); }catch(e){ done(); }
   });
 })();
