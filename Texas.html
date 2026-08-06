@@ -1032,12 +1032,12 @@ function renderSection(s){
       const head=el('div','tpl');
       head.innerHTML='<div class="tinfo"><h4>'+t.name+'</h4><p>'+t.desc+'</p>'+(t.cites?citesHTML(t.cites):'')+'</div>';
       const btns=el('div','exbtns');
-      const view=el('button','btn btn-ghost','&#128065; View example');
+      const view=el('button','btn btn-ghost','&#128065; View template');
       const dl=el('button','btn btn-navy','&#8681; Word');
       btns.appendChild(view); btns.appendChild(dl); head.appendChild(btns);
       const prev=el('div','exdoc'); prev.style.display='none';
-      prev.innerHTML='<div class="exbanner">Illustrative example — fictional parties and facts. Verify every rule, citation, and authority before use.</div>'+blocksToHTML(t.blocks(CIRCUITS[state.circuit]||{}));
-      view.addEventListener('click',()=>{ const openIt=prev.style.display==='none'; prev.style.display=openIt?'block':'none'; view.innerHTML=openIt?'&#128065; Hide example':'&#128065; View example'; });
+      prev.innerHTML='<div class="exbanner">Skeleton template — shows the required sections, not a finished brief. Supply your own facts, argument, and authorities; verify every rule and citation before filing.</div>'+blocksToHTML(t.blocks(CIRCUITS[state.circuit]||{}));
+      view.addEventListener('click',()=>{ const openIt=prev.style.display==='none'; prev.style.display=openIt?'block':'none'; view.innerHTML=openIt?'&#128065; Hide template':'&#128065; View template'; });
       dl.addEventListener('click',()=>downloadDocx(id));
       wrap.appendChild(head); wrap.appendChild(prev);
       d.appendChild(wrap);
@@ -1645,10 +1645,10 @@ const TEMPLATES = {
     ]},
 
   exampleAppellantBrief:{ name:'Appellant’s Brief (Civil)', file:'Checklist-Texas-Appellant-Brief',
-    desc:'A complete, illustrative appellant’s brief under TRAP 38.1. Fictional parties; verify all authorities.',
+    desc:'A skeleton template showing the sections a TRAP 38.1 appellant’s brief must contain. Supply your own facts, argument, and authorities.',
     cites:[T('38.1')],
     blocks:c=>[
-      P('ILLUSTRATIVE SAMPLE — fictional parties and facts. Verify every rule, citation, and authority before use.',{italic:true,align:'center',spaceAfter:240}),
+      P('SKELETON TEMPLATE — shows the required sections, not a finished brief. Supply your own facts, argument, and authorities; verify every rule and citation before filing.',{italic:true,align:'center',spaceAfter:240}),
       P('No. [____]',{align:'center'}),
       P('IN THE '+(c.name?c.name.toUpperCase():'[____] COURT OF APPEALS')+' OF TEXAS',{align:'center',spaceAfter:240}),
       P('JORDAN AVERY, Appellant,',{align:'center'}), P('v.',{align:'center'}), P('MERIDIAN FREIGHT SYSTEMS, INC., Appellee.',{align:'center',spaceAfter:240}),
