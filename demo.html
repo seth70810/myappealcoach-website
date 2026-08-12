@@ -4462,7 +4462,7 @@ body{font-family:var(--serif);background:#000;color:var(--ink)}
             <div class="mr-mini">Questions about the practical effects of your position.</div>
           </div>
 
-          <button class="mr-cta" id="begin-btn">Begin Argument <span>→</span></button>
+          <button class="mr-cta" id="begin-btn">Enter the Courtroom <span>→</span></button>
           <p class="mr-mic-note">Requires Chrome or Edge. Microphone access will be requested.</p>
         </div>
         </div>
@@ -5713,6 +5713,18 @@ async function playDemo(){
   await sleep(900);
   await courtCall();
 
+  /* The court has convened; counsel now clicks "Begin Argument." */
+  try{
+    const _bab = $('begin-arg-btn');
+    showCursor();
+    await moveCursorToElement('begin-arg-btn', { duration:750 });
+    if(_bab) _bab.classList.add('pressed');
+    await clickCursor();
+    if(_bab){ _bab.classList.remove('pressed'); _bab.classList.add('mr-cta-disabled'); _bab.style.filter='grayscale(1)'; _bab.style.opacity='0.55'; _bab.style.pointerEvents='none'; }
+    hideCursor();
+    await sleep(700);
+  }catch(e){}
+
   /* Counsel's opening */
   $('now-name').textContent = 'Counsel for Respondent';
   micLive(true);
@@ -5878,7 +5890,9 @@ const $=id=>document.getElementById(id);
 const stage=$('stage'), imageHost=$('imageHost'), toolhost=$('toolhost'), ptr=$('pointer'), ring=$('ring'), prog=$('prog'), capEl=$('cap');
 const LOGICAL_W=1180; let scale=1, logicalH=760;
 function layout(){ const sw=stage.clientWidth||1180; scale=sw/LOGICAL_W; logicalH=Math.round((stage.clientHeight||sw*9/16)/scale); }
-window.addEventListener('resize',layout);
+function relayout(){ layout(); const fr=toolhost.querySelector('iframe'); if(fr){ fr.style.width=LOGICAL_W+'px'; fr.style.height=logicalH+'px'; fr.style.transform='scale('+scale+')'; } }
+window.addEventListener('resize',relayout);
+window.addEventListener('orientationchange',function(){ setTimeout(relayout,300); });
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function cap(k,l){ $('kick').textContent=k; $('line').textContent=l; capEl.classList.add('show'); }
 function hideCap(){ capEl.classList.remove('show'); }
