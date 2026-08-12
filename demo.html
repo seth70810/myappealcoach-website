@@ -4267,6 +4267,37 @@ body{font-family:var(--serif);background:#000;color:var(--ink)}
 #rotate{position:fixed;inset:0;background:var(--ink);color:var(--paper);z-index:100000;display:none;
   align-items:center;justify-content:center;text-align:center;padding:30px;font-size:1.2rem;line-height:1.6}
 #rotate.show{display:flex}
+
+/* ── Small screens (phones) ────────────────────────────────────────
+   The demo scenes live in a 1280×720 stage that scales to fit, so their
+   text shrinks automatically. These rules shrink the title/play overlay
+   and the rotate notice, which sit outside the stage, so the words stay
+   readable and nothing overflows on a phone. The rotate overlay itself
+   is shown automatically in portrait to advise turning the phone sideways. */
+@media (max-width:600px){
+  #splash .splash-seal{width:82px;height:82px;font-size:38px;margin-bottom:20px}
+  #splash h1{font-size:2.5rem}
+  #splash .splash-tag{font-size:1.05rem;margin-bottom:26px}
+  #splash .play-btn{font-size:1.15rem;padding:13px 30px}
+  #splash .fineprint{font-size:.62rem;margin-top:18px}
+  #splash .voice-status{font-size:.6rem}
+  #rotate{font-size:1.05rem;padding:24px}
+}
+@media (max-width:380px){
+  #splash .splash-seal{width:70px;height:70px;font-size:32px;margin-bottom:16px}
+  #splash h1{font-size:2.05rem}
+  #splash .splash-tag{font-size:.95rem;margin-bottom:20px}
+  #splash .play-btn{font-size:1.05rem;padding:12px 24px}
+}
+/* Landscape phones are short: keep the play screen from overflowing. */
+@media (max-height:430px) and (max-width:900px){
+  #splash .splash-seal{width:60px;height:60px;font-size:28px;margin-bottom:8px}
+  #splash h1{font-size:1.9rem;margin-bottom:4px}
+  #splash .splash-tag{font-size:.95rem;margin-bottom:14px}
+  #splash .play-btn{font-size:1rem;padding:10px 22px}
+  #splash .fineprint{margin-top:10px;line-height:1.6}
+  #splash .voice-status{margin-top:8px}
+}
 </style>
 </head>
 <body>
