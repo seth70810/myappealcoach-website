@@ -6096,9 +6096,11 @@ async function configChoreography(w, d, tok){
   if(bb) bb.classList.add('pressed');
   await click();
   try{ w.sfxWoosh && w.sfxWoosh(); }catch(e){}
-  await tsleep(200,tok);
-  if(bb) bb.classList.remove('pressed');
-  hideCur(); await tsleep(300,tok);
+  await tsleep(250,tok);
+  // The click registers, then the button grays out (disabled look) and holds — so it clearly reads
+  // as pressed before the session starts. The advocate doesn't speak until after loading + the crier.
+  if(bb){ bb.classList.remove('pressed'); bb.style.filter='grayscale(1)'; bb.style.opacity='0.5'; bb.style.boxShadow='none'; bb.style.cursor='default'; bb.style.pointerEvents='none'; }
+  hideCur(); await tsleep(1000,tok);
 }
 
 async function playDemoConfig(sc, tok){
