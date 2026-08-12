@@ -84,6 +84,26 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
   .tag{font-size:.85rem}
   .play{font-size:.9rem}
 }
+/* Landscape on a short screen (a phone held sideways): reclaim every pixel.
+   Hide the chip bar and the stage shadow so the demo fills the screen, and
+   shrink the title/play overlay so the button clears the tagline. */
+@media (orientation:landscape) and (max-height:500px){
+  #stagewrap{padding:0}
+  .stage{max-height:100%;box-shadow:none}
+  #navbar{display:none}
+  .seal{width:46px;height:46px;font-size:24px;margin-bottom:8px}
+  .brand{font-size:1.4rem}
+  .tag{font-size:.82rem;margin-top:2px}
+  .play{font-size:.9rem;padding:9px 20px;margin-top:14px}
+  .splash-tagline{position:static;bottom:auto;margin-top:12px;font-size:.82rem}
+  .cap{padding:10px 18px 12px}
+  .cap .kick{font-size:.54rem;margin-bottom:2px}
+  .cap .line{font-size:.9rem;line-height:1.3;max-width:96%}
+  #endcard .msg{font-size:1rem;max-width:92%}
+  #endcard .end-seal{width:44px;height:44px;font-size:22px;margin-bottom:8px}
+  #endcard .visit{font-size:.9rem;padding:8px 18px}
+  #endcard .replay,#endcard .bookmark{padding:7px 14px}
+}
 </style></head>
 <body>
 <div id="app">
@@ -126,6 +146,20 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
   window.addEventListener('resize',upd);
   window.addEventListener('orientationchange',function(){ upd(); setTimeout(upd,350); });
   upd();
+  /* On a phone, take the whole screen (hiding the browser's top bar) the
+     moment the demo starts. Runs inside the click gesture so it is allowed.
+     No-op where element fullscreen is unsupported (e.g. iOS Safari). */
+  function goFull(){
+    try{
+      var small = Math.min(window.innerWidth,window.innerHeight) < 760 || ('ontouchstart' in window);
+      var el = document.documentElement;
+      if(small && !document.fullscreenElement && el.requestFullscreen) el.requestFullscreen().catch(function(){});
+    }catch(e){}
+  }
+  ['playBtn','replayBtn'].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b) b.addEventListener('click',goFull);
+  });
 })();
 </script>
 
