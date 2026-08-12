@@ -51,6 +51,39 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
 .navchip:hover{background:rgba(212,176,106,.14)}
 .navchip.active{background:var(--gold);color:#0a1f44;border-color:var(--gold)}
 .navchip .num{opacity:.6;margin-right:5px}
+/* Rotate prompt — advises turning a phone sideways (portrait, narrow only). */
+#rotate{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;
+  text-align:center;padding:30px;background:#05101f;color:#f7f4ef;font-size:1.15rem;line-height:1.6}
+#rotate.show{display:flex}
+#rotate .rot-ico{font-size:2.4rem;margin-bottom:14px}
+#rotate .rot-tap{display:block;margin-top:16px;font-family:'DM Mono',monospace;font-size:.7rem;
+  letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+/* ── Small screens (phones) ────────────────────────────────────────
+   The stage is a fluid 16:9 box, so its text keeps a fixed size and looks
+   oversized on a small stage. Scale down the on-screen words, the title/
+   play overlay, and the end card so everything stays readable and the
+   play button no longer collides with the tagline. */
+@media (max-width:600px){
+  .cap{padding:16px 20px 18px}
+  .cap .kick{font-size:.58rem;margin-bottom:4px}
+  .cap .line{font-size:1rem;line-height:1.35;max-width:94%}
+  .brand{font-size:1.7rem}
+  .tag{font-size:.92rem}
+  .seal{width:64px;height:64px;font-size:32px;margin-bottom:12px}
+  .play{font-size:.95rem;padding:11px 22px;margin-top:22px}
+  .splash-tagline{position:static;bottom:auto;margin-top:22px;font-size:.92rem}
+  #endcard .msg{font-size:1.15rem;max-width:88%}
+  #endcard .sub{font-size:.95rem}
+  #endcard .end-seal{width:52px;height:52px;font-size:26px}
+  #endcard .visit{font-size:1rem;padding:10px 22px}
+  #rotate{font-size:1rem;padding:24px}
+}
+@media (max-width:380px){
+  .cap .line{font-size:.92rem}
+  .brand{font-size:1.45rem}
+  .tag{font-size:.85rem}
+  .play{font-size:.9rem}
+}
 </style></head>
 <body>
 <div id="app">
@@ -80,6 +113,21 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
   </div></div>
   <div id="navbar"></div>
 </div>
+
+<div id="rotate" onclick="this.classList.remove('show')">
+  <div><div class="rot-ico">⟲</div>
+  Rotate your device to landscape to watch the demonstration.
+  <span class="rot-tap">Tap to dismiss</span></div>
+</div>
+<script>
+(function(){
+  var r=document.getElementById('rotate');
+  function upd(){ if(!r) return; var portrait=window.innerHeight>window.innerWidth && window.innerWidth<760; r.classList.toggle('show',portrait); }
+  window.addEventListener('resize',upd);
+  window.addEventListener('orientationchange',function(){ upd(); setTimeout(upd,350); });
+  upd();
+})();
+</script>
 
 <script type="text/plain" id="src-proc"><!doctype html>
 <html lang="en">
@@ -4267,37 +4315,6 @@ body{font-family:var(--serif);background:#000;color:var(--ink)}
 #rotate{position:fixed;inset:0;background:var(--ink);color:var(--paper);z-index:100000;display:none;
   align-items:center;justify-content:center;text-align:center;padding:30px;font-size:1.2rem;line-height:1.6}
 #rotate.show{display:flex}
-
-/* ── Small screens (phones) ────────────────────────────────────────
-   The demo scenes live in a 1280×720 stage that scales to fit, so their
-   text shrinks automatically. These rules shrink the title/play overlay
-   and the rotate notice, which sit outside the stage, so the words stay
-   readable and nothing overflows on a phone. The rotate overlay itself
-   is shown automatically in portrait to advise turning the phone sideways. */
-@media (max-width:600px){
-  #splash .splash-seal{width:82px;height:82px;font-size:38px;margin-bottom:20px}
-  #splash h1{font-size:2.5rem}
-  #splash .splash-tag{font-size:1.05rem;margin-bottom:26px}
-  #splash .play-btn{font-size:1.15rem;padding:13px 30px}
-  #splash .fineprint{font-size:.62rem;margin-top:18px}
-  #splash .voice-status{font-size:.6rem}
-  #rotate{font-size:1.05rem;padding:24px}
-}
-@media (max-width:380px){
-  #splash .splash-seal{width:70px;height:70px;font-size:32px;margin-bottom:16px}
-  #splash h1{font-size:2.05rem}
-  #splash .splash-tag{font-size:.95rem;margin-bottom:20px}
-  #splash .play-btn{font-size:1.05rem;padding:12px 24px}
-}
-/* Landscape phones are short: keep the play screen from overflowing. */
-@media (max-height:430px) and (max-width:900px){
-  #splash .splash-seal{width:60px;height:60px;font-size:28px;margin-bottom:8px}
-  #splash h1{font-size:1.9rem;margin-bottom:4px}
-  #splash .splash-tag{font-size:.95rem;margin-bottom:14px}
-  #splash .play-btn{font-size:1rem;padding:10px 22px}
-  #splash .fineprint{margin-top:10px;line-height:1.6}
-  #splash .voice-status{margin-top:8px}
-}
 </style>
 </head>
 <body>
@@ -5764,29 +5781,14 @@ async function probeVoiceService(){
   }
 }
 
-/* Try to begin the moment the page opens, so a click on "Watch
-   Demonstration" from the site is the only click needed. Browsers only
-   allow audio to start without an in-page gesture when their autoplay
-   policy permits it; if it is blocked we leave the Play button in place
-   rather than run the tour silently. */
-function MAC_autostart(){
-  let ctx = null;
-  try{ ctx = ensureAudio(); }catch(e){ ctx = null; }
-  if(!ctx) return;
-  Promise.resolve(ctx.resume && ctx.resume()).catch(()=>{}).then(() => {
-    if(ctx.state === 'running' && !window.MAC_started) window.MAC_start();
-  });
-}
 document.addEventListener('DOMContentLoaded', () => {
   const btn = $('play-btn');
   if(btn) btn.addEventListener('click', window.MAC_start);
   probeVoiceService();
-  MAC_autostart();
 });
 if(document.readyState !== 'loading'){
   const btn = $('play-btn');
   if(btn) btn.addEventListener('click', window.MAC_start);
-  MAC_autostart();
 }
 
 /* D reports which audio path is actually playing. */
