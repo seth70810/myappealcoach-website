@@ -5733,14 +5733,29 @@ async function probeVoiceService(){
   }
 }
 
+/* Try to begin the moment the page opens, so a click on "Watch
+   Demonstration" from the site is the only click needed. Browsers only
+   allow audio to start without an in-page gesture when their autoplay
+   policy permits it; if it is blocked we leave the Play button in place
+   rather than run the tour silently. */
+function MAC_autostart(){
+  let ctx = null;
+  try{ ctx = ensureAudio(); }catch(e){ ctx = null; }
+  if(!ctx) return;
+  Promise.resolve(ctx.resume && ctx.resume()).catch(()=>{}).then(() => {
+    if(ctx.state === 'running' && !window.MAC_started) window.MAC_start();
+  });
+}
 document.addEventListener('DOMContentLoaded', () => {
   const btn = $('play-btn');
   if(btn) btn.addEventListener('click', window.MAC_start);
   probeVoiceService();
+  MAC_autostart();
 });
 if(document.readyState !== 'loading'){
   const btn = $('play-btn');
   if(btn) btn.addEventListener('click', window.MAC_start);
+  MAC_autostart();
 }
 
 /* D reports which audio path is actually playing. */
