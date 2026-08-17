@@ -4857,8 +4857,9 @@ const SCRIPT = [
   {
     justice: byKey('sotomayor'),
     clip: 'counsel_answer_1',
+    clipEnd: 27.0,
     question: "Counsel, the statute says a claimant waives the right to bring an action. Mr. Brown had already brought his. How do you waive something you have already done?",
-    answer: "“Bring” is not frozen at the filing date. A party brings an action by prosecuting it — and Mr. Brown is prosecuting his action today. The Dynamic CRM case supports this: it rejects the narrow Black's Law Dictionary definition Mr. Brown advocates and interprets “bringing an action” to mean conveying, leading, carrying, or causing to come along with — including the steps necessary to complete a case. The Cerna case cited by the Attorney General reached the same conclusion, holding that “bring such action” has no plain meaning synonymous with filing a pleading; it includes recovering under that action.",
+    answer: "“Bring” is not frozen at the filing date. A party brings an action by prosecuting it — and Mr. Brown is prosecuting his action today. The Dynamic CRM case supports this: it rejects the narrow Black's Law Dictionary definition Mr. Brown advocates and interprets “bringing an action” to mean conveying, leading, carrying, or causing to come along with — including the steps necessary to complete a case.",
     critique: {
       worked: "You reframed “bring” as a continuing act and put authority behind it immediately — Cerna's “no plain meaning synonymous with filing a pleading” is your cleanest line.",
       improve: "The Justice's point was logical, not lexical — how can you waive an action already filed? You answered the dictionary and left the waiver puzzle standing. Confront it: the statute is an election, so a pending suit is exactly what it reaches.",
@@ -5041,7 +5042,7 @@ function fetchJusticeAudio(text, judgeName){
 }
 
 /* Plays a decoded buffer and resolves when it finishes. */
-function playBuffer(buf){
+function playBuffer(buf, endSec){
   return new Promise(resolve => {
     const ctx = ensureAudio();
     if(!ctx || !buf) return resolve(false);
@@ -5052,8 +5053,9 @@ function playBuffer(buf){
       let done = false;
       const fin = ok => { if(!done){ done = true; resolve(ok); } };
       node.onended = () => fin(true);
-      setTimeout(() => fin(true), buf.duration*1000 + 900);
-      node.start(0);
+      const _lim = (endSec && endSec > 0 && endSec < buf.duration) ? endSec : buf.duration;
+      setTimeout(() => fin(true), _lim*1000 + 900);
+      if(_lim < buf.duration){ node.start(0, 0, _lim); } else { node.start(0); }
     }catch(e){ resolve(false); }
   });
 }
@@ -5562,10 +5564,11 @@ async function runQuestion(item, index){
   /* Type at the pace the advocate actually speaks, so the transcript lands
      on his last word rather than racing ahead or trailing behind. */
   const recorded = await counselBuffer(item.clip);
-  const dur = recorded ? recorded.duration*1000 : Math.max(words*370, 8000);
+  const clipEnd = (item.clipEnd && recorded && item.clipEnd < recorded.duration) ? item.clipEnd : null;
+  const dur = recorded ? (clipEnd ? clipEnd*1000 : recorded.duration*1000) : Math.max(words*370, 8000);
   runWords(words, dur);
   const typing = typeIntoAnswer(item.answer, dur);
-  const voice = recorded ? playBuffer(recorded) : speakCounsel(item.answer, item.clip);
+  const voice = recorded ? playBuffer(recorded, clipEnd) : speakCounsel(item.answer, item.clip);
   await Promise.all([typing, voice]);
   micLive(false);
   await sleep(400);
@@ -6099,7 +6102,7 @@ async function configChoreography(w, d, tok){
       try{ await w.dragSlider('freq',50,75); }catch(e){} { const fr2=d.getElementById('freq-readout'); if(fr2)fr2.textContent='1.7 / minute'; const fd=d.getElementById('freq-desc'); if(fd)fd.textContent='Hot bench — frequent interruptions'; }
       await move('diff-thumb',420); await click();
       try{ await w.dragSlider('diff',50,78,function(t){ const dr=d.getElementById('diff-readout'); if(dr)dr.textContent=Math.round(5+3*t)+' / 10'; }); }catch(e){} { const dr=d.getElementById('diff-readout'); if(dr)dr.textContent='8 / 10'; const dd=d.getElementById('diff-desc'); if(dd)dd.textContent='Demanding — expect follow-ups'; } }},
-    {frac:0.84, fn:async()=>{ await scrollTo('focus-box',26); await move('policy-thumb',500); await click();
+    {frac:0.84, fn:async()=>{ await w.scrollLeftTo(w.leftMaxScroll()); await move('policy-thumb',500); await click();
       try{ await w.dragSlider('policy',20,30,function(t){ const pol=Math.round(20+10*t); const pr=d.getElementById('policy-readout'); if(pr)pr.textContent=pol+'%'; const cp=d.getElementById('cases-pct'); if(cp)cp.textContent=(100-20-pol)+'%'; }); }catch(e){} { const pr=d.getElementById('policy-readout'); if(pr)pr.textContent='30%'; const cp=d.getElementById('cases-pct'); if(cp)cp.textContent='50%'; } }}
   ], tok);
   if(tok!==playToken){ hideCur(); return; }
@@ -6158,7 +6161,15 @@ async function playDemoConfig(sc, tok){
   });
   if(tok!==playToken) return;
   await tsleep(500,tok); if(tok!==playToken) return;
-  await playTimed(new Audio(AUD.nconc), [], tok);
+  const _nc = new Audio(AUD.nconc);
+  try{
+    const _ac = window._tourAC || (window._tourAC = new (window.AudioContext||window.webkitAudioContext)());
+    if(_ac.state === 'suspended'){ try{ _ac.resume(); }catch(e){} }
+    const _src = _ac.createMediaElementSource(_nc);
+    const _g = _ac.createGain(); _g.gain.value = 1.7;
+    _src.connect(_g); _g.connect(_ac.destination);
+  }catch(e){}
+  await playTimed(_nc, [], tok);
 }
 
 async function playScene(sc, tok){
