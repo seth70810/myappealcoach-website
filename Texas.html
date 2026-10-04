@@ -1085,9 +1085,9 @@ const CASE_HEINRICH={type:'case', label:'City of El Paso v. Heinrich, 284 S.W.3d
 /* Texas courts have statewide uniform rules; no per-court circuit sections in v1. */
 function GVch(ch,n){ return {type:'local', label:"Tex. Gov't Code "+n, url:CAP+'GV/htm/GV.'+ch+'.htm'}; }
 function CCPch(ch,n){ return {type:'local', label:'Tex. Code Crim. Proc. '+n, url:CAP+'CR/htm/CR.'+ch+'.htm'}; }
-const LR114={type:'local', label:'First & Fourteenth Ct. App. Local Rule 1', url:'https://www.txcourts.gov/14thcoa/'};
-const TX_1_14_NOTE='The First and Fourteenth Courts of Appeals are the only two Texas courts that share a single district — the same Houston-area counties. You do not pick between them; an <b>intake clerk</b> assigns each incoming appeal on an <b>alternating basis</b> under the courts’ <b>Local Rule 1</b>, so which court hears it is essentially the rotation of the docket (historically it was a random draw).<br><br><b>Related and successive matters stay together.</b> If a related appeal or original proceeding was already filed in one of the two courts — a later appeal from the same trial-court case, a remand, or a severed case — the clerk routes the new matter to that same court (Local Rule 1.3(b)).<br><br><b>Docket-equalization transfers.</b> Separately, the Supreme Court of Texas may transfer appeals among the geographic courts to balance dockets (§ 73.001); the court that receives a transferred case must apply the <b>precedent of the transferor court</b> (TRAP 41.3).';
-const TX_1_14_CITES=[GVch('22','§ 22.201'),LR114,GVch('73','§ 73.001'),T('41.3')];
+const LR114={type:'local', label:'First & Fourteenth Ct. App. Local Rule 1', url:'https://txcourts.gov/14thcoa/practice-before-the-court/local-rules/local-rule-1/'};
+const TX_1_14_NOTE='The First and Fourteenth Courts of Appeals are the only two Texas courts that share a single district — the same Houston-area counties. You do not pick between them. For an <b>appeal</b>, the <b>trial-court clerk draws at random</b> when the notice of appeal is filed and assigns the case to the court drawn (Gov’t Code § 22.202(h)). An <b>original proceeding</b> (such as mandamus) is assigned by the courts’ intake clerk on an <b>alternating basis</b> under <b>Local Rule 1</b>.<br><br><b>Related matters stay together.</b> Your notice of appeal — or, in an original proceeding, a notice filed with the petition — must say whether a related appeal or original proceeding (one arising from the same underlying case, including after a remand) was previously filed in either court; if so, the new matter goes to that same court (Local Rules 1.3 and 1.4).<br><br><b>Docket-equalization transfers.</b> Separately, the Supreme Court of Texas may transfer appeals among the geographic courts to balance dockets (§ 73.001); the court that receives a transferred case must apply the <b>precedent of the transferor court</b> (TRAP 41.3).';
+const TX_1_14_CITES=[GVch('22','§ 22.201'),GVch('22','§ 22.202(h)'),LR114,GVch('73','§ 73.001'),T('41.3')];
 const JURISDICTION = {
   '15':{
     title:'Is your appeal within the Fifteenth Court’s jurisdiction?',
@@ -1104,8 +1104,8 @@ const JURISDICTION = {
     criminal:'The Fifteenth Court has no criminal jurisdiction — a criminal appeal goes to your geographic Court of Appeals, then the Court of Criminal Appeals.',
     cites:[GVch('22','§ 22.220(d)'),GVch('25A','§ 25A.007'),GVch('73','§ 73.001')]
   },
-  '1':{ infoOnly:true, title:'How the First and Fourteenth Courts share Houston', intro:'You do not choose between the First and Fourteenth Courts of Appeals — they cover the identical district, and the clerk assigns your appeal for you.', noteTitle:'How Houston appeals are allocated', note:TX_1_14_NOTE, cites:TX_1_14_CITES },
-  '14':{ infoOnly:true, title:'How the First and Fourteenth Courts share Houston', intro:'You do not choose between the Fourteenth and First Courts of Appeals — they cover the identical district, and the clerk assigns your appeal for you.', noteTitle:'How Houston appeals are allocated', note:TX_1_14_NOTE, cites:TX_1_14_CITES }
+  '1':{ infoOnly:true, title:'How the First and Fourteenth Courts share Houston', intro:'You do not choose between the First and Fourteenth Courts of Appeals — they cover the identical district, and the case is assigned for you.', noteTitle:'How Houston appeals are allocated', note:TX_1_14_NOTE, cites:TX_1_14_CITES },
+  '14':{ infoOnly:true, title:'How the First and Fourteenth Courts share Houston', intro:'You do not choose between the Fourteenth and First Courts of Appeals — they cover the identical district, and the case is assigned for you.', noteTitle:'How Houston appeals are allocated', note:TX_1_14_NOTE, cites:TX_1_14_CITES }
 };
 const CIRCUIT_DATA = {};
 
@@ -1115,7 +1115,8 @@ function txRecord(crim){ return [
     {t:'The record has two parts: the <b>clerk’s record</b> (the trial-court file) and the <b>reporter’s record</b> (the transcription of proceedings and exhibits).', cites:[T('34.5'),T('34.6')]},
     {t:'<b>Request the reporter’s record in writing</b> from the court reporter at or before the deadline to perfect the appeal, designating the exhibits and portions of the proceedings, and file a copy of the request with the trial-court clerk; pay or arrange to pay.', cites:[T('34.6(b)')]},
     {t:'A <b>partial</b> reporter’s record must include a statement of the points or issues to be presented — the appeal is then limited to those points.', cites:[T('34.6(c)')]},
-    {t:'The clerk’s record is prepared by the trial-court clerk; the appellant pays unless indigent.', cites:[T('34.5')]}
+    {t:'The clerk’s record is prepared by the trial-court clerk; the appellant pays unless indigent. To add items beyond the standard contents, file a written designation that <b>specifically describes</b> each item before the record is prepared — a general request for “all papers” is disregarded.', cites:[T('34.5(a)'),T('34.5(b)')]},
+    {t:'Filing the record is the clerk’s and reporter’s job once you have filed the notice, requested the record, and paid or arranged to pay. If it is late, the clerk or reporter asks for the extension — and the court must accept a late record when the delay is not the appellant’s fault.', cites:[T('35.3')]}
   ]},
   {type:'deadlines', icon:'&#9203;', title:'When the record is due', rows: crim ? [
     {event:'No motion for new trial filed', when:'60 days after the sentence is imposed or suspended in open court (or the appealable order is signed)', cite:T('35.2(a)')},
@@ -1124,7 +1125,8 @@ function txRecord(crim){ return [
   ] : [
     {event:'Record filed in the court of appeals', when:'60 days after the judgment is signed', cite:T('35.1')},
     {event:'If a motion for new trial / to modify / to reinstate / request for findings was timely filed', when:'120 days after the judgment is signed', cite:T('35.1')},
-    {event:'Accelerated appeals', when:'10 days after the notice of appeal is filed', cite:T('35.1(b)')}
+    {event:'Accelerated appeals', when:'10 days after the notice of appeal is filed', cite:T('35.1(b)')},
+    {event:'Restricted appeals', when:'30 days after the notice of appeal is filed', cite:T('35.1(c)')}
   ]}
 ]; }
 function txBriefs(){ return [
@@ -1145,9 +1147,10 @@ function txBriefs(){ return [
     body:'The appellee’s brief follows the same form but need not repeat the statement of the case, issues, or facts unless dissatisfied with the appellant’s version; it may raise cross-points. A reply brief may respond to the appellee’s brief.',
     cites:[T('38.2'),T('38.3')]},
   {type:'deadlines', icon:'&#9203;', title:'Briefing schedule', rows:[
-    {event:'Appellant’s brief', when:'30 days after the record is filed', cite:T('38.6(a)')},
-    {event:'Appellee’s brief', when:'30 days after the appellant’s brief is filed', cite:T('38.6(b)')},
-    {event:'Reply brief', when:'20 days after the appellee’s brief is filed', cite:T('38.6(c)')}
+    {event:'Appellant’s brief', when:'30 days (20 in an accelerated appeal) after the later of the clerk’s record or the reporter’s record is filed', cite:T('38.6(a)')},
+    {event:'Appellee’s brief', when:'30 days (20 in an accelerated appeal) after the appellant’s brief is filed', cite:T('38.6(b)')},
+    {event:'Reply brief', when:'20 days after the appellee’s brief is filed', cite:T('38.6(c)')},
+    {event:'Extension', when:'by motion complying with Rule 10.5(b), filed before or after the brief is due', cite:T('38.6(d)')}
   ]},
   {type:'wordlimits', icon:'&#128207;', title:'Length limits — computer-generated (TRAP 9.4(i))', rows:[
     {doc:'Court of appeals brief / response', words:'15,000 words', pages:'50 pages', cite:T('9.4(i)(2)')},
@@ -1175,15 +1178,19 @@ const GUIDES = {
     sections:()=>[
       {type:'steps', icon:'&#128221;', title:'Step 1 — Perfect the appeal (file the notice of appeal)', items:[
         {t:'File a written <b>notice of appeal with the trial-court clerk</b> — this invokes the court of appeals’ jurisdiction and perfects the appeal. (If mistakenly filed first in the appellate court, it is deemed filed that day with the trial-court clerk.)', cites:[T('25.1(a)')]},
-        {t:'The notice must identify the trial court and case number/style, state the date of the judgment or order appealed, state that the party desires to appeal, name the court to which the appeal is taken (if more than one has jurisdiction), and name each appealing party.', cites:[T('25.1(d)')]},
-        {t:'Serve the notice on all parties and pay the court of appeals’ filing fee unless excused (e.g., indigence). A defect in the notice does not defeat the appellate court’s jurisdiction.', cites:[T('25.1(e)')]}
+        {t:'The notice must identify the trial court and case number/style, state the date of the judgment or order appealed, state that the party desires to appeal, name the court to which the appeal is taken (in the Houston district, say it is to “either the First or Fourteenth Court of Appeals”), and name each appealing party.', cites:[T('25.1(d)')]},
+        {t:'Where they apply, the notice must also say: that the appeal is <b>accelerated</b> (and whether it is a parental-termination or child-protection case); that the appellant is presumed <b>indigent</b>; and whether the case is one brought by or against the <b>State or a state agency or officer</b>, or a challenge to a state statute or rule in which the Attorney General is a party — the matters that go to the Fifteenth Court of Appeals.', cites:[T('25.1(d)(6)'),T('25.1(d)(8)'),T('25.1(d)(9)')]},
+        {t:'Serve the notice on all parties to the judgment, and — at or before filing — deliver a copy to each <b>court reporter</b> responsible for the reporter’s record. Pay the court of appeals’ filing fee unless excused (e.g., indigence).', cites:[T('25.1(e)')]},
+        {t:'Promptly file the <b>docketing statement</b> in the court of appeals.', cites:[T('32.1')]},
+        {t:'Any party’s timely notice invokes jurisdiction over all parties; a defect or omission can be cured by an amended notice (freely before the appellant’s brief is filed, by leave afterward). A party who wants to <b>change</b> the judgment must file its own notice of appeal.', cites:[T('25.1(b)'),T('25.1(c)'),T('25.1(g)')]}
       ]},
       {type:'deadlines', icon:'&#9203;', title:'Step 2 — Calendar the deadline to file the notice of appeal', rows:[
         {event:'Standard civil appeal', when:'30 days after the judgment is signed', cite:T('26.1')},
         {event:'If a motion for new trial, motion to modify, motion to reinstate, or request for findings was timely filed', when:'90 days after the judgment is signed', cite:T('26.1(a)')},
         {event:'Accelerated appeal', when:'20 days after the judgment/order is signed (no 90-day extension)', cite:T('26.1(b)')},
         {event:'Restricted appeal', when:'6 months after the judgment is signed', cite:T('26.1(c)')},
-        {event:'Extension of time', when:'within 15 days after the deadline, file the notice + a motion in the appellate court', cite:T('26.3')}
+        {event:'Another party’s notice (cross-appeal)', when:'the applicable period above, or 14 days after the first-filed notice — whichever is later', cite:T('26.1(d)')},
+        {event:'Extension of time', when:'within 15 days after the deadline, file the notice in the trial court + a motion in the appellate court', cite:T('26.3')}
       ]},
       {type:'note', title:'Watch the post-judgment motions',
         body:'A timely <b>motion for new trial, motion to modify the judgment, motion to reinstate</b>, or (where it can be considered) a <b>request for findings of fact and conclusions of law</b> extends the deadline to 90 days and also extends the trial court’s plenary power. Diary both the 30-day and 90-day dates.',
@@ -1236,6 +1243,12 @@ const GUIDES = {
       {type:'note', title:'Permissive interlocutory appeals',
         body:'A trial court may permit an appeal of a controlling question of law as to which there is a substantial ground for difference of opinion if an immediate appeal may materially advance the termination of the litigation (§ 51.014(d)–(f)); the court of appeals must also accept it (procedure in TRAP 28.3).',
         cites:[CPRC('§ 51.014(d)'),T('28.3')]},
+      {type:'steps', icon:'&#128221;', title:'Permissive appeal — how to ask the court of appeals (TRAP 28.3)', items:[
+        {t:'File a <b>petition for permission to appeal</b> in the court of appeals within <b>15 days</b> after the order to be appealed is signed (or after an amended order adding the trial court’s permission is signed). A 15-day extension is available by motion.', cites:[T('28.3(c)'),T('28.3(d)')]},
+        {t:'The petition must contain the notice-of-appeal information, attach the order and every file-marked document material to it, and argue why the order involves a controlling question of law with substantial ground for difference of opinion and how an immediate appeal may materially advance the end of the litigation.', cites:[T('28.3(e)')]},
+        {t:'File the docketing statement with the petition. A response or cross-petition is due within 10 days; a reply within 7 days after the response.', cites:[T('28.3(f)'),T('28.3(i)')]},
+        {t:'If the petition is granted, the notice of appeal is deemed filed that day and the appeal proceeds as an accelerated appeal — no separate notice of appeal is needed, but file a copy of the order with the trial-court clerk.', cites:[T('28.3(k)')]}
+      ]},
       {type:'deadlines', icon:'&#9203;', title:'Deadline & procedure', rows:[
         {event:'Notice of appeal (accelerated)', when:'20 days after the order is signed', cite:T('26.1(b)')},
         {event:'Governed by', when:'the accelerated-appeal rules', cite:T('28.1')}
@@ -1258,7 +1271,21 @@ const GUIDES = {
         {t:'File a petition captioned <b>“In re [relator]”</b> in the court of appeals (or a high court). With concurrent jurisdiction, file first in the court of appeals absent a compelling reason.', cites:[T('52.1'),T('52.3(f)')]},
         {t:'The petition must contain the identity of parties/counsel, table of contents, index of authorities, statement of the case, statement of jurisdiction, issues presented, statement of facts, argument, and prayer.', cites:[T('52.3')]},
         {t:'Include the required <b>certification</b> that every factual statement is supported by competent evidence in the appendix or record.', cites:[T('52.3(k)')]},
-        {t:'File a <b>sworn or certified record/appendix</b> — a copy of every material document from the underlying proceeding plus relevant testimony (or a statement that none was adduced).', cites:[T('52.7'),T('52.3(l)')]}
+        {t:'File a <b>sworn or certified record/appendix</b> — a copy of every material document from the underlying proceeding plus relevant testimony (or a statement that none was adduced). The appendix must include a certified or sworn copy of the order complained of. Serve the record on every party.', cites:[T('52.7'),T('52.3(l)')]},
+        {t:'In the <b>Supreme Court</b>, the petition must open with an <b>introduction</b> (up to 1,000 words) summarizing why relief should be granted, must state the compelling reason if it was not first presented to the court of appeals, and must cite the record to show each issue was preserved.', cites:[T('52.3(a)'),T('52.3(f)'),T('52.3(g)')]},
+        {t:'Need the trial court stopped while the petition is pending? File a <b>motion for temporary relief</b> (a stay) with the petition, and certify that you notified or made a diligent effort to notify all parties by expedited means.', cites:[T('52.10')]}
+      ]},
+      ...(state.circuit==='CCA' ? [{type:'flag', title:'Court of Criminal Appeals — a motion for leave to file is required',
+        body:'In the Court of Criminal Appeals, a <b>motion for leave to file</b> must accompany an original petition for mandamus, habeas corpus, prohibition, or other extraordinary writ. If leave is denied, no motion for rehearing or reconsideration will be entertained.', cites:[T('72.1'),T('72.2')]}] : []),
+      {type:'checklist', icon:'&#9989;', title:'What happens after filing', items:[
+        {t:'<b>No response is required unless the court orders one</b> — and the court will not grant relief (other than temporary relief) until a response has been filed or requested.', cites:[T('52.4')]},
+        {t:'The court may deny the petition outright, or — if it tentatively thinks relief may be warranted — request a response, set the case for argument, and (in the Supreme Court) order full briefing.', cites:[T('52.8')]},
+        {t:'A motion for rehearing is due within <b>15 days</b> after the final order.', cites:[T('52.9')]}
+      ]},
+      {type:'wordlimits', icon:'&#128207;', title:'Length — petition and response', rows:[
+        {doc:'Court of appeals', words:'15,000 words', pages:'50 pages', cite:T('9.4(i)(2)(B)')},
+        {doc:'Supreme Court (including the introduction)', words:'6,500 words', pages:'20 pages', cite:T('9.4(i)(2)(D)')},
+        {doc:'Court of Criminal Appeals (non-death-penalty)', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)(E)')}
       ]},
       {type:'templates', icon:'&#128190;', title:'Templates', items:['certCompliance']}
     ]},
@@ -1271,7 +1298,10 @@ const GUIDES = {
         {event:'Motion for en banc reconsideration', when:'same 15-day period (with or without a rehearing motion)', cite:T('49.5')}
       ]},
       {type:'checklist', icon:'&#9989;', title:'Contents & length', items:[
-        {t:'State clearly the points relied on for rehearing.', cites:[T('49.1')]},
+        {t:'State clearly the issues relied on for rehearing.', cites:[T('49.1')]},
+        {t:'<b>No response</b> need be filed unless the court requests one; a motion for rehearing will not be granted unless a response has been filed or requested.', cites:[T('49.2')]},
+        {t:'Need more time? File a Rule 10.5(b) motion no later than 15 days after the motion’s due date. No certificate of conference is required.', cites:[T('49.9'),T('49.12')]},
+        {t:'If the court changes its judgment or issues a different opinion, a further motion may be filed within 15 days.', cites:[T('49.4'),T('49.6')]},
         {t:'En banc reconsideration should address the en banc standard (necessary to secure or maintain uniformity, or extraordinary circumstances).', cites:[T('41.2(c)')]},
         {t:'Length: 4,500 words (computer-generated) or 15 pages.', cites:[T('9.4(i)(2)')]},
         {t:'A motion for rehearing is <b>not</b> a prerequisite to a petition for review or PDR.', cites:[T('49.10')]}
@@ -1347,8 +1377,8 @@ const GUIDES = {
         {event:'Notice of restricted appeal', when:'6 months after the judgment or order is signed', cite:T('26.1(c)')}
       ]},
       {type:'note', title:'Notice requirements',
-        body:'The notice of appeal must state that the appeal is restricted and that the party did not participate at trial and did not timely file a post-judgment motion or request for findings.',
-        cites:[T('25.1(d)')]},
+        body:'The notice of appeal must state that the appellant is a party affected by the judgment who did not participate — in person or through counsel — in the hearing that resulted in it, and that the appellant did not timely file a post-judgment motion, a request for findings of fact and conclusions of law, or a notice of appeal. If the appellant has no lawyer, the appellant must <b>verify</b> the notice.',
+        cites:[T('25.1(d)(7)')]},
       {type:'templates', icon:'&#128190;', title:'Templates', items:['noticeCivil']}
     ]},
 
@@ -1357,11 +1387,11 @@ const GUIDES = {
     sections:()=>[
       {type:'checklist', icon:'&#9989;', title:'Extend the time to file the notice of appeal (TRAP 26.3)', items:[
         {t:'Within <b>15 days</b> after the deadline, file the notice of appeal in the trial court <b>and</b> a motion for extension in the appellate court.', cites:[T('26.3')]},
-        {t:'The motion must comply with TRAP 10.5(b): the deadline, the facts relied on, and the length of the extension requested.', cites:[T('10.5(b)')]}
+        {t:'The motion must state the deadline and the facts that reasonably explain the need for an extension, identify the trial court, and give the date of the judgment or order and the trial-court case number and style.', cites:[T('10.5(b)(2)')]}
       ]},
       {type:'note', title:'Extending briefing / record deadlines',
-        body:'Motions to extend time for the record or briefs are also governed by TRAP 10.5(b); reasonable extensions are commonly granted on a showing of good cause.',
-        cites:[T('10.5(b)')]},
+        body:'<b>Briefs:</b> file a motion — before or after the brief is due — stating the deadline, the length of extension sought, the facts that reasonably explain the need, and the number of previous extensions. <b>Record:</b> the trial-court clerk or court reporter requests the extension; each is limited to 30 days (10 days in an accelerated appeal).',
+        cites:[T('10.5(b)(1)'),T('38.6(d)'),T('35.3(c)')]},
       {type:'templates', icon:'&#128190;', title:'Templates', items:['motionExtend']}
     ]},
 
@@ -1407,7 +1437,7 @@ const GUIDES = {
         {type:'checklist', icon:'&#9989;', title:'Essentials', items:[
           {t:'The party who sought review files the opening brief on the merits; the opposing party responds; a reply may follow.', cites:[T(rule)]},
           {t:'Length: <b>15,000 words</b> (50 pages if not computer-generated); a reply brief is limited to 7,500 words. Typeface and format follow the general form rule.', cites:[T('9.4(i)(2)')]},
-          {t:(scotx?'As a brief on the merits or a brief in response, a party may file the brief that party filed in the court of appeals.':'Check the rule for what the brief must contain and whether other briefs are permitted.'), cites:[T(scotx?'55.5':'70.3')]}
+          {t:(scotx?'As a brief on the merits or a brief in response, a party may file the brief that party filed in the court of appeals.':'The brief must comply with Rules 9 and 38 (the court-of-appeals briefing rules), except that no appendix is required. The court may direct or permit additional briefs.'), cites:[T(scotx?'55.5':'70.3')]}
         ]}
       ];
     }
@@ -1425,7 +1455,7 @@ const GUIDES = {
           {event:'Brief on the merits', when:'30 days after the clerk’s briefing notice (petitioner); 30 days response; 15 days reply', cite:T('55.7')},
           {event:'&mdash; to extend it', when:'file a Rule 10.5(b) motion, before or after the brief is due', cite:T('55.7')}
         ]},
-        {type:'note', title:'What the motion must say', body:'An extension motion (other than one to extend a notice of appeal) must state the deadline, the length of the extension sought, the facts explaining the need, and the number of previous extensions.', cites:[T('10.5(b)')]}
+        {type:'note', title:'What the motion must say', body:'An extension motion must state the deadline, the length of the extension sought, the facts explaining the need, and the number of previous extensions. A motion to extend the time for the petition itself must also identify the court of appeals, the date of its judgment, its case number and style, and the date and disposition of every motion for rehearing or en banc reconsideration.', cites:[T('10.5(b)(1)'),T('10.5(b)(3)')]}
       ] : [
         {type:'note', title:'No notice of appeal here', body:'The notice of appeal (TRAP 26.1) perfects an appeal to a court of appeals — it is not filed in the Court of Criminal Appeals. Here you extend the time to file a <b>petition for discretionary review (PDR)</b> or a <b>brief on the merits</b>.'},
         {type:'deadlines', icon:'&#9203;', title:'Deadlines & extensions', rows:[
@@ -1434,7 +1464,7 @@ const GUIDES = {
           {event:'Brief on the merits', when:'30 days after review is granted (petitioner); 30 days response', cite:T('70.1')},
           {event:'&mdash; to extend it', when:'Rule 70 has no brief-specific extension — use the general motion to extend', cite:T('10.5(b)')}
         ]},
-        {type:'note', title:'What the motion must say', body:'An extension motion (other than one to extend a notice of appeal) must state the deadline, the length of the extension sought, the facts explaining the need, and the number of previous extensions.', cites:[T('10.5(b)')]}
+        {type:'note', title:'What the motion must say', body:'An extension motion must state the deadline, the length of the extension sought, the facts explaining the need, and the number of previous extensions. A motion to extend the time for the petition itself must also identify the court of appeals, the date of its judgment, its case number and style, and the date and disposition of every motion for rehearing or en banc reconsideration.', cites:[T('10.5(b)(1)'),T('10.5(b)(3)')]}
       ];
     }
   },
@@ -1446,7 +1476,7 @@ const GUIDES = {
         {t:'An <b>accelerated appeal</b> is a faster track that applies to <b>statutory interlocutory appeals</b> (CPRC § 51.014), quo warranto appeals, and — by statute — <b>parental-termination and child-protection</b> appeals, among others.', cites:[T('28.1'),CPRC('§ 51.014')]},
         {t:'The notice of appeal is due <b>20 days</b> after the judgment or order is signed, and a motion for new trial does <b>not</b> extend that time.', cites:[T('26.1(b)')]},
         {t:'The appellate record is due <b>10 days</b> after the notice of appeal is filed.', cites:[T('35.1(b)')]},
-        {t:'Briefing is expedited and the appeal is given precedence; the court may shorten times and act quickly.', cites:[T('28.1')]},
+        {t:'Briefing is faster too: the appellant’s and appellee’s briefs are each due in <b>20 days</b> instead of 30. The court may hear the appeal on the original papers and may even allow submission without briefs.', cites:[T('38.6'),T('28.1(e)')]},
         {t:'<b>Accelerated appeals are civil.</b> TRAP 28.1 is a civil track — no criminal matter is listed. Criminal cases have their own <b>expedited</b> route: habeas corpus, bail, and extradition appeals (the record is due in 15 days and the case is decided on submission), and the State’s appeals get docket precedence. A <b>death-penalty</b> case is an automatic direct appeal straight to the Court of Criminal Appeals, bypassing the intermediate courts.', cites:[T('31'),CCPch('44','art. 44.01'),CCPch('37','art. 37.071')]}
       ]},
       {type:'checklist', icon:'&#9878;', title:'Texas oddities worth knowing', items:[
