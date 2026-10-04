@@ -1110,14 +1110,18 @@ const JURISDICTION = {
 const CIRCUIT_DATA = {};
 
 /* Shared section builders */
-function txRecord(){ return [
+function txRecord(crim){ return [
   {type:'steps', icon:'&#128220;', title:'Get the appellate record', items:[
     {t:'The record has two parts: the <b>clerk’s record</b> (the trial-court file) and the <b>reporter’s record</b> (the transcription of proceedings and exhibits).', cites:[T('34.5'),T('34.6')]},
     {t:'<b>Request the reporter’s record in writing</b> from the court reporter at or before the deadline to perfect the appeal, designating the exhibits and portions of the proceedings, and file a copy of the request with the trial-court clerk; pay or arrange to pay.', cites:[T('34.6(b)')]},
     {t:'A <b>partial</b> reporter’s record must include a statement of the points or issues to be presented — the appeal is then limited to those points.', cites:[T('34.6(c)')]},
     {t:'The clerk’s record is prepared by the trial-court clerk; the appellant pays unless indigent.', cites:[T('34.5')]}
   ]},
-  {type:'deadlines', icon:'&#9203;', title:'When the record is due', rows:[
+  {type:'deadlines', icon:'&#9203;', title:'When the record is due', rows: crim ? [
+    {event:'No motion for new trial filed', when:'60 days after the sentence is imposed or suspended in open court (or the appealable order is signed)', cite:T('35.2(a)')},
+    {event:'Timely motion for new trial filed and denied', when:'120 days after the sentence is imposed or suspended in open court', cite:T('35.2(b)')},
+    {event:'Motion for new trial granted', when:'60 days after the order granting it is signed', cite:T('35.2(c)')}
+  ] : [
     {event:'Record filed in the court of appeals', when:'60 days after the judgment is signed', cite:T('35.1')},
     {event:'If a motion for new trial / to modify / to reinstate / request for findings was timely filed', when:'120 days after the judgment is signed', cite:T('35.1')},
     {event:'Accelerated appeals', when:'10 days after the notice of appeal is filed', cite:T('35.1(b)')}
@@ -1149,9 +1153,11 @@ function txBriefs(){ return [
     {doc:'Court of appeals brief / response', words:'15,000 words', pages:'50 pages', cite:T('9.4(i)(2)')},
     {doc:'Court of appeals reply brief', words:'7,500 words', pages:'25 pages', cite:T('9.4(i)(2)')},
     {doc:'Aggregate per party (civil case)', words:'27,000 words', pages:'90 pages', cite:T('9.4(i)(2)')},
-    {doc:'Petition for review / PDR (or response)', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)')},
+    {doc:'Petition for review or response (Supreme Court)', words:'6,500 words', pages:'20 pages', cite:T('9.4(i)(2)(D)')},
+    {doc:'Petition for discretionary review (Court of Criminal Appeals)', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)(E)')},
     {doc:'Brief on the merits (SCOTX/CCA)', words:'15,000 words', pages:'&mdash;', cite:T('9.4(i)(2)')},
-    {doc:'Motion or response', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)')}
+    {doc:'Motion for rehearing or response', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)(E)')},
+    {doc:'Other motion or response in the Supreme Court', words:'2,500 words', pages:'10 pages', cite:T('9.4(i)(2)(G)')}
   ]},
   {type:'checklist', icon:'&#128196;', title:'Form of the brief (TRAP 9.4)', items:[
     {t:'Letter-size (8½ × 11) paper; margins about one inch.', cites:[T('9.4')]},
@@ -1209,7 +1215,7 @@ const GUIDES = {
         {event:'State’s notice of appeal (when authorized)', when:'20 days after the order/ruling/sentence appealed', cite:T('26.2(b)')},
         {event:'Extension of time', when:'within 15 days after the deadline, file the notice + a motion', cite:T('26.3')}
       ]},
-      ...txRecord(),
+      ...txRecord(true),
       ...txBriefs(),
       {type:'templates', icon:'&#128190;', title:'Templates', items:['noticeCriminal','docketingStatement','reporterRecordRequest','certCompliance']}
     ]},
@@ -1220,7 +1226,7 @@ const GUIDES = {
       {type:'flag', title:'20 days — accelerated and non-extendable by post-trial motions',
         body:'An interlocutory appeal authorized by statute is an <b>accelerated appeal</b>: the notice of appeal is due within <b>20 days</b> after the order is signed, and a motion for new trial does not extend that time.'},
       {type:'checklist', icon:'&#9989;', title:'Common appealable interlocutory orders (§ 51.014(a))', items:[
-        {t:'Appointing or refusing to vacate a receiver; refusing to wind up a receivership.', cites:[CPRC('§ 51.014(a)')]},
+        {t:'Appointing a receiver or trustee, or overruling a motion to vacate that appointment.', cites:[CPRC('§ 51.014(a)(1)–(2)')]},
         {t:'Certifying or refusing to certify a class action (Tex. R. Civ. P. 42).', cites:[CPRC('§ 51.014(a)')]},
         {t:'Granting or refusing a temporary injunction (or overruling a motion to dissolve one).', cites:[CPRC('§ 51.014(a)')]},
         {t:'Denying a motion for summary judgment based on an official’s or employee’s assertion of immunity; and certain media defendants’ free-speech summary judgments.', cites:[CPRC('§ 51.014(a)')]},
@@ -1251,8 +1257,8 @@ const GUIDES = {
       {type:'steps', icon:'&#128221;', title:'How to file (TRAP 52)', items:[
         {t:'File a petition captioned <b>“In re [relator]”</b> in the court of appeals (or a high court). With concurrent jurisdiction, file first in the court of appeals absent a compelling reason.', cites:[T('52.1'),T('52.3(f)')]},
         {t:'The petition must contain the identity of parties/counsel, table of contents, index of authorities, statement of the case, statement of jurisdiction, issues presented, statement of facts, argument, and prayer.', cites:[T('52.3')]},
-        {t:'Include the required <b>certification</b> that every factual statement is supported by competent evidence in the appendix or record.', cites:[T('52.3(j)')]},
-        {t:'File a <b>sworn or certified record/appendix</b> — a copy of every material document from the underlying proceeding plus relevant testimony (or a statement that none was adduced).', cites:[T('52.7'),T('52.3(k)')]}
+        {t:'Include the required <b>certification</b> that every factual statement is supported by competent evidence in the appendix or record.', cites:[T('52.3(k)')]},
+        {t:'File a <b>sworn or certified record/appendix</b> — a copy of every material document from the underlying proceeding plus relevant testimony (or a statement that none was adduced).', cites:[T('52.7'),T('52.3(l)')]}
       ]},
       {type:'templates', icon:'&#128190;', title:'Templates', items:['certCompliance']}
     ]},
@@ -1290,7 +1296,7 @@ const GUIDES = {
         {t:'Prayer; appendix.', cites:[T('53.2')]}
       ]},
       {type:'note', title:'Review is discretionary',
-        body:'The Court considers factors such as conflicts among the courts of appeals, an important or unsettled question of law, construction or validity of a statute, constitutional questions, and error important to the jurisprudence of the State. Length: 4,500 words / 15 pages; merits briefs 15,000 words.',
+        body:'The Court considers factors such as conflicts among the courts of appeals, an important or unsettled question of law, construction or validity of a statute, constitutional questions, and error important to the jurisprudence of the State. Length: 6,500 words / 20 pages, including the introduction (as amended effective Jan. 1, 2026); merits briefs 15,000 words.',
         cites:[T('56.1'),T('9.4(i)(2)')]},
       {type:'templates', icon:'&#128190;', title:'Templates', items:['certCompliance']}
     ]},
@@ -1368,7 +1374,9 @@ const GUIDES = {
         {t:'A motion may be decided without an oral hearing.', cites:[T('10.3')]}
       ]},
       {type:'wordlimits', icon:'&#128207;', title:'Length', rows:[
-        {doc:'Motion or response', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)')}
+        {doc:'Motion for rehearing or response', words:'4,500 words', pages:'15 pages', cite:T('9.4(i)(2)(E)')},
+        {doc:'Other motion or response in the Supreme Court', words:'2,500 words', pages:'10 pages', cite:T('9.4(i)(2)(G)')},
+        {doc:'Other motions in a court of appeals', words:'no TRAP word limit', pages:'&mdash;', cite:T('10.1')}
       ]},
       {type:'templates', icon:'&#128190;', title:'Templates', items:['motionExtend','certCompliance']}
     ]},
@@ -1395,11 +1403,11 @@ const GUIDES = {
       var rule = scotx ? '55' : '70';
       var court = scotx ? 'Supreme Court of Texas' : 'Court of Criminal Appeals';
       return [
-        {type:'note', icon:'&#8505;', title:'Which rule governs', body:'Merits briefing in the <b>'+court+'</b> is governed by <b>TRAP '+rule+'</b> &mdash; <b>not</b> TRAP 38, which applies in the courts of appeals. Briefs on the merits are filed after the court grants review, or when the court requests them.', cites:[T(rule)]},
+        {type:'note', icon:'&#8505;', title:'Which rule governs', body:'Merits briefing in the <b>'+court+'</b> is governed by <b>TRAP '+rule+'</b> &mdash; <b>not</b> TRAP 38, which applies in the courts of appeals. '+(scotx?'A brief on the merits <b>must not be filed unless the Court orders it</b>; the Court may order merits briefs with or without granting the petition.':'Briefs on the merits are filed after the court grants review.'), cites:[T(scotx?'55.1':'70.1')]},
         {type:'checklist', icon:'&#9989;', title:'Essentials', items:[
           {t:'The party who sought review files the opening brief on the merits; the opposing party responds; a reply may follow.', cites:[T(rule)]},
-          {t:'Typeface, format, and length follow the general form rule &mdash; confirm the current word limit for a merits brief.', cites:[T('9.4')]},
-          {t:'A party may adopt by reference all or part of a brief already filed in the court of appeals.', cites:[T(rule)]}
+          {t:'Length: <b>15,000 words</b> (50 pages if not computer-generated); a reply brief is limited to 7,500 words. Typeface and format follow the general form rule.', cites:[T('9.4(i)(2)')]},
+          {t:(scotx?'As a brief on the merits or a brief in response, a party may file the brief that party filed in the court of appeals.':'Check the rule for what the brief must contain and whether other briefs are permitted.'), cites:[T(scotx?'55.5':'70.3')]}
         ]}
       ];
     }
@@ -1450,7 +1458,7 @@ const GUIDES = {
         {t:'<b>Error preservation is strict.</b> You generally must have made a timely, specific request, objection, or motion in the trial court and obtained a ruling.', cites:[T('33.1')]},
         {t:'<b>No rehearing prerequisite.</b> A motion for rehearing in the court of appeals is not required before a petition for review or a PDR.', cites:[T('49.10')]},
         {t:'<b>Two Houston courts.</b> The First and Fourteenth Courts of Appeals share the same geographic district; cases are assigned between them.'},
-        {t:'<b>The Fifteenth Court of Appeals</b> (effective Sept. 1, 2023) has statewide civil jurisdiction over cases involving the State or state agencies and appeals from the new Texas Business Court.'},
+        {t:'<b>The Fifteenth Court of Appeals</b> (created by 2023 legislation; it began hearing cases Sept. 1, 2024) has statewide civil jurisdiction over cases involving the State or state agencies and appeals from the new Texas Business Court.'},
         {t:'<b>Supersedeas.</b> To suspend enforcement of a judgment during the appeal, post a supersedeas bond or other security.', cites:[T('24')]},
         {t:'<b>Mandamus standard.</b> Extraordinary relief requires a clear abuse of discretion and no adequate remedy by appeal.', cites:[CITE.walker,CITE.prudential]},
         {t:'<b>eFileTexas.</b> Electronic filing is mandatory for attorneys statewide through the eFileTexas portal.', cites:[T('9.2')]}
@@ -1651,34 +1659,38 @@ const TEMPLATES = {
       P('SKELETON TEMPLATE — shows the required sections, not a finished brief. Supply your own facts, argument, and authorities; verify every rule and citation before filing.',{italic:true,align:'center',spaceAfter:240}),
       P('No. [____]',{align:'center'}),
       P('IN THE '+(c.name?c.name.toUpperCase():'[____] COURT OF APPEALS')+' OF TEXAS',{align:'center',spaceAfter:240}),
-      P('JORDAN AVERY, Appellant,',{align:'center'}), P('v.',{align:'center'}), P('MERIDIAN FREIGHT SYSTEMS, INC., Appellee.',{align:'center',spaceAfter:240}),
+      P('[APPELLANT NAME], Appellant,',{align:'center'}), P('v.',{align:'center'}), P('[APPELLEE NAME], Appellee.',{align:'center',spaceAfter:240}),
       P('On Appeal from the [___] District Court of [County] County, Texas',{align:'center'}),
       P('Cause No. [____], Hon. [Judge]',{align:'center',spaceAfter:240}),
       P('BRIEF OF APPELLANT',{style:'title'}),
       P('IDENTITY OF PARTIES AND COUNSEL',{style:'h1'}),
-      P('Appellant: Jordan Avery — [counsel, firm, address]. Appellee: Meridian Freight Systems, Inc. — [counsel, firm, address].',{spaceAfter:120}),
+      P('Appellant: [name] — [counsel, firm, address]. Appellee: [name] — [counsel, firm, address]. [List every party to the trial court’s judgment and all trial and appellate counsel.]',{spaceAfter:120}),
       P('TABLE OF CONTENTS',{style:'h1'}),
-      P('Index of Authorities … · Statement of the Case … · Issues Presented … · Statement of Facts … · Summary of the Argument … · Argument … · Prayer …',{spaceAfter:120}),
+      P('Index of Authorities … · Statement of the Case … · Statement Regarding Oral Argument … · Issues Presented … · Statement of Facts … · Summary of the Argument … · Argument … · Prayer … · Appendix …',{spaceAfter:120}),
       P('INDEX OF AUTHORITIES',{style:'h1'}),
       P('[Cases and rules relied on, alphabetically, with page references.]',{spaceAfter:120}),
       P('STATEMENT OF THE CASE',{style:'h1'}),
-      P('This is an appeal from a [summary judgment / take-nothing judgment] rendered [date] disposing of all claims. Appellant timely perfected this appeal. (TRAP 38.1(d).)',{spaceAfter:120}),
+      P('[Concisely state the nature of the case, the course of proceedings, and the trial court’s disposition, with record references — seldom more than one-half page. (TRAP 38.1(d).)]',{spaceAfter:120}),
+      P('STATEMENT REGARDING ORAL ARGUMENT',{style:'h1'}),
+      P('[Explain why oral argument should or should not be permitted. (TRAP 38.1(e).)]',{spaceAfter:120}),
       P('ISSUES PRESENTED',{style:'h1'}),
-      P('1. Whether the trial court erred in granting summary judgment where the evidence raises a genuine issue of material fact as to [element].',{spaceAfter:120}),
+      P('[State concisely each issue or point presented for review. (TRAP 38.1(f).)]',{spaceAfter:120}),
       P('STATEMENT OF FACTS',{style:'h1'}),
       P('[Concise statement of the material facts, with citations to the clerk’s record (CR __) and reporter’s record (RR __).]',{spaceAfter:120}),
       P('SUMMARY OF THE ARGUMENT',{style:'h1'}),
-      P('The judgment should be reversed. Viewing the evidence in the light most favorable to appellant, a reasonable factfinder could find [fact]; the trial court instead resolved a disputed fact issue, which is error.',{spaceAfter:120}),
+      P('[A succinct, clear, and accurate statement of the arguments made in the body of the brief — not a repetition of the issues. (TRAP 38.1(h).)]',{spaceAfter:120}),
       P('ARGUMENT',{style:'h1'}),
-      P('I. Standard of Review. This Court reviews a summary judgment de novo, taking evidence favorable to the nonmovant as true and indulging every reasonable inference in the nonmovant’s favor. [Cite controlling Texas authority.]',{}),
-      P('II. A genuine issue of material fact precludes summary judgment. [Apply the standard to the record; explain the specific fact dispute with CR/RR cites.]',{spaceAfter:120}),
+      P('I. Standard of Review. [State the standard of review for each issue, citing controlling Texas authority.]',{}),
+      P('II. [Argument heading]. [A clear and concise argument for each contention, with citations to authorities and to the record (CR/RR). (TRAP 38.1(i).)]',{spaceAfter:120}),
       P('PRAYER',{style:'h1'}),
-      P('Appellant respectfully asks the Court to reverse the judgment and remand for trial, and for all other relief to which appellant is entitled.',{spaceAfter:240}),
+      P('Appellant respectfully asks the Court to [state the precise relief sought], and for all other relief to which appellant is entitled.',{spaceAfter:240}),
       P('/s/ [Attorney]',{}), P('Counsel for Appellant',{spaceAfter:120}),
       P('CERTIFICATE OF COMPLIANCE',{style:'h1'}),
       P('This brief contains [____] words per TRAP 9.4(i), in 14-point Times New Roman. /s/ [Attorney]',{spaceAfter:120}),
       P('CERTIFICATE OF SERVICE',{style:'h1'}),
-      P('I certify that this brief was served on all counsel of record on [date] per TRAP 9.5. /s/ [Attorney]',{})
+      P('I certify that this brief was served on all counsel of record on [date] per TRAP 9.5. /s/ [Attorney]',{spaceAfter:120}),
+      P('APPENDIX',{style:'h1'}),
+      P('[In a civil case: the trial court’s judgment or other appealable order; any jury charge and verdict or findings of fact and conclusions of law; and the text of any rule, statute, or contract provision on which the argument is based. (TRAP 38.1(k).)]',{})
     ]}
 };
 
