@@ -9,6 +9,18 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="icon" type="image/png" href="favicon-dog.png">
 <link rel="apple-touch-icon" href="favicon-dog.png">
+<style>
+  .contact-form{max-width:560px;margin:10px 0 6px;text-align:left}
+  .hp-field{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .cf-label{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:16px 0 6px}
+  .cf-req{color:#e8a0a0}
+  .cf-input{width:100%;box-sizing:border-box;padding:11px 13px;font-family:var(--serif);font-size:16px;color:var(--navy);background:#fbf9f2;border:1px solid var(--gold-dk);border-radius:8px}
+  .cf-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(210,166,60,.3)}
+  textarea.cf-input{resize:vertical;min-height:120px}
+  .cf-counter{font-family:var(--mono);font-size:12px;color:var(--gold-lt);margin-top:5px;text-align:right}
+  .contact-form [data-netlify-recaptcha]{margin-top:18px}
+  .contact-form .cf-submit{margin-top:20px;cursor:pointer;border:none;width:auto}
+</style>
 </head>
 <body>
 
@@ -46,6 +58,38 @@
       <a class="addr" href="mailto:contact@MyAppealCoach.com">contact@MyAppealCoach.com</a>
     </div>
 
+    <p class="kicker" style="margin-top:34px;">Or send us a message</p>
+    <form name="contact" method="POST" data-netlify="true" data-netlify-recaptcha="true" netlify-honeypot="bot-field" action="/thanks.html" class="contact-form">
+      <input type="hidden" name="form-name" value="contact">
+      <p class="hp-field" aria-hidden="true"><label>Leave this field empty if you are human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+      <label class="cf-label" for="cf-name">Name <span class="cf-req">*</span></label>
+      <input class="cf-input" type="text" id="cf-name" name="name" required autocomplete="name">
+
+      <label class="cf-label" for="cf-firm">Firm / School</label>
+      <input class="cf-input" type="text" id="cf-firm" name="firm" autocomplete="organization">
+
+      <label class="cf-label" for="cf-email">Email <span class="cf-req">*</span></label>
+      <input class="cf-input" type="email" id="cf-email" name="email" required autocomplete="email">
+
+      <label class="cf-label" for="cf-type">Type of question / comment <span class="cf-req">*</span></label>
+      <select class="cf-input" id="cf-type" name="type" required>
+        <option value="" disabled selected>Choose one&hellip;</option>
+        <option value="Technical question/suggestion">Technical question/suggestion</option>
+        <option value="Product question/suggestion">Product question/suggestion</option>
+        <option value="Billing question/suggestion">Billing question/suggestion</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label class="cf-label" for="cf-message">Your message <span class="cf-req">*</span></label>
+      <textarea class="cf-input" id="cf-message" name="message" rows="6" maxlength="1000" required oninput="cfCount()"></textarea>
+      <div class="cf-counter"><span id="cf-count">0</span> / 1000</div>
+
+      <div data-netlify-recaptcha="true"></div>
+
+      <button type="submit" class="pill pill-gold cf-submit">Send message</button>
+    </form>
+
     <p class="form-note">Writing to us does not create an attorney-client relationship or a
     contract.</p>
   </div>
@@ -78,5 +122,9 @@
 </footer>
 
 <script src="nav.js"></script>
+<script>
+  function cfCount(){ var t=document.getElementById('cf-message'); var c=document.getElementById('cf-count'); if(t&&c) c.textContent=t.value.length; }
+  document.addEventListener('DOMContentLoaded', cfCount);
+</script>
 </body>
 </html>
