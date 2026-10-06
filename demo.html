@@ -104,6 +104,18 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
   #endcard .visit{font-size:.9rem;padding:8px 18px}
   #endcard .replay,#endcard .bookmark{padding:7px 14px}
 }
+  /* --- Accessibility: keyboard focus ring + transcript (text alternative for the narration) --- */
+  :focus-visible{outline:3px solid #e0c274;outline-offset:2px}
+  .tr-open{display:inline-block;background:transparent;border:1px solid #8a7a55;color:#e9dcb4;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:8px 15px;border-radius:6px;cursor:pointer}
+  #endcard .tr-open{margin-top:2px}
+  #demo-transcript{position:fixed;inset:0;z-index:60;background:rgba(5,16,31,.97);display:none;overflow-y:auto;padding:26px 18px 64px;-webkit-overflow-scrolling:touch}
+  #demo-transcript.show{display:block}
+  #demo-transcript .tr-wrap{max-width:720px;margin:0 auto;color:#f3efe6;font-family:Georgia,'Century Schoolbook',serif;line-height:1.62}
+  #demo-transcript h2{font-family:'DM Mono',monospace;font-size:1.05rem;letter-spacing:.03em;color:#f2e9cf;margin:6px 0 2px;text-align:center}
+  #demo-transcript .tr-intro{font-size:.88rem;color:#cdd8e6;text-align:center;margin:0 0 20px}
+  #demo-transcript h3{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#d9b24a;margin:22px 0 6px}
+  #demo-transcript p{margin:0 0 12px;font-size:1rem}
+  #demo-transcript .tr-close{position:sticky;top:0;float:right;background:#c9a227;color:#12233d;border:none;border-radius:8px;font-weight:700;font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;padding:9px 14px;cursor:pointer;z-index:1}
 </style></head>
 <body>
 <div id="app">
@@ -123,16 +135,55 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
       <button class="bookmark" id="bookmarkBtn">☆ Bookmark this site</button>
       <div class="bookmark-hint" id="bookmarkHint"></div>
       <button class="replay" id="replayBtn">▶ Replay from start</button>
+      <button class="tr-open" id="trOpenEnd" type="button">Read transcript</button>
     </div>
     <div id="splash">
       <div class="seal">⚖</div><div class="brand">MyAppealCoach</div>
       <div class="tag">The Moot Court Simulator — A Guided Tour</div>
       <button class="play" id="playBtn"><span class="tri">▶</span> Watch Demonstration</button>
+      <button class="tr-open" id="trOpenSplash" type="button">Read transcript</button>
       <div class="splash-tagline">Never meet a <span class="hot">hot</span> bench <span class="cold">cold</span>.</div>
     </div>
   </div></div>
   <div id="navbar"></div>
 </div>
+
+<div id="demo-transcript" role="dialog" aria-modal="true" aria-label="Demonstration transcript">
+  <div class="tr-wrap">
+    <button class="tr-close" id="trClose" type="button">✕ Close</button>
+    <h2>Demonstration transcript</h2>
+    <p class="tr-intro">A text version of the guided tour's narration.</p>
+    <h3>Welcome</h3>
+    <p>Welcome to My Appeal Coach! Our tools are written by appellate attorneys for appellate attorneys. This video gives a short tour and demonstration of how the site can help you prepare for your next big appeal.</p>
+    <h3>The Moot Court Simulator</h3>
+    <p>We've developed the world's first moot court simulator, where you can practice your oral argument any time and place — 24 hours per day. This isn't just entering questions into ChatGPT. Tens of thousands of lines of custom code and prompts make this a realistic, conversational moot. You control the length of the argument, how hot the panel is, and the complexity of the questions. It's the next best thing to a live moot, at a fraction of the cost.</p>
+    <h3>Fantasy Moot</h3>
+    <p>You've heard of Fantasy Football, but true appellate nerds play Fantasy Moot. With Fantasy Moot, you can argue Brown v. Board of Education, Gideon v. Wainwright, and other famous cases. These simulators use the same cases and arguments but ask our tools to generate new questions, to give you an idea of how it feels to drive the moot court simulator. This lets you practice using the tools while learning about history and the challenges these attorneys faced.</p>
+    <h3>Appellate Navigator</h3>
+    <p>Our Appellate Navigator is always free and is a great resource to bookmark. It contains local federal appellate rules and appellate rules for Texas, California, Florida, Illinois, and Georgia, and links to oral-argument recordings in these jurisdictions. It also contains online style guides and research tools.</p>
+    <h3>Federal Procedure</h3>
+    <p>One of the most valuable parts of the Appellate Navigator is the Procedure Navigator, a tool that walks you through procedural questions for federal and Texas appeals. Let's assume we have a case we want to appeal in the Fifth Circuit. Click the circuit, then click Continue. We have a lot of choices; we want to appeal a final judgment, so we click option 1. The Appellate Navigator provides tips for appealing a final judgment, with relevant citations. The tool advises that the first step is to make sure the judgment is truly final, and it cites several rules and statutes to help you confirm. Step 2 walks you through the rules on perfecting an appeal. Step 3 provides the relevant appellate deadlines from Rule 4. The next sections help new attorneys with logistics such as admission to the Fifth Circuit and how to log into PACER and file documents. There are tips on how to order transcripts, obtain and cite the record, and put together your brief. Since you're the appellant, the Navigator walks you through preparing your appendix, and there are links to official Fifth Circuit resources. The Procedure Navigator is particularly useful for attorneys practicing in a new jurisdiction or handling an unusual appellate matter.</p>
+    <h3>Texas Procedure</h3>
+    <p>The Procedure Navigator also covers Texas courts, including Texas's new Fifteenth Court of Appeals. Everything we've talked about is free for any appellate counsel to use — except the more complex AI tools. Let's take a look at how you would use the moot court simulator in one of your cases.</p>
+    <h3>Demonstration</h3>
+    <p>Let's go to the Moot Court Simulator and click Launch the Tool. This is your moot court dashboard. It may look overwhelming, but the sliders help you find the perfect balance of questions to prepare for the panel you're anticipating. The first step is to log in to your account at the top: you can have a monthly subscription, purchase a single use, or get a free trial. Once you're logged in, upload your brief. You can also upload your opponent's brief to help the system learn more about your case. These are public documents — you aren't giving AI anything privileged or confidential.</p>
+    <p>Do you want to practice answering questions or rebutting the other side's points? If you practice questions, the court will interrupt you. If you practice rebuttal, you'll listen to a three-minute argument from the other side and then have three minutes to respond to as many points as possible. Let's start with practicing questions. Next, you can check learning mode, where you answer a question and the court immediately offers suggestions for improvement, or realistic mode, where the court critiques your answers at the end. We'll keep the box checked for learning mode. One of the great things about the simulator is that you can customize the questions based on how familiar you are with the case: you can adjust the difficulty and frequency of questions, and even the percentage of questions related to the law, the record, and the larger effects of your case on jurisprudence.</p>
+    <p>The demonstration then begins a live simulated oral argument: the advocate presents and the bench interrupts with questions, with each exchange shown in the on-screen transcript.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var ov=document.getElementById('demo-transcript');
+  if(!ov) return;
+  var lastFocus=null;
+  function onKey(e){ if(e.key==='Escape'){ e.preventDefault(); closeTr(); } }
+  function openTr(){ lastFocus=document.activeElement; ov.classList.add('show'); var c=document.getElementById('trClose'); if(c) c.focus(); document.addEventListener('keydown',onKey); }
+  function closeTr(){ ov.classList.remove('show'); document.removeEventListener('keydown',onKey); try{ if(lastFocus&&lastFocus.focus) lastFocus.focus(); }catch(e){} }
+  ['trOpenSplash','trOpenEnd'].forEach(function(id){ var b=document.getElementById(id); if(b) b.addEventListener('click',openTr); });
+  var c=document.getElementById('trClose'); if(c) c.addEventListener('click',closeTr);
+  ov.addEventListener('click',function(e){ if(e.target===ov) closeTr(); });
+})();
+</script>
 
 <div id="rotate" onclick="this.classList.remove('show')">
   <div><div class="rot-ico">⟲</div>
@@ -6066,7 +6117,7 @@ function injectConfigExtras(d){
   // "Choose your practice" toggle — placed after the opponent's-brief field.
   const opp=d.getElementById('upload-opp'); const oppField=opp?opp.closest('.mr-field'):null;
   const pract=d.createElement('div'); pract.className='mr-field tour-practice'; pract.id='mode-field';
-  pract.innerHTML='<div class="tour-practice-title">Choose your practice</div><div class="tour-practice-desc">Field questions from the bench, or deliver a rebuttal to the opposing side. This is one or the other — not both in the same session.</div><div class="tour-practice-toggle" id="mode-toggle"><button type="button" class="tp-opt on" id="mode-questions">Practice questions</button><button type="button" class="tp-opt" id="mode-rebuttal">Practice rebuttal</button></div>';
+  pract.innerHTML='<div class="tour-practice-title">Choose your practice</div><div class="tour-practice-desc">Field questions from the bench, deliver a rebuttal to the opposing side, or listen to AI deliver a demo argument of your case.</div><div class="tour-practice-toggle" id="mode-toggle"><button type="button" class="tp-opt on" id="mode-questions">Practice questions</button><button type="button" class="tp-opt" id="mode-rebuttal">Practice rebuttal</button><button type="button" class="tp-opt" id="mode-aimoot">AI moot</button></div>';
   if(oppField) oppField.insertAdjacentElement('afterend', pract);
   const chk=d.querySelector('.mr-check'); if(chk) chk.id='learn-check';
 }
