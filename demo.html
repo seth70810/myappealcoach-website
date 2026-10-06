@@ -141,8 +141,8 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
       <div class="seal">⚖</div><div class="brand">MyAppealCoach</div>
       <div class="tag">The Moot Court Simulator — A Guided Tour</div>
       <button class="play" id="playBtn"><span class="tri">▶</span> Watch Demonstration</button>
-      <button class="tr-open" id="trOpenSplash" type="button">Read transcript</button>
       <div class="splash-tagline">Never meet a <span class="hot">hot</span> bench <span class="cold">cold</span>.</div>
+      <button class="tr-open" id="trOpenSplash" type="button" style="margin-top:22px">Read transcript</button>
     </div>
   </div></div>
   <div id="navbar"></div>
@@ -156,7 +156,7 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
     <h3>Welcome</h3>
     <p>Welcome to My Appeal Coach! Our tools are written by appellate attorneys for appellate attorneys. This video gives a short tour and demonstration of how the site can help you prepare for your next big appeal.</p>
     <h3>The Moot Court Simulator</h3>
-    <p>We've developed the world's first moot court simulator, where you can practice your oral argument any time and place — 24 hours per day. This isn't just entering questions into ChatGPT. Tens of thousands of lines of custom code and prompts make this a realistic, conversational moot. You control the length of the argument, how hot the panel is, and the complexity of the questions. It's the next best thing to a live moot, at a fraction of the cost.</p>
+    <p>We've built the world's first AI-powered moot court simulator, where you can practice your oral argument any time, day or night. Upload your brief and choose your court from current and historic jurists. Listen to an AI advocate argue your case, or step up to the podium yourself and face a panel that interrupts with real questions. This isn't just entering prompts into ChatGPT. Tens of thousands of lines of custom code and prompts make it a realistic, conversational moot. You control the length of the argument, how hot the panel is, and the complexity of the questions. It's the next best thing to a live moot, at a fraction of the cost.</p>
     <h3>Fantasy Moot</h3>
     <p>You've heard of Fantasy Football, but true appellate nerds play Fantasy Moot. With Fantasy Moot, you can argue Brown v. Board of Education, Gideon v. Wainwright, and other famous cases. These simulators use the same cases and arguments but ask our tools to generate new questions, to give you an idea of how it feels to drive the moot court simulator. This lets you practice using the tools while learning about history and the challenges these attorneys faced.</p>
     <h3>Appellate Navigator</h3>
@@ -168,6 +168,7 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
     <h3>Demonstration</h3>
     <p>Let's go to the Moot Court Simulator and click Launch the Tool. This is your moot court dashboard. It may look overwhelming, but the sliders help you find the perfect balance of questions to prepare for the panel you're anticipating. The first step is to log in to your account at the top: you can have a monthly subscription, purchase a single use, or get a free trial. Once you're logged in, upload your brief. You can also upload your opponent's brief to help the system learn more about your case. These are public documents — you aren't giving AI anything privileged or confidential.</p>
     <p>Do you want to practice answering questions or rebutting the other side's points? If you practice questions, the court will interrupt you. If you practice rebuttal, you'll listen to a three-minute argument from the other side and then have three minutes to respond to as many points as possible. Let's start with practicing questions. Next, you can check learning mode, where you answer a question and the court immediately offers suggestions for improvement, or realistic mode, where the court critiques your answers at the end. We'll keep the box checked for learning mode. One of the great things about the simulator is that you can customize the questions based on how familiar you are with the case: you can adjust the difficulty and frequency of questions, and even the percentage of questions related to the law, the record, and the larger effects of your case on jurisprudence.</p>
+    <p>There's also a third option — AI moot. Choose it and you can sit back and listen as an AI advocate delivers a full argument of your case and fields the panel's questions. For this walkthrough we stay at the podium and practice answering questions ourselves.</p>
     <p>The demonstration then begins a live simulated oral argument: the advocate presents and the bench interrupts with questions, with each exchange shown in the on-screen transcript.</p>
   </div>
 </div>
@@ -4929,18 +4930,6 @@ const SCRIPT = [
       flaws: ["“Remedial statutes are construed liberally” is a canon the Court will apply unless you give it a textual reason not to — consequences alone may not overcome it."],
       stronger: "The clear statement is in the statute itself, Your Honor. Section 103.153(b) provides that a claimant who accepts compensation waives any other action — the Legislature speaking directly to the pending-suit question. Liberal construction fills gaps; it does not erase an express election. And the reading Mr. Brown urges lets a claimant take the State's money and still pursue the county — turning a remedial statute into a double recovery."
     }
-  },
-  {
-    justice: byKey('roberts'),
-    clip: 'counsel_answer_3',
-    question: "Then what is a claimant supposed to do — dismiss a meritorious lawsuit before he applies, on pain of losing it? Is that really the choice the Legislature intended?",
-    answer: "That is precisely the choice the Legislature intended, and claimants make it every year. The election appears on the face of the statute. Mr. Brown was represented by counsel, applied while this case was on file, pressed for the payment, and accepted it — knowing what Section 103.153(b) says. He received the benefit of the bargain the Legislature struck.",
-    critique: {
-      worked: "Your strongest answer. Concrete record — represented by counsel, applied while on file, pressed for and accepted payment — and “the benefit of the bargain” is exactly the right frame for a hard-choice question.",
-      improve: "“Claimants make it every year” is an assertion the Court cannot check. Cite the record or drop it and let the statutory election carry the answer.",
-      flaws: [],
-      stronger: "It is the choice the Legislature wrote onto the face of the statute, Mr. Chief Justice. Take the State's compensation or pursue other actions — not both. It is no trap: Mr. Brown was represented by counsel, applied while this suit was on file, and accepted the payment knowing what Section 103.153(b) says. A claimant who prefers his lawsuit is free to decline the compensation and litigate — that path stays open."
-    }
   }
 ];
 
@@ -4949,12 +4938,12 @@ const SCORECARD = {
   style: 79,
   styleNote: "Confident, well-organized delivery with authority at your fingertips. A few answers ran long or leaned on dictionary definitions where a single textual hook would have landed harder.",
   summary: "A well-prepared defense of a difficult position under a hot bench. You consistently had a case ready and used the statute's structure and the Act's purpose to good effect. Your best moments were concrete and record-based; your weaker moments answered a question the Justice did not quite ask — meeting a logical objection with a lexical reply, or a clear-statement demand with a purpose argument.",
-  best: "“That is precisely the choice the Legislature intended — Mr. Brown was represented by counsel, applied while this case was on file, pressed for the payment, and accepted it knowing what Section 103.153(b) says. He received the benefit of the bargain the Legislature struck.”",
+  best: "“This Court stated clearly in Oakley that Section 103.152 protects local entities from having to add to a settlement paid by the State — and a liberal construction could be devastating to smaller counties. That cannot be what the Legislature intended.”",
   area: "Answer the question actually asked before pivoting. Twice the Court raised a distinct point — waiver of an act already done, and the clear-statement rule — and you moved to purpose or dictionary before meeting it head-on.",
   recs: [
     "Anchor the waiver point in the statutory election of Section 103.153(b), not the definition of “bring” — the election reaches a pending suit by design.",
     "When the Court invokes the remedial canon, identify your clear statement in the text; do not answer a canon with consequences alone.",
-    "Keep doing what you did on the third question — concrete, record-based, and short. That is your strongest register."
+    "Keep doing what you did when you were concrete and record-based — Oakley and the fiscal stakes for smaller counties. That is your strongest register."
   ]
 };
 
@@ -5802,7 +5791,7 @@ async function playDemo(){
     await runQuestion(SCRIPT[i], i);
   }
 
-  $('progress-label').textContent = 'Question 3 of 3 — Complete';
+  $('progress-label').textContent = 'Question ' + SCRIPT.length + ' of ' + SCRIPT.length + ' — Complete';
   $('progress-bar').style.width = '100%';
   await sleep(900);
 
