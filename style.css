@@ -160,7 +160,7 @@ button.btn-butter{cursor:pointer;font-size:19px}
 .foot-nav a:hover,.foot-nav a:focus-visible{color:var(--gold-lt)}
 .foot-mark{color:#fff;font-size:20px}
 .notice{border-top:1px solid rgba(255,255,255,.14);padding-top:22px;font-size:14px;
-        line-height:1.7;color:#8b877c;max-width:66em;
+        line-height:1.7;color:#959184;max-width:66em;
         text-align:justify;hyphens:auto;-webkit-hyphens:auto;text-wrap:pretty}
 
 /* ---------- hover biography panel (justice-bios.js) ----------
