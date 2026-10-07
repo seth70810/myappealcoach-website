@@ -4765,6 +4765,12 @@ window.addEventListener('unhandledrejection', e => showErr('Promise rejection: '
 /* ── Web Audio (also drives the recorded narration + gavel) ─── */
 let audioCtx = null;
 let isPaused = false;   // demo pause/resume state (see setPaused)
+/* Exposed so the parent tour frame can pause/resume this embedded argument. */
+try{ window._setDemoPaused = function(p){
+  isPaused = !!p;
+  try{ if(p){ if(audioCtx && audioCtx.state==='running') audioCtx.suspend(); } else if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); }catch(e){}
+  try{ if(window.speechSynthesis){ if(p) speechSynthesis.pause(); else speechSynthesis.resume(); } }catch(e){}
+}; }catch(e){}
 function ensureAudio(){
   try{
     if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
@@ -5937,7 +5943,8 @@ const SCENES=[
   {type:'image',img:IMG.s05,aud:AUD.n05,kick:'Appellate Navigator',line:'Always free — rules, research, and the Procedure Navigator.',nav:'Appellate Navigator'},
   {type:'procedure',auds:[AUD.n06,AUD.n07,AUD.n08],nav:'Federal Procedure'},
   {type:'texas',aud:AUD.n09,nav:'Texas Procedure'},
-  {type:'democonfig',nav:'Demo'}
+  {type:'democonfig',phase:'config',nav:'Demo'},
+  {type:'democonfig',phase:'sample',nav:'Sample Case'}
 ];
 
 const $=id=>document.getElementById(id);
@@ -5977,13 +5984,13 @@ function setPaused(p){
     try{ if(audioCtx && audioCtx.state==='running') audioCtx.suspend(); }catch(e){}
     try{ if(window._tourAC && window._tourAC.suspend) window._tourAC.suspend(); }catch(e){}
     try{ if(window.speechSynthesis) speechSynthesis.pause(); }catch(e){}
-    if(w){ try{ if(w.speechSynthesis) w.speechSynthesis.pause(); }catch(e){} try{ if(w.audioCtx && w.audioCtx.suspend) w.audioCtx.suspend(); }catch(e){} }
+    if(w && w._setDemoPaused){ try{ w._setDemoPaused(true); }catch(e){} }
   } else {
     liveAudios.forEach(a=>{ try{ if(!a.ended) a.play().catch(()=>{}); }catch(e){} });
     try{ if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); }catch(e){}
     try{ if(window._tourAC && window._tourAC.resume) window._tourAC.resume(); }catch(e){}
     try{ if(window.speechSynthesis) speechSynthesis.resume(); }catch(e){}
-    if(w){ try{ if(w.speechSynthesis) w.speechSynthesis.resume(); }catch(e){} try{ if(w.audioCtx && w.audioCtx.resume) w.audioCtx.resume(); }catch(e){} }
+    if(w && w._setDemoPaused){ try{ w._setDemoPaused(false); }catch(e){} }
   }
 }
 function togglePause(){ setPaused(!isPaused); }
@@ -6215,7 +6222,7 @@ async function playDemoConfig(sc, tok){
   try{ w.playNarration = ()=> Promise.resolve(); }catch(e){}
   try{ w.decodeNarration = ()=> Promise.resolve(null); }catch(e){}
   try{ const _oc=w.clipBuffer; w.clipBuffer=function(key,clip){ return key==='conclusion' ? null : _oc(key,clip); }; }catch(e){}
-  try{ w.setupAnimation = () => configChoreography(w, d, tok); }catch(e){}
+  // setupAnimation is chosen per phase below (config walkthrough vs. straight to the argument).
   // Feed pre-rendered justice audio (crier + 3 questions) so every argument line is
   // WebAudio that is fully awaited — the visuals can't outrun the audio from file://.
   try{
@@ -6233,6 +6240,13 @@ async function playDemoConfig(sc, tok){
     };
   }catch(e){}
   try{ w.ensureAudio && w.ensureAudio(); }catch(e){}
+  if(sc.phase === 'config'){
+    // "Demo" chip: the configuration walkthrough only — stop before the argument.
+    try{ await configChoreography(w, d, tok); }catch(e){}
+    return;
+  }
+  // "Sample Case" chip: skip the config walkthrough; go straight to the live argument + score.
+  try{ w.setupAnimation = () => Promise.resolve(); }catch(e){}
   try{ w.playDemo && w.playDemo(); }catch(e){}
   // Wait until the scorecard reaches its wrap-up, then narrate our sage closing.
   const start=Date.now();
