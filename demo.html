@@ -6401,10 +6401,10 @@ async function playFrom(i, stopIdx){
   }
   if(tok===playToken){
     setActiveNav(-1); showPauseBtn(false);
-    // Sage closing after the final scene (the full tour, or the navigator clip
-    // which also ends on Texas). Clips that stop earlier get no closing.
-    if(end===SCENES.length-1){ await playClosing(tok); if(tok!==playToken) return; }
     $('endcard').classList.add('show');
+    // Sage closing plays once, at the end of the FULL tour only (never for a
+    // clip), as a voice-over on the end card — no blank closing screen.
+    if(!CLIP && end===SCENES.length-1){ await playClosing(tok); }
   }
 }
 async function playClosing(tok){
@@ -6430,7 +6430,7 @@ function setActiveNav(i){ [...navbar.children].forEach((c,k)=>c.classList.toggle
 // range of scenes; the splash play button supplies the gesture audio needs.
 var CLIP=null;
 (function(){
-  var RANGES={ fantasy:['fantasy','fantasy'], navigator:['navigator','texas'] };
+  var RANGES={ moot:['welcome','sample'], fantasy:['fantasy','fantasy'], navigator:['navigator','texas'] };
   var m=(location.search.match(/[?&]clip=([a-z]+)/)||[])[1];
   if(!m||!RANGES[m]) return;
   var keys=SCENES.map(function(s){return s.key;});
