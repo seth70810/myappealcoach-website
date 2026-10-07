@@ -116,6 +116,13 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
   #demo-transcript h3{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#d9b24a;margin:22px 0 6px}
   #demo-transcript p{margin:0 0 12px;font-size:1rem}
   #demo-transcript .tr-close{position:sticky;top:0;float:right;background:#c9a227;color:#12233d;border:none;border-radius:8px;font-weight:700;font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;padding:9px 14px;cursor:pointer;z-index:1}
+  #pausebtn{position:absolute;left:14px;bottom:14px;z-index:30;display:none;width:46px;height:46px;border-radius:50%;background:rgba(8,19,39,.85);border:1px solid rgba(212,176,106,.55);color:#f2e9cf;font-size:15px;line-height:1;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+  #pausebtn.show{display:flex}
+  #pausebtn:hover{background:rgba(12,28,54,.95)}
+  #pausedmsg{position:absolute;inset:0;z-index:28;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(5,16,31,.8);color:#f2e9cf;font-family:Georgia,'Century Schoolbook',serif;text-align:center;padding:24px}
+  #pausedmsg.show{display:flex}
+  #pausedmsg .pm-title{font-size:1.7rem;font-weight:bold;margin-bottom:10px;letter-spacing:.03em}
+  #pausedmsg .pm-sub{font-size:1.05rem;color:#dbe4ef;max-width:440px;line-height:1.5}
 </style></head>
 <body>
 <div id="app">
@@ -127,6 +134,8 @@ html,body{margin:0;height:100%;background:#05101f;color:#f7f4ef;font-family:Geor
     <div class="cap" id="cap"><div class="kick" id="kick"></div><div class="line" id="line"></div></div>
     <div id="prog"></div>
     <div id="fade"></div>
+    <button id="pausebtn" type="button" aria-label="Pause" title="Pause">&#10074;&#10074;</button>
+    <div id="pausedmsg"><div class="pm-title">Paused</div><div class="pm-sub">Please press play to continue, or navigate the topics below.</div></div>
     <div id="endcard">
       <div class="end-seal">⚖</div>
       <div class="msg">Ready to prepare your appeal?</div>
@@ -4755,6 +4764,7 @@ window.addEventListener('unhandledrejection', e => showErr('Promise rejection: '
 
 /* ── Web Audio (also drives the recorded narration + gavel) ─── */
 let audioCtx = null;
+let isPaused = false;   // demo pause/resume state (see setPaused)
 function ensureAudio(){
   try{
     if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
@@ -5087,14 +5097,15 @@ function playBuffer(buf, endSec){
     const ctx = ensureAudio();
     if(!ctx || !buf) return resolve(false);
     try{
-      if(ctx.state === 'suspended'){ try{ ctx.resume(); }catch(e){} }
+      if(ctx.state === 'suspended' && !isPaused){ try{ ctx.resume(); }catch(e){} }
       const node = ctx.createBufferSource();
       node.buffer = buf; node.connect(ctx.destination);
       let done = false;
       const fin = ok => { if(!done){ done = true; resolve(ok); } };
       node.onended = () => fin(true);
       const _lim = (endSec && endSec > 0 && endSec < buf.duration) ? endSec : buf.duration;
-      setTimeout(() => fin(true), _lim*1000 + 900);
+      const guard = () => { if(isPaused){ setTimeout(guard, 300); return; } fin(true); };
+      setTimeout(guard, _lim*1000 + 900);
       if(_lim < buf.duration){ node.start(0, 0, _lim); } else { node.start(0); }
     }catch(e){ resolve(false); }
   });
@@ -5953,7 +5964,30 @@ function killCurrent(){
   imageHost.innerHTML=''; toolhost.classList.remove('show'); toolhost.innerHTML='';
   hideCap(); hidePtr(); prog.style.width='0'; $('fade').classList.remove('show'); $('endcard').classList.remove('show');
 }
-function tsleep(ms,tok){ return new Promise(res=>{ let el=0; const t=setInterval(()=>{ el+=60; if(tok!==playToken||el>=ms){ clearInterval(t); res(); } },60); }); }
+function showPauseBtn(v){ const b=$('pausebtn'); if(b) b.classList.toggle('show', !!v); }
+function _iframeWin(){ try{ const fr=toolhost.querySelector('iframe'); return fr && fr.contentWindow; }catch(e){ return null; } }
+function setPaused(p){
+  isPaused = !!p;
+  const b=$('pausebtn'), m=$('pausedmsg');
+  if(b){ b.textContent = p ? '▶' : '❚❚'; b.setAttribute('aria-label', p ? 'Play' : 'Pause'); b.title = p ? 'Play' : 'Pause'; }
+  if(m) m.classList.toggle('show', !!p);
+  const w=_iframeWin();
+  if(p){
+    liveAudios.forEach(a=>{ try{a.pause();}catch(e){} });
+    try{ if(audioCtx && audioCtx.state==='running') audioCtx.suspend(); }catch(e){}
+    try{ if(window._tourAC && window._tourAC.suspend) window._tourAC.suspend(); }catch(e){}
+    try{ if(window.speechSynthesis) speechSynthesis.pause(); }catch(e){}
+    if(w){ try{ if(w.speechSynthesis) w.speechSynthesis.pause(); }catch(e){} try{ if(w.audioCtx && w.audioCtx.suspend) w.audioCtx.suspend(); }catch(e){} }
+  } else {
+    liveAudios.forEach(a=>{ try{ if(!a.ended) a.play().catch(()=>{}); }catch(e){} });
+    try{ if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); }catch(e){}
+    try{ if(window._tourAC && window._tourAC.resume) window._tourAC.resume(); }catch(e){}
+    try{ if(window.speechSynthesis) speechSynthesis.resume(); }catch(e){}
+    if(w){ try{ if(w.speechSynthesis) w.speechSynthesis.resume(); }catch(e){} try{ if(w.audioCtx && w.audioCtx.resume) w.audioCtx.resume(); }catch(e){} }
+  }
+}
+function togglePause(){ setPaused(!isPaused); }
+function tsleep(ms,tok){ return new Promise(res=>{ let el=0; const t=setInterval(()=>{ if(!isPaused) el+=60; if(tok!==playToken||el>=ms){ clearInterval(t); res(); } },60); }); }
 function getDuration(a){
   return new Promise(res=>{
     let done=false;
@@ -5975,6 +6009,7 @@ async function playTimed(a, triggers, tok){
   try{ a.currentTime=0; }catch(e){}
   await a.play().catch(()=>{});
   const t0=Date.now();
+  let pausedMs=0, pauseMark=0;
   return new Promise(res=>{
     let done=false; const fin=()=>{ if(done)return; done=true; liveAudios.delete(a); res(); };
     a.addEventListener('ended',fin,{once:true});
@@ -5982,7 +6017,9 @@ async function playTimed(a, triggers, tok){
     (function tick(){
       if(done) return;
       if(tok!==playToken){ try{a.pause();}catch(e){} fin(); return; }
-      const el=(Date.now()-t0)/1000, f=Math.min(1, el/dur);
+      if(isPaused){ if(!pauseMark) pauseMark=Date.now(); requestAnimationFrame(tick); return; }
+      if(pauseMark){ pausedMs += Date.now()-pauseMark; pauseMark=0; }
+      const el=(Date.now()-t0-pausedMs)/1000, f=Math.min(1, el/dur);
       prog.style.width=(100*f)+'%';
       (triggers||[]).forEach((tr,i)=>{ if(!fired[i] && f>=tr.frac){ fired[i]=true; try{tr.fn();}catch(e){} } });
       if(el>=dur+0.35){ fin(); return; }
@@ -6229,13 +6266,14 @@ async function playScene(sc, tok){
 async function playFrom(i){
   $('splash').style.display='none';
   killCurrent(); layout();
+  setPaused(false); showPauseBtn(true);
   const tok=playToken;
   for(let k=i;k<SCENES.length;k++){
     if(tok!==playToken) return;
     currentIndex=k; setActiveNav(k);
     try{ await playScene(SCENES[k], tok); }catch(e){}
   }
-  if(tok===playToken){ setActiveNav(-1); $('endcard').classList.add('show'); }
+  if(tok===playToken){ setActiveNav(-1); showPauseBtn(false); $('endcard').classList.add('show'); }
 }
 
 /* ---- nav bar ---- */
@@ -6245,6 +6283,8 @@ function setActiveNav(i){ [...navbar.children].forEach((c,k)=>c.classList.toggle
 
 $('playBtn').addEventListener('click',()=>playFrom(0));
 $('replayBtn').addEventListener('click',()=>playFrom(0));
+$('pausebtn').addEventListener('click',togglePause);
+document.addEventListener('keydown',function(e){ if(e.key===' '||e.code==='Space'){ var b=$('pausebtn'); if(b&&b.classList.contains('show')){ e.preventDefault(); togglePause(); } } });
 $('bookmarkBtn').addEventListener('click',()=>{
   let done=false;
   try{ if(window.external && typeof window.external.AddFavorite==='function'){ window.external.AddFavorite('https://myappealcoach.com','MyAppealCoach'); done=true; } }catch(e){}
