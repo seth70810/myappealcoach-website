@@ -6277,7 +6277,10 @@ async function configChoreography(w, d, tok){
 }
 
 async function playDemoConfig(sc, tok){
-  const fr=await makeTool('src-demo'); if(tok!==playToken) return; toolhost.classList.add('show');
+  const fr=await makeTool('src-demo'); if(tok!==playToken) return;
+  // NOTE: the toolhost is faded in LATER — only once the config screen is fully
+  // assembled (extras injected, justices built, scene shown) — so viewers never
+  // see elements pop in or overlap during the fade.
   const w=fr.contentWindow, d=fr.contentDocument;
   try{ const sp=d.getElementById('splash'); if(sp) sp.style.display='none'; }catch(e){}
   hidePtr(); hideCap();
@@ -6312,6 +6315,8 @@ async function playDemoConfig(sc, tok){
     try{ w.buildJusticeGrid && w.buildJusticeGrid(); }catch(e){}
     try{ w.buildPanelRow && w.buildPanelRow(); }catch(e){}
     try{ w.showScene && w.showScene('scene-setup'); }catch(e){}
+    await tsleep(250, tok);                 // let the layout settle before revealing
+    toolhost.classList.add('show');         // fade in the fully-assembled config
     await tsleep(400, tok);
     try{ await configChoreography(w, d, tok); }catch(e){}
     return;
@@ -6319,6 +6324,8 @@ async function playDemoConfig(sc, tok){
   // "Sample Case" chip: skip the config walkthrough; go straight to the live argument + score.
   try{ w.setupAnimation = () => Promise.resolve(); }catch(e){}
   try{ w._demoSampleMode = true; }catch(e){}   // skip the config-screen flash
+  try{ w.showScene && w.showScene('scene-loading'); }catch(e){}  // show loading, not the config
+  toolhost.classList.add('show');
   try{ w.playDemo && w.playDemo(); }catch(e){}
   // Wait until the scorecard reaches its wrap-up, then narrate our sage closing.
   const start=Date.now();
