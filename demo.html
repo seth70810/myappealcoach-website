@@ -4510,17 +4510,20 @@ body{font-family:var(--serif);background:#000;color:var(--ink)}
 
           <div class="mr-box" id="focus-box">
             <div class="mr-box-title">What should the panel focus on?</div>
-            <div class="mr-label" style="margin-bottom:9px;">Law / Cases / Statutes</div>
-            <div class="mr-cases-readout">
-              Percentage of questions that will focus on specific cases &amp; statutes (this depends on the sliders below and must be between 40% and 80%):
-              <span id="cases-pct">60%</span>
-            </div>
-            <div class="mr-row-between"><div class="mr-label" style="font-size:.62rem;">Record / facts</div><div class="mr-readout" id="record-readout">20%</div></div>
+            <div class="mr-row-between"><div class="mr-label">Law / Cases / Statutes</div><div class="mr-readout" id="cases-pct">60%</div></div>
+            <div class="mr-row-between" style="margin-top:10px;"><div class="mr-label" style="font-size:.62rem;">Record / facts</div><div class="mr-readout" id="record-readout">20%</div></div>
             <div class="mr-slider" id="record-slider"><div class="track"></div><div class="fill" id="record-fill" style="width:20%"></div><div class="thumb" id="record-thumb" style="left:20%"></div></div>
             <div class="mr-mini">Questions naming a specific record cite or fact.</div>
             <div class="mr-row-between" style="margin-top:12px;"><div class="mr-label" style="font-size:.62rem;">Policy / effects</div><div class="mr-readout" id="policy-readout">20%</div></div>
             <div class="mr-slider" id="policy-slider"><div class="track"></div><div class="fill" id="policy-fill" style="width:20%"></div><div class="thumb" id="policy-thumb" style="left:20%"></div></div>
             <div class="mr-mini">Questions about the practical effects of your position.</div>
+
+            <div id="focus-free" style="border-top:1px solid var(--mr-border);margin-top:14px;padding-top:12px;">
+              <div class="mr-box-title" style="font-size:.74rem;color:#8a1c1c;">If there are specific issues you'd like the Court to focus on or disregard, please explain here.</div>
+              <div class="mr-mini" style="margin:4px 0 7px;">Use this to steer the Court toward an area you want to practice. To avoid confusing the Court, please focus your request on relevant issues of law or fact.</div>
+              <textarea id="focus-text" rows="3" maxlength="200" readonly placeholder="Optional — e.g. focus on standing; skip the damages questions…"
+                style="width:100%;box-sizing:border-box;font-family:Georgia,'Century Schoolbook',serif;font-size:.82rem;line-height:1.45;padding:9px 11px;border:1px solid var(--mr-border);border-radius:6px;background:#fff;color:#14264a;resize:none;"></textarea>
+            </div>
           </div>
 
           <button class="mr-cta" id="begin-btn">Enter the Courtroom <span>→</span></button>
@@ -4590,6 +4593,7 @@ body{font-family:var(--serif);background:#000;color:var(--ink)}
 
     <div class="mr-bottom">
       <div class="mr-transcript-col">
+        <div id="demo-focus-note" style="display:none;font-family:var(--mono);font-size:.72rem;line-height:1.5;color:#14264a;background:#f4f1ea;border-left:3px solid #c9a227;border-radius:4px;padding:8px 11px;margin-bottom:10px;"></div>
         <div class="mr-row-between">
           <div class="mr-now-speaking">NOW SPEAKING <span class="mr-now-name" id="now-name">Counsel for Respondent</span></div>
           <div class="mr-now-clock" id="clock">00:00</div>
@@ -6197,6 +6201,15 @@ async function configChoreography(w, d, tok){
     {frac:0.30, fn:async()=>{ await click(); const a=d.getElementById('mode-aimoot'),q=d.getElementById('mode-questions'),r=d.getElementById('mode-rebuttal'); if(a)a.classList.add('on'); if(q)q.classList.remove('on'); if(r)r.classList.remove('on'); }},
     {frac:0.78, fn:async()=>{ await move('mode-questions',500); await click(); const a=d.getElementById('mode-aimoot'),q=d.getElementById('mode-questions'); if(a)a.classList.remove('on'); if(q)q.classList.add('on'); }}
   ], tok);
+  if(tok!==playToken){ hideCur(); return; }
+  // ---- Focus text box: show Counsel steering the Court (free-text request) ----
+  try{ await scrollTo('focus-free',18); }catch(e){}
+  await move('focus-text',600); await click();
+  try{ await w.typeInto('focus-text','Please focus on the issues involving the Tim Cole Act.',30); }catch(e){}
+  await tsleep(900,tok);
+  // Pre-arm the one-sentence summary that the Court shows on the argument page
+  // (above NOW SPEAKING) once the session starts.
+  try{ var _dfn=d.getElementById('demo-focus-note'); if(_dfn){ _dfn.textContent="At Counsel's request, the Court is focusing on the Tim Cole Act issues."; _dfn.style.display=''; } }catch(e){}
   if(tok!==playToken){ hideCur(); return; }
   // ---- Begin Argument ----
   try{ await w.scrollLeftTo(w.leftMaxScroll()); }catch(e){}
