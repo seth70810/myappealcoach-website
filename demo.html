@@ -6241,7 +6241,14 @@ async function playDemoConfig(sc, tok){
   }catch(e){}
   try{ w.ensureAudio && w.ensureAudio(); }catch(e){}
   if(sc.phase === 'config'){
-    // "Demo" chip: the configuration walkthrough only — stop before the argument.
+    // "Demo" chip: show the config screen and run the walkthrough only — stop
+    // before the argument. Mirror playDemo's pre-config setup so the screen
+    // actually renders (justice grid, panel row, scene-setup); we just don't go
+    // on to the loading screen and the argument.
+    try{ w.buildJusticeGrid && w.buildJusticeGrid(); }catch(e){}
+    try{ w.buildPanelRow && w.buildPanelRow(); }catch(e){}
+    try{ w.showScene && w.showScene('scene-setup'); }catch(e){}
+    await tsleep(400, tok);
     try{ await configChoreography(w, d, tok); }catch(e){}
     return;
   }
