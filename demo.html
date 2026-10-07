@@ -5797,10 +5797,16 @@ async function playDemo(){
   $('courtroom-photo').src = ASSETS.courtroom;
   $('mic-photo').src = ASSETS.microphone;
 
-  showScene('scene-setup');
-  await sleep(600);
-  await setupAnimation();
-  await sleep(300);
+  // In Sample Case mode the config walkthrough was already shown in "7 Demo",
+  // so skip flashing the config screen here — go straight to the loading screen.
+  if(!window._demoSampleMode){
+    showScene('scene-setup');
+    await sleep(600);
+    await setupAnimation();
+    await sleep(300);
+  } else {
+    showScene('scene-loading');
+  }
 
   await runLoading();
 
@@ -6255,7 +6261,9 @@ async function configChoreography(w, d, tok){
   ], tok);
   if(tok!==playToken){ hideCur(); return; }
   // ---- Begin Argument ----
-  try{ await w.scrollLeftTo(w.leftMaxScroll()); }catch(e){}
+  // Scroll the button fully into view before pressing it (the added court field
+  // pushed it lower; leftMaxScroll alone could leave it cut off at the bottom).
+  try{ await scrollTo('begin-btn', 120); }catch(e){ try{ await w.scrollLeftTo(w.leftMaxScroll()); }catch(_){} }
   const bb=d.getElementById('begin-btn'); if(bb) bb.classList.add('armed');
   await move('begin-btn',700);
   if(bb) bb.classList.add('pressed');
@@ -6310,6 +6318,7 @@ async function playDemoConfig(sc, tok){
   }
   // "Sample Case" chip: skip the config walkthrough; go straight to the live argument + score.
   try{ w.setupAnimation = () => Promise.resolve(); }catch(e){}
+  try{ w._demoSampleMode = true; }catch(e){}   // skip the config-screen flash
   try{ w.playDemo && w.playDemo(); }catch(e){}
   // Wait until the scorecard reaches its wrap-up, then narrate our sage closing.
   const start=Date.now();
