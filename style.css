@@ -237,11 +237,13 @@ button.btn-butter{cursor:pointer;font-size:19px}
 .faces img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;
            filter:grayscale(1);transition:filter .2s}
 .faces li:hover img{filter:none}
-@media (min-width:1180px){
-  .faces{grid-template-columns:repeat(5,minmax(0,100px));gap:20px}
+/* Keep the pool at TWO rows (10 across) much longer as the page narrows:
+   drop to 10 columns at 1150px (was 1440px) with a tighter gap, same size. */
+@media (min-width:1150px){
+  .faces{grid-template-columns:repeat(10,minmax(0,100px));gap:8px}
 }
 @media (min-width:1440px){
-  .faces{grid-template-columns:repeat(10,minmax(0,104px));gap:18px}
+  .faces{grid-template-columns:repeat(10,minmax(0,104px));gap:16px}
 }
 @media (min-width:1700px){
   .faces{grid-template-columns:repeat(10,minmax(0,118px));gap:22px}
