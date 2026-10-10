@@ -1,0 +1,15 @@
+Image credits
+=============
+
+scotus-courtroom.jpg
+  U.S. Supreme Court courtroom.
+  Photo by Phil Roeder, from the "Supreme Court of the United States" Flickr
+  account (https://www.flickr.com/photos/88876166@N00/5554035521), via Wikimedia
+  Commons (File:Inside_the_United_States_Supreme_Court.jpg).
+  License: Creative Commons Attribution 2.0 Generic (CC BY 2.0) —
+  https://creativecommons.org/licenses/by/2.0
+  Changes: center-cropped to 4:3 and resized to 1600x1200.
+
+texas-courtroom.jpg
+  Supreme Court of Texas courtroom. Photograph provided by MyAppealCoach;
+  resized to 1600x1200.
