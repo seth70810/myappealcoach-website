@@ -64,7 +64,19 @@
     if (p && p.catch) p.catch(function () {});
     if (btn) btn.hidden = true;
   }
-  if (btn) btn.addEventListener('click', enableSound);
+  // The sound button toggles sound only — don't let it trigger the launch click.
+  if (btn) btn.addEventListener('click', function (e) { e.stopPropagation(); enableSound(); });
+
+  // Clicking the video (anywhere but the sound button) opens the tool, same as
+  // the "Launch the Tool" button. Once the viewer has turned sound on (native
+  // controls showing), clicks drive the player instead.
+  var LAUNCH_URL = 'https://app.myappealcoach.com/oral-arguments#moot';
+  var hero = v.parentNode;
+  if (hero) hero.addEventListener('click', function (e) {
+    if (soundOn) return;
+    if (btn && btn.contains(e.target)) return;
+    window.open(LAUNCH_URL, '_blank', 'noopener');
+  });
 
   if (reduce || saveData) {
     // Respect explicit user preferences: no autoplay. Reveal so the poster shows
@@ -79,10 +91,10 @@
   v.addEventListener('playing', reveal, { once: true });
   var play = v.play();
   if (play && play.then) {
-    play.then(function () { reveal(); showBtn('Tap for sound', '🔊'); startOverlay(); })
+    play.then(function () { reveal(); showBtn('Tap for sound & replay', '🔊'); startOverlay(); })
         .catch(function () { reveal(); showBtn('Watch · 30 sec', '▶'); });
   } else {
-    showBtn('Tap for sound', '🔊');
+    showBtn('Tap for sound & replay', '🔊');
     startOverlay();
   }
 })();
