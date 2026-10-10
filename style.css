@@ -211,8 +211,12 @@ button.btn-butter{cursor:pointer;font-size:19px}
 .hero-foot p{margin:0;font-size:19px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);line-height:1.5}
 .hero-foot i{color:#fff;font-style:italic}
 /* ---- Hero: full-width video with a time-gated headline overlay (Concept 2) ---- */
-.hero-c2{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000;border-top:3px solid #000}
+.hero-c2{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--navy-dp);border-top:3px solid #000}
 .hero-c2 video,.hero-c2 img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* Keep the video (and its poster) hidden until it's actually playing, so the
+   poster image never flashes before autoplay starts; it fades in over the navy. */
+.hero-c2 .hero-vid{opacity:0;transition:opacity .45s ease}
+.hero-c2 .hero-vid.revealed{opacity:1}
 .hero-scrim{position:absolute;inset:0;width:54%;display:flex;flex-direction:column;justify-content:center;
   padding:0 40px 0 clamp(24px,4vw,56px);opacity:0;transition:opacity .55s ease;pointer-events:none;
   background:linear-gradient(90deg,rgba(14,24,48,.96),rgba(14,24,48,.92) 42%,rgba(14,24,48,.5) 80%,rgba(14,24,48,0))}

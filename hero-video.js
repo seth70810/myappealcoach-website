@@ -48,6 +48,10 @@
     btn.hidden = false;
   }
 
+  // Fade the video in once there's a real frame on screen. Until then the hero
+  // shows the navy backdrop, so the poster image never flashes before autoplay.
+  function reveal() { v.classList.add('revealed'); }
+
   // Play with sound from the start, once, with native controls (user gesture).
   function enableSound() {
     soundOn = true;
@@ -63,16 +67,20 @@
   if (btn) btn.addEventListener('click', enableSound);
 
   if (reduce || saveData) {
-    // Respect explicit user preferences: no autoplay, nothing downloads yet.
+    // Respect explicit user preferences: no autoplay. Reveal so the poster shows
+    // behind the "Watch" button; nothing downloads until tapped.
+    reveal();
     showBtn('Watch · 30 sec', '▶');
     return;
   }
 
-  // Autoplay muted + loop everywhere; overlay follows the content.
+  // Autoplay muted + loop everywhere; reveal on the first painted frame so the
+  // poster never flashes. Overlay follows the content.
+  v.addEventListener('playing', reveal, { once: true });
   var play = v.play();
   if (play && play.then) {
-    play.then(function () { showBtn('Tap for sound', '🔊'); startOverlay(); })
-        .catch(function () { showBtn('Watch · 30 sec', '▶'); });
+    play.then(function () { reveal(); showBtn('Tap for sound', '🔊'); startOverlay(); })
+        .catch(function () { reveal(); showBtn('Watch · 30 sec', '▶'); });
   } else {
     showBtn('Tap for sound', '🔊');
     startOverlay();
