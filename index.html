@@ -49,7 +49,16 @@
     </div>
   </div>
   <div class="hero-photo">
-    <img src="img/site/hero-courtroom.jpg" alt="Interior of the United States Court of Appeals for the Fifth Circuit, viewed from counsel table">
+    <video id="hero-video" class="hero-vid" muted loop playsinline preload="none"
+           poster="img/site/hero-courtroom.jpg"
+           aria-label="MyAppealCoach — Don't meet a hot bench cold (30-second video)">
+      <source src="img/site/hero-moot.mp4" type="video/mp4">
+      <img src="img/site/hero-courtroom.jpg" alt="Interior of the United States Court of Appeals for the Fifth Circuit, viewed from counsel table">
+    </video>
+    <button id="hero-video-sound" class="hero-vid-btn" type="button" hidden aria-label="Play the video with sound">
+      <span class="hero-vid-btn-ico" aria-hidden="true">🔊</span>
+      <span class="hero-vid-btn-txt">Tap for sound</span>
+    </button>
   </div>
 </section>
 
@@ -222,5 +231,6 @@
 
 <script src="nav.js"></script>
 <script src="justice-bios.js"></script>
+<script src="hero-video.js"></script>
 </body>
 </html>
