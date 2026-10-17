@@ -6140,6 +6140,11 @@ async function playImage(sc, tok){
   await new Promise(r=>{ if(img.complete && img.naturalWidth) r(); else img.addEventListener('load',r,{once:true}); });
   if(tok!==playToken) return;
   await sleep(30); d.classList.add('show');
+  // The tool layer (#toolhost) sits ABOVE #imageHost in the DOM, so an image
+  // scene that follows a tool scene (e.g. Sample Case → Fantasy Moot) would be
+  // hidden behind the lingering scorecard. Fade the tool out as the image fades
+  // in; a later tool scene re-shows it via makeTool/classList.add('show').
+  toolhost.classList.remove('show');
   setTimeout(()=>{ if(tok===playToken) cap(sc.kick,sc.line); },600);
   await playTimed(new Audio(sc.aud), [], tok);
   if(tok!==playToken) return;
